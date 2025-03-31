@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class MainApp {
     public static void main(String[] args) {
-        LoginManager loginManager = new LoginManager();
         loginManager.loadTestData();
 
         Scanner scanner = new Scanner(System.in);
