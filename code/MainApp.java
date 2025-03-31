@@ -1,4 +1,9 @@
 import java.util.Scanner;
+import models.Applicant;
+import models.HDBOfficer;
+import models.HDBManager;
+import models.User;
+import services.LoginManager;
 
 public class MainApp {
     public static void main(String[] args) {
