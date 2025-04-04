@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import models.Applicant;
-import models.HDBOfficer;
 import models.HDBManager;
+import models.HDBOfficer;
 import models.User;
 import services.LoginManager;
 

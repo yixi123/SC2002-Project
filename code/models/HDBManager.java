@@ -3,8 +3,8 @@ package models;
 public class HDBManager extends User {
     private String managedProject;
 
-    public HDBManager(String nric, String password, int age, String maritalStatus) {
-        super(nric, password, age, maritalStatus);
+    public HDBManager(String name, String nric, String password, int age, String maritalStatus) {
+        super(name, nric, password, age, maritalStatus);
     }
 
     public void createProject(String projectName, String neighborhood, int twoRoomUnits, int threeRoomUnits) {

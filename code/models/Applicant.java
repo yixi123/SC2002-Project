@@ -1,19 +1,24 @@
 package models;
 
 import java.util.List;
+import services.ProjectManager;
 
 public class Applicant extends User {
     private List<String> enquiries;
     private String appliedProject;
     private String applicationStatus;
 
-    public Applicant(String nric, String password, int age, String maritalStatus) {
-        super(nric, password, age, maritalStatus);
+    public Applicant(String name, String nric, String password, int age, String maritalStatus) {
+        super(name, nric, password, age, maritalStatus);
         this.applicationStatus = "None";
     }
 
     public void viewProjects() {
-        // Logic to view projects
+        ProjectManager projectManager = new ProjectManager();
+        System.out.println("Available BTO Projects:");
+        for (BTOProject project : projectManager.getProjects()) {
+            project.printProjectInfo(); // Use the printProjectInfo method
+        }
     }
 
     public void viewApplicationStatus() {
