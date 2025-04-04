@@ -55,6 +55,10 @@ public class BTOProject {
         return officers;
     }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
     public void toggleVisibility() {
         this.visibility = !this.visibility;
     }

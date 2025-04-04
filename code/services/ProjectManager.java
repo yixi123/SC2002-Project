@@ -3,6 +3,7 @@ package services;
 import java.util.*;
 import models.BTOProject;
 import utils.FileLoader;
+import utils.FileSaver;
 
 public class ProjectManager {
     private List<BTOProject> projects;
@@ -16,6 +17,8 @@ public class ProjectManager {
     }
 
     public void createProject(BTOProject project) {
-        // Create a new project
+        projects.add(project);
+        // Save the project to the database (CSV file)
+        FileSaver.saveProjects("code/database/ProjectList.csv", projects);
     }
 }
