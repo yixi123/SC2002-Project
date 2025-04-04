@@ -1,5 +1,8 @@
 package models;
 
+import java.util.Date;
+import services.ProjectManager;
+
 public class HDBManager extends User {
     private String managedProject;
 
@@ -7,15 +10,33 @@ public class HDBManager extends User {
         super(name, nric, password, age, maritalStatus);
     }
 
-    public void createProject(String projectName, String neighborhood, int twoRoomUnits, int threeRoomUnits) {
-        // Logic to create a new project
+    public void createProject(String projectName, String neighborhood, int twoRoomUnits, int threeRoomUnits, 
+                              double sellingPriceForType1, double sellingPriceForType2, 
+                              Date openingDate, Date closingDate) {
+        BTOProject newProject = new BTOProject(
+            projectName, neighborhood, twoRoomUnits, threeRoomUnits, 
+            sellingPriceForType1, sellingPriceForType2, openingDate, closingDate
+        );
+        newProject.setManager(this.name);
+        ProjectManager projectManager = new ProjectManager();
+        projectManager.createProject(newProject);
+        System.out.println("Project created successfully: " + projectName);
     }
 
     public void toggleProjectVisibility(String projectName) {
-        // Logic to toggle project visibility
+        ProjectManager projectManager = new ProjectManager();
+        for (BTOProject project : projectManager.getProjects()) {
+            if (project.getProjectName().equals(projectName)) {
+                project.toggleVisibility();
+                System.out.println("Visibility toggled for project: " + projectName);
+                return;
+            }
+        }
+        System.out.println("Project not found: " + projectName);
     }
 
     public void approveApplication(String applicantNric) {
-        // Logic to approve an application
+        System.out.println("Application approved for NRIC: " + applicantNric);
+        // Add logic to update the application status in the database or data structure
     }
 }
