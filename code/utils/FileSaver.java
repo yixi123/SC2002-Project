@@ -7,6 +7,43 @@ import java.util.*;
 import models.*;
 
 public class FileSaver {
+
+    private static final String APPLICANTS_FILE = "code/database/ApplicantList.csv";
+    private static final String OFFICERS_FILE = "code/database/OfficerList.csv";
+    private static final String MANAGERS_FILE = "code/database/ManagerList.csv";
+    private static final String PROJECTS_FILE = "code/database/ProjectList.csv";
+    private static final String ENQUIRIES_FILE = "code/database/EnquiresList.csv";
+    private static final String PROJECT_APPLICATIONS_FILE = "code/database/ProjectApplicationList.csv";
+    private static final String OFFICER_APPLICATIONS_FILE = "code/database/OfficerApplicationList.csv";
+
+    public static void saveApplicants(List<Applicant> applicants) {
+        saveApplicants(APPLICANTS_FILE, applicants);
+    }
+
+    public static void saveOfficers(List<HDBOfficer> officers) {
+        saveOfficers(OFFICERS_FILE, officers);
+    }
+
+    public static void saveManagers(List<HDBManager> managers) {
+        saveManagers(MANAGERS_FILE, managers);
+    }
+
+    public static void saveProjects(List<BTOProject> projects) {
+        saveProjects(PROJECTS_FILE, projects);
+    }
+
+    public static void saveEnquiries(List<Enquiry> enquiries) {
+        saveEnquiries(ENQUIRIES_FILE, enquiries);
+    }
+
+    public static void saveProjectApplications(List<ProjectApplication> applications) {
+        saveProjectApplications(PROJECT_APPLICATIONS_FILE, applications);
+    }
+
+    public static void saveOfficerApplications(List<Application> applications) {
+        saveOfficerApplications(OFFICER_APPLICATIONS_FILE, applications);
+    }
+
     public static void saveApplicants(String filePath, List<Applicant> applicants) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Name,NRIC,Age,Marital Status,Password\n"); // Header
@@ -102,7 +139,7 @@ public class FileSaver {
 
     public static void saveProjectApplications(String filePath, List<ProjectApplication> applications) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            bw.write("User,Project,Status,Apply Date,Flat Type\n"); // Header
+            bw.write("UserID,Project,Status,Apply Date,Flat Type\n"); // Header
             for (ProjectApplication application : applications) {
                 bw.write(String.format("%s,%s,%s,%s\n",
                         application.getUser(),
@@ -118,7 +155,7 @@ public class FileSaver {
 
     public static void saveOfficerApplications(String filePath, List<Application> applications) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            bw.write("User,Project,Status,Apply Date\n"); // Header
+            bw.write("UserID,Project,Status,Apply Date\n"); // Header
             for (Application application : applications) {
                 bw.write(String.format("%s,%s,%s,%s\n",
                         application.getUser(),

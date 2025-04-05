@@ -9,6 +9,43 @@ import java.util.*;
 import models.*;
 
 public class FileLoader {
+
+    private static final String APPLICANTS_FILE = "code/database/ApplicantList.csv";
+    private static final String OFFICERS_FILE = "code/database/OfficerList.csv";
+    private static final String MANAGERS_FILE = "code/database/ManagerList.csv";
+    private static final String PROJECTS_FILE = "code/database/ProjectList.csv";
+    private static final String ENQUIRIES_FILE = "code/database/EnquiresList.csv";
+    private static final String PROJECT_APPLICATIONS_FILE = "code/database/ProjectApplicationList.csv";
+    private static final String OFFICER_APPLICATIONS_FILE = "code/database/OfficerApplicationList.csv";
+
+    public static List<Applicant> loadApplicants() {
+        return loadApplicants(APPLICANTS_FILE);
+    }
+
+    public static List<HDBOfficer> loadOfficers() {
+        return loadOfficers(OFFICERS_FILE);
+    }
+
+    public static List<HDBManager> loadManagers() {
+        return loadManagers(MANAGERS_FILE);
+    }
+
+    public static List<BTOProject> loadProjects() {
+        return loadProjects(PROJECTS_FILE);
+    }
+
+        public static List<Enquiry> loadEnquiries() {
+        return loadEnquiries(ENQUIRIES_FILE);
+    }
+
+    public static List<Application> loadProjectApplications() {
+        return loadOfficerApplications(PROJECT_APPLICATIONS_FILE);
+    }
+
+        public static List<Application> loadOfficerApplications() {
+        return loadOfficerApplications(OFFICER_APPLICATIONS_FILE);
+    }
+
     public static List<Applicant> loadApplicants(String filePath) {
         List<Applicant> applicants = new ArrayList<>();
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
