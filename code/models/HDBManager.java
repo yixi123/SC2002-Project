@@ -15,7 +15,7 @@ public class HDBManager extends User {
                               Date openingDate, Date closingDate) {
         BTOProject newProject = new BTOProject(
             projectName, neighborhood, twoRoomUnits, threeRoomUnits, 
-            sellingPriceForType1, sellingPriceForType2, openingDate, closingDate
+            sellingPriceForType1, sellingPriceForType2, openingDate, closingDate, true
         );
         newProject.setManager(this.name);
         ProjectManager projectManager = new ProjectManager();
@@ -23,17 +23,6 @@ public class HDBManager extends User {
         System.out.println("Project created successfully: " + projectName);
     }
 
-    public void toggleProjectVisibility(String projectName) {
-        ProjectManager projectManager = new ProjectManager();
-        for (BTOProject project : projectManager.getProjects()) {
-            if (project.getProjectName().equals(projectName)) {
-                project.toggleVisibility();
-                System.out.println("Visibility toggled for project: " + projectName);
-                return;
-            }
-        }
-        System.out.println("Project not found: " + projectName);
-    }
 
     public void approveApplication(String applicantNric) {
         System.out.println("Application approved for NRIC: " + applicantNric);

@@ -13,13 +13,13 @@ public class BTOProject {
     private Date openingDate;
     private Date closingDate;
     private boolean visibility;
-    private String manager; // Added to match CSV data
-    private int officerSlot; // Added to match CSV data
-    private List<String> officers; // Added to match CSV data
+    private String manager;
+    private int officerSlot; 
+    private List<String> officers; 
 
     public BTOProject(String projectName, String neighborhood, int twoRoomUnits, int threeRoomUnits, 
                       double sellingPriceForType1, double sellingPriceForType2, 
-                      Date openingDate, Date closingDate) {
+                      Date openingDate, Date closingDate, boolean visibility) {
         this.projectName = projectName;
         this.neighborhood = neighborhood;
         this.twoRoomUnits = twoRoomUnits;
@@ -28,7 +28,7 @@ public class BTOProject {
         this.sellingPriceForType2 = sellingPriceForType2;
         this.openingDate = openingDate;
         this.closingDate = closingDate;
-        this.visibility = true;
+        this.visibility = visibility;
     }
 
     public void setManager(String manager) {
@@ -99,8 +99,8 @@ public class BTOProject {
         return visibility;
     }
 
-    public void toggleVisibility() {
-        this.visibility = !this.visibility;
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
     }
 
     @Override

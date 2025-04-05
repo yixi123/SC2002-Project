@@ -65,13 +65,12 @@ public class FileLoader {
                 BTOProject project = new BTOProject(
                     data[0], data[1], Integer.parseInt(data[3]), Integer.parseInt(data[6]),
                     Double.parseDouble(data[4]), Double.parseDouble(data[7]),
-                    dateFormat.parse(data[8]), dateFormat.parse(data[9])
+                    dateFormat.parse(data[8]), dateFormat.parse(data[9]), Boolean.parseBoolean(data[13])
                 );
                 project.setManager(data[10]);
                 project.setOfficerSlot(Integer.parseInt(data[11]));
                 project.setOfficers(Arrays.asList(data[12].split(";")));
                 projects.add(project);
-                
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
