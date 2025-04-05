@@ -78,13 +78,13 @@ public class HDBOfficer extends Applicant {
         }
     }
 
-    public void updateFlatBooking(String name) {
+    public void updateFlatBooking(String nric) {
         if (assignedProject == null) {
             System.out.println("You are not assigned to any project.");
             return;
         }
 
-        ProjectApplication projectApplication = projectApplicationManager.getApplicationByUser(name);
+        ProjectApplication projectApplication = projectApplicationManager.getApplicationByUser(nric);
 
         if (projectApplication == null) {
             System.out.println("Applicantion not found.");

@@ -29,10 +29,10 @@ public class OfficerApplicationManager {
         System.out.println("Application not found.");
     }
 
-    public List<Application> getApplicationsByUser(String user) {
+    public List<Application> getApplicationsByUser(String nric) {
         List<Application> result = new ArrayList<>();
         for (Application application : applications) {
-            if (application.getUser().equalsIgnoreCase(user) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
+            if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
                 result.add(application);
             }
         }

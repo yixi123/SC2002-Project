@@ -29,9 +29,9 @@ public class ProjectApplicationManager {
         System.out.println("Application not found.");
     }
 
-    public ProjectApplication getApplicationByUser(String user) {
+    public ProjectApplication getApplicationByUser(String nric) {
         for (ProjectApplication application : applications) {
-            if (application.getUser().equalsIgnoreCase(user) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
+            if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
                 return application;
             }
         }

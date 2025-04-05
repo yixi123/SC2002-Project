@@ -43,10 +43,6 @@ public abstract class User {
         return maritalStatus;
     }
 
-    public void updatePassword(String oldPassword, String newPassword) {
-        // ...existing code...
-    }
-
     public String getRole() {
         if (this instanceof Applicant) {
             return "Applicant";
@@ -57,6 +53,10 @@ public abstract class User {
         } else {
             return "Unknown";
         }
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void createEnquiry(String project, String content, EnquiryManager enquiryManager, ProjectManager projectManager) {

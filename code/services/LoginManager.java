@@ -3,6 +3,7 @@ package services;
 import java.util.*;
 import models.*;
 import utils.FileLoader;
+import utils.FileSaver;
 
 public class LoginManager {
     private static List<Applicant> applicants = FileLoader.loadApplicants("code/database/ApplicantList.csv");
@@ -26,5 +27,20 @@ public class LoginManager {
             }
         }
         throw new IllegalArgumentException("Invalid NRIC or password.");
+    }
+
+    public void updatePassword(User user, String oldPassword, String newPassword) {
+        if (user.getPassword().equals(oldPassword)) {
+            user.setPassword(newPassword);
+            if (user instanceof Applicant) {
+                FileSaver.saveApplicants(applicants);
+            } else if (user instanceof HDBOfficer) {
+                FileSaver.saveOfficers(officers);
+            } else if (user instanceof HDBManager) {
+                FileSaver.saveManagers(managers);
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid password.");
+        }
     }
 }

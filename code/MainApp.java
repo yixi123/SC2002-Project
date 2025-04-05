@@ -34,7 +34,7 @@ public class MainApp {
                     String oldPassword = scanner.nextLine();
                     System.out.print("Enter new password: ");
                     String newPassword = scanner.nextLine();
-                    user.updatePassword(oldPassword, newPassword);
+                    loginManager.updatePassword(user, oldPassword, newPassword);
                     System.out.println("Password updated successfully. Please log in again.");
                     return;
                 }
@@ -90,7 +90,7 @@ public class MainApp {
                         System.out.println("No enquiries found.");
                     } else {
                         for (int i = 0; i < userEnquiries.size(); i++) {
-                            System.out.println((i + 1) + ". " + userEnquiries.get(i));
+                            System.out.println((i + 1) + ".\n" + userEnquiries.get(i));
                         }
                         System.out.print("Enter the number of the enquiry to view its chat: ");
                         int enquiryChoice = scanner.nextInt();
@@ -99,9 +99,10 @@ public class MainApp {
                             Enquiry lastEnquiry = enquiryManager.printChat(userEnquiries.get(enquiryChoice - 1).getId());
                             if (lastEnquiry != null) {
                                 System.out.println("Options:");
-                                System.out.println("1. Edit the last enquiry (if you are the user)");
+                                System.out.println("1. Edit the last enquiry/reply (if you are the user)");
                                 System.out.println("2. Add a reply to the chat");
-                                System.out.println("3. Exit");
+                                System.out.println("3. Delete the enquiry/reply (if you are the user)");
+                                System.out.println("4. Exit");
                                 System.out.print("Enter your choice: ");
                                 int option = scanner.nextInt();
                                 scanner.nextLine(); // Consume newline
@@ -122,7 +123,16 @@ public class MainApp {
                                         String replyContent = scanner.nextLine();
                                         applicant.addReply(lastEnquiry, replyContent, enquiryManager);
                                     }
-                                    case 3 -> System.out.println("Exiting...");
+                                    case 3 -> {
+                                        if (lastEnquiry.getUser().equals(applicant.getName())) {
+                                            enquiryManager.getEnquiries().remove(lastEnquiry);
+                                            enquiryManager.saveEnquiries();
+                                            System.out.println("Enquiry deleted successfully.");
+                                        } else {
+                                            System.out.println("You are not the owner of this enquiry. Cannot delete.");
+                                        }
+                                    }
+                                    case 4 -> System.out.println("Exiting...");
                                     default -> System.out.println("Invalid choice.");
                                 }
                             }
@@ -170,7 +180,9 @@ public class MainApp {
                 case 2 -> {
                     System.out.print("Enter project name to apply: ");
                     String projectName = scanner.nextLine();
-                    // Logic to fetch project by name and apply
+                    System.out.print("Enter room type (2-Room or 3-Room): ");
+                    String roomType = scanner.nextLine();
+                    officer.registerForProject(projectName, roomType, projectManager);
                 }
                 case 3 -> officer.viewApplicationStatus();
                 case 4 -> officer.withdrawApplication();
