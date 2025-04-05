@@ -59,21 +59,62 @@ public class BTOProject {
         return projectName;
     }
 
+    public String getNeighborhood() {
+        return neighborhood;
+    }
+
+    public int getTwoRoomUnits() {
+        return twoRoomUnits;
+    }
+
+    public int getThreeRoomUnits() {
+        return threeRoomUnits;
+    }
+
+    public double getSellingPriceForType1() {
+        return sellingPriceForType1;
+    }
+
+    public double getSellingPriceForType2() {
+        return sellingPriceForType2;
+    }
+
+    public Date getOpeningDate() {
+        return openingDate;
+    }
+
+    public Date getClosingDate() {
+        return closingDate;
+    }
+
+    public void setTwoRoomUnits(int twoRoomUnits) {
+        this.twoRoomUnits = twoRoomUnits;
+    }
+
+    public void setThreeRoomUnits(int threeRoomUnits) {
+        this.threeRoomUnits = threeRoomUnits;
+    }
+
+    public boolean isVisible() {
+        return visibility;
+    }
+
     public void toggleVisibility() {
         this.visibility = !this.visibility;
     }
 
-    public void printProjectInfo() {
-        System.out.println("Project Name: " + projectName);
-        System.out.println("Neighborhood: " + neighborhood);
-        System.out.println("2-Room Units: " + twoRoomUnits + " (Price: $" + sellingPriceForType1 + ")");
-        System.out.println("3-Room Units: " + threeRoomUnits + " (Price: $" + sellingPriceForType2 + ")");
-        System.out.println("Application Opening Date: " + openingDate);
-        System.out.println("Application Closing Date: " + closingDate);
-        System.out.println("Manager: " + manager);
-        System.out.println("Officer Slot: " + officerSlot);
-        System.out.println("Officers: " + String.join(", ", officers));
-        System.out.println("Visibility: " + (visibility ? "Visible" : "Hidden"));
-        System.out.println("--------------------------------------------------");
+    @Override
+    public String toString() {
+        return "Project Name: " + projectName + "\n" +
+               "Neighborhood: " + neighborhood + "\n" +
+               "2-Room Units: " + twoRoomUnits + " (Price: $" + sellingPriceForType1 + ")\n" +
+               "3-Room Units: " + threeRoomUnits + " (Price: $" + sellingPriceForType2 + ")\n" +
+               "Application Opening Date: " + openingDate + "\n" +
+               "Application Closing Date: " + closingDate + "\n" +
+               "Manager: " + manager + "\n" +
+               "Officer Slot: " + officerSlot + "\n" +
+               "Officers: " + String.join(", ", officers) + "\n" +
+               "Visibility: " + (visibility ? "Visible" : "Hidden") + "\n" +
+               "--------------------------------------------------";
     }
 }

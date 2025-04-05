@@ -3,6 +3,8 @@ package utils;
 import java.io.*;
 import java.nio.file.*;
 import java.text.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import models.*;
 
@@ -75,5 +77,72 @@ public class FileLoader {
             e.printStackTrace();
         }
         return projects;
+    }
+
+    public static List<Enquiry> loadEnquiries(String filePath) {
+        List<Enquiry> enquiries = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
+            br.readLine(); // Skip header
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                enquiries.add(new Enquiry(
+                    Integer.parseInt(data[0]), // ID
+                    data[1],                  // User
+                    data[2],                  // Project
+                    data[3],                  // Category
+                    data[4],                  // Content
+                    LocalDateTime.parse(data[5], formatter), // Timestamp
+                    Integer.parseInt(data[6]) // ReplyID
+                ));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return enquiries;
+    }
+
+    public static List<ProjectApplication> loadProjectApplications(String filePath) {
+        List<ProjectApplication> applications = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
+            br.readLine(); // Skip header
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                applications.add(new ProjectApplication(
+                    data[0], 
+                    data[1], 
+                    data[2], 
+                    dateFormat.parse(data[3]), 
+                    data[4]
+                ));
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return applications;
+    }
+
+    public static List<Application> loadOfficerApplications(String filePath) {
+        List<Application> applications = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
+            br.readLine(); // Skip header
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                applications.add(new Application(
+                    data[0], 
+                    data[1], 
+                    data[2], 
+                    dateFormat.parse(data[3])
+                ));
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        return applications;
     }
 }

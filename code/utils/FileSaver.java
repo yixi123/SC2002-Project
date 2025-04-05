@@ -1,9 +1,10 @@
 package utils;
 
-import models.*;
 import java.io.*;
 import java.text.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import models.*;
 
 public class FileSaver {
     public static void saveApplicants(String filePath, List<Applicant> applicants) {
@@ -71,6 +72,57 @@ public class FileSaver {
                         project.getManager(),
                         project.getOfficerSlot(),
                         String.join(";", project.getOfficers())));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveEnquiries(String filePath, List<Enquiry> enquiries) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("ID,User,Project,Category,Content,timestamp,ReplyID\n"); // Header
+            for (Enquiry enquiry : enquiries) {
+                bw.write(String.format("%d,%s,%s,%s,%s,%s,%d\n",
+                    enquiry.getId(),
+                    enquiry.getUser(),
+                    enquiry.getProject(),
+                    enquiry.getCategory(),
+                    enquiry.getContent(),
+                    enquiry.getTimestamp().format(formatter), // Format timestamp
+                    enquiry.getReplyId()
+                ));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveProjectApplications(String filePath, List<ProjectApplication> applications) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("User,Project,Status,Apply Date,Flat Type\n"); // Header
+            for (ProjectApplication application : applications) {
+                bw.write(String.format("%s,%s,%s,%s\n",
+                        application.getUser(),
+                        application.getProjectName(),
+                        application.getStatus(),
+                        application.getApplicationDate(),
+                        application.getFlatType()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveOfficerApplications(String filePath, List<Application> applications) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("User,Project,Status,Apply Date\n"); // Header
+            for (Application application : applications) {
+                bw.write(String.format("%s,%s,%s,%s\n",
+                        application.getUser(),
+                        application.getProjectName(),
+                        application.getStatus(),
+                        application.getApplicationDate()));
             }
         } catch (IOException e) {
             e.printStackTrace();

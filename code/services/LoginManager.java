@@ -5,15 +5,9 @@ import models.*;
 import utils.FileLoader;
 
 public class LoginManager {
-    private List<Applicant> applicants;
-    private List<HDBOfficer> officers;
-    private List<HDBManager> managers;
-
-    public void loadTestData() {
-        applicants = FileLoader.loadApplicants("code/database/ApplicantList.csv");
-        officers = FileLoader.loadOfficers("code/database/OfficerList.csv");
-        managers = FileLoader.loadManagers("code/database/ManagerList.csv");
-    }
+    private static List<Applicant> applicants = FileLoader.loadApplicants("code/database/ApplicantList.csv");
+    private static List<HDBOfficer> officers = FileLoader.loadOfficers("code/database/OfficerList.csv");
+    private static List<HDBManager> managers = FileLoader.loadManagers("code/database/ManagerList.csv");
 
     public User authenticate(String nric, String password) {
         for (Applicant applicant : applicants) {
