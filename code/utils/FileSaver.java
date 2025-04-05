@@ -57,10 +57,10 @@ public class FileSaver {
 
     public static void saveProjects(String filePath, List<BTOProject> projects) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            bw.write("Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,Application opening date,Application closing date,Manager,Officer Slot,Officer\n"); // Header
+            bw.write("Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,Application opening date,Application closing date,Manager,Officer Slot,Officer,Visibility\n"); // Updated header
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             for (BTOProject project : projects) {
-                bw.write(String.format("%s,%s,2-Room,%d,%.2f,3-Room,%d,%.2f,%s,%s,%s,%d,%s\n",
+                bw.write(String.format("%s,%s,2-Room,%d,%.2f,3-Room,%d,%.2f,%s,%s,%s,%d,%s,%b\n",
                         project.getProjectName(),
                         project.getNeighborhood(),
                         project.getTwoRoomUnits(),
@@ -71,7 +71,9 @@ public class FileSaver {
                         dateFormat.format(project.getClosingDate()),
                         project.getManager(),
                         project.getOfficerSlot(),
-                        String.join(";", project.getOfficers())));
+                        String.join(";", project.getOfficers()),
+                        project.isVisible() // Include visibility
+                ));
             }
         } catch (IOException e) {
             e.printStackTrace();
