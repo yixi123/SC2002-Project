@@ -6,7 +6,7 @@ import models.ProjectApplication;
 import utils.FileLoader;
 import utils.FileSaver;
 
-public class ProjectApplicationManager {
+public class ProjectApplicationService {
     private static List<ProjectApplication> applications = FileLoader.loadProjectApplications("code/database/ProjectApplicationList.csv");
 
     public List<ProjectApplication> getApplications() {

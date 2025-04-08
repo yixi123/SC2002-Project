@@ -6,7 +6,7 @@ import models.Application;
 import utils.FileLoader;
 import utils.FileSaver;
 
-public class OfficerApplicationManager {
+public class OfficerApplicationService {
     private static List<Application> applications = FileLoader.loadOfficerApplications("code/database/OfficerApplicationList.csv");
 
     public List<Application> getApplications() {

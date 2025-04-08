@@ -1,9 +1,9 @@
 package models;
 
 import java.time.LocalDateTime;
-import services.EnquiryManager;
-import services.ProjectApplicationManager;
-import services.ProjectManager;
+import services.EnquiryService;
+import services.ProjectApplicationService;
+import services.ProjectController;
 
 public abstract class User {
     protected String name;
@@ -11,9 +11,9 @@ public abstract class User {
     protected String password;
     protected int age;
     protected String maritalStatus;
-    protected EnquiryManager enquiryManager = new EnquiryManager();
-    protected ProjectManager projectManager = new ProjectManager();
-    protected ProjectApplicationManager applicationManager = new ProjectApplicationManager();
+    protected EnquiryService enquiryService = new EnquiryService();
+    protected ProjectController projectController = new ProjectController();
+    protected ProjectApplicationService applicationController = new ProjectApplicationService();
 
     public User(String name, String nric, String password, int age, String maritalStatus) {
         this.name = name;
@@ -59,7 +59,7 @@ public abstract class User {
         this.password = password;
     }
 
-    public void createEnquiry(String project, String content, EnquiryManager enquiryManager, ProjectManager projectManager) {
+    public void createEnquiry(String project, String content, EnquiryService enquiryManager, ProjectController projectManager) {
         boolean projectExists = projectManager.getProjects().stream()
                                               .anyMatch(p -> p.getProjectName().equalsIgnoreCase(project));
         if (!projectExists) {
@@ -73,7 +73,7 @@ public abstract class User {
         System.out.println("Enquiry created successfully with ID: " + newId);
     }
 
-    public void addReply(Enquiry originalEnquiry, String content, EnquiryManager enquiryManager) {
+    public void addReply(Enquiry originalEnquiry, String content, EnquiryService enquiryManager) {
         if (originalEnquiry.getReplyId() != 0) {
             System.out.println("This enquiry has already been replied to. Please check the original enquiry.");
             return;
