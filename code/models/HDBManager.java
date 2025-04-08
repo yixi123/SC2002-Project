@@ -4,7 +4,7 @@ import java.util.Date;
 import services.ProjectManager;
 
 public class HDBManager extends User {
-    private String managedProject;
+    private String managedProject = null;
 
     public HDBManager(String name, String nric, String password, int age, String maritalStatus) {
         super(name, nric, password, age, maritalStatus);

@@ -7,7 +7,7 @@ import utils.FileSaver;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnquiryManager {
+public class EnquiryService {
     private static List<Enquiry> enquiries = FileLoader.loadEnquiries("code/database/EnquiresList.csv");
 
     public List<Enquiry> getEnquiries() {
