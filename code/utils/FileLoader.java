@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import models.*;
 
-public class FileLoader {
+public class FileLoader implements IFileLoader {
 
     private static final String APPLICANTS_FILE = "code/database/ApplicantList.csv";
     private static final String OFFICERS_FILE = "code/database/OfficerList.csv";
@@ -34,7 +34,7 @@ public class FileLoader {
         return loadProjects(PROJECTS_FILE);
     }
 
-        public static List<Enquiry> loadEnquiries() {
+    public static List<Enquiry> loadEnquiries() {
         return loadEnquiries(ENQUIRIES_FILE);
     }
 
@@ -42,7 +42,7 @@ public class FileLoader {
         return loadOfficerApplications(PROJECT_APPLICATIONS_FILE);
     }
 
-        public static List<Application> loadOfficerApplications() {
+    public static List<Application> loadOfficerApplications() {
         return loadOfficerApplications(OFFICER_APPLICATIONS_FILE);
     }
 

@@ -2,26 +2,26 @@ package models;
 
 import java.util.Date;
 import java.util.List;
-import services.ProjectApplicationManager;
-import services.ProjectManager;
+import services.ProjectApplicationService;
+import services.ProjectController;
 
 public class Applicant extends User {
     protected ProjectApplication projectApplication;
-    protected ProjectApplicationManager projectApplicationManager = new ProjectApplicationManager();
+    protected ProjectApplicationService projectApplicationService = new ProjectApplicationService();
 
     public Applicant(String name, String nric, String password, int age, String maritalStatus) {
         super(name, nric, password, age, maritalStatus);
-        projectApplication = projectApplicationManager.getApplicationByUser(nric);
+        projectApplication = projectApplicationService.getApplicationByUser(nric);
     }
 
     public void viewProjects() {
         System.out.println("Available BTO Projects:");
-        for (BTOProject project : projectManager.getProjects()) {
+        for (BTOProject project : projectController.getProjects()) {
             System.out.println(project);
         }
     }
 
-    public void registerForProject(String projectName, String roomType, ProjectManager projectManager) {
+    public void registerForProject(String projectName, String roomType, ProjectController projectManager) {
         if (projectApplication != null) {
             System.out.println("You already applied for a project.");
             return;
@@ -29,7 +29,7 @@ public class Applicant extends User {
 
         if (projectManager.getProjects().stream().anyMatch(p -> p.getProjectName().equals(projectName))) {
             projectApplication = new ProjectApplication(this.name, projectName, "Pending", new Date(), roomType);
-            projectApplicationManager.addApplication(projectApplication);
+            projectApplicationService.addApplication(projectApplication);
             System.out.println("Registration submitted for project: " + projectName);
         } else {
             System.out.println("Project not found.");
@@ -47,7 +47,7 @@ public class Applicant extends User {
     public void withdrawApplication() {
         if (projectApplication != null) {
             System.out.println("Withdrawing application for project: " + projectApplication.getProjectName());
-            projectApplicationManager.updateApplicationStatus(this.name, projectApplication.getProjectName(), "Withdrawn");
+            projectApplicationService.updateApplicationStatus(this.name, projectApplication.getProjectName(), "Withdrawn");
             projectApplication = null;
         } else {
             System.out.println("No application to withdraw.");
@@ -55,7 +55,7 @@ public class Applicant extends User {
     }
 
     public List<Enquiry> viewEnquiries() {
-        List<Enquiry> enquiries = enquiryManager.getEnquiriesByUser(this.name);
+        List<Enquiry> enquiries = enquiryService.getEnquiriesByUser(this.name);
         if (enquiries.isEmpty()) {
             System.out.println("No enquiries found.");
         } else {
@@ -69,7 +69,7 @@ public class Applicant extends User {
 
     public void submitEnquiry(String project, String enquiryText) {
         System.out.println("Submitting enquiry: " + enquiryText);
-        this.createEnquiry(project, enquiryText, enquiryManager, projectManager);
+        this.createEnquiry(project, enquiryText, enquiryService, projectController);
         System.out.println("Enquiry submitted successfully.");
     }
 }
