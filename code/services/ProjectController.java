@@ -5,7 +5,7 @@ import models.BTOProject;
 import utils.FileLoader;
 import utils.FileSaver;
 
-public class ProjectManager {
+public class ProjectController {
     private static List<BTOProject> projects = FileLoader.loadProjects("code/database/ProjectList.csv");
 
     public List<BTOProject> getProjects() {

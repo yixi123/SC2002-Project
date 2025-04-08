@@ -1,7 +1,7 @@
 package models;
 
 import java.util.Date;
-import services.ProjectManager;
+import services.ProjectController;
 
 public class HDBManager extends User {
     private String managedProject;
@@ -18,7 +18,7 @@ public class HDBManager extends User {
             sellingPriceForType1, sellingPriceForType2, openingDate, closingDate, true
         );
         newProject.setManager(this.name);
-        ProjectManager projectManager = new ProjectManager();
+        ProjectController projectManager = new ProjectController();
         projectManager.createProject(newProject);
         System.out.println("Project created successfully: " + projectName);
     }

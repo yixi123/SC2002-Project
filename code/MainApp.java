@@ -5,13 +5,13 @@ import models.Enquiry;
 import models.HDBManager;
 import models.HDBOfficer;
 import models.User;
-import services.EnquiryManager;
-import services.LoginManager;
-import services.ProjectManager;
+import services.EnquiryService;
+import services.AuthController;
+import services.ProjectController;
 
 public class MainApp {
     public static void main(String[] args) {
-        LoginManager loginManager = new LoginManager();
+        AuthController loginManager = new AuthController();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the BTO Management System!");
@@ -56,8 +56,8 @@ public class MainApp {
     }
 
     private static void applicantMenu(Applicant applicant, Scanner scanner) {
-        EnquiryManager enquiryManager = new EnquiryManager();
-        ProjectManager projectManager = new ProjectManager();
+        EnquiryService enquiryManager = new EnquiryService();
+        ProjectController projectManager = new ProjectController();
 
         System.out.println("Applicant Menu:");
         int choice;
@@ -155,8 +155,8 @@ public class MainApp {
     }
 
     private static void hdbOfficerMenu(HDBOfficer officer, Scanner scanner) {
-        EnquiryManager enquiryManager = new EnquiryManager();
-        ProjectManager projectManager = new ProjectManager();
+        EnquiryService enquiryManager = new EnquiryService();
+        ProjectController projectManager = new ProjectController();
 
         System.out.println("HDB Officer Menu:");
         int choice;

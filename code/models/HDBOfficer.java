@@ -3,19 +3,19 @@ package models;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import services.EnquiryManager;
-import services.OfficerApplicationManager;
-import services.ProjectManager;
+import services.EnquiryService;
+import services.OfficerApplicationService;
+import services.ProjectController;
 
 public class HDBOfficer extends Applicant {
-    private OfficerApplicationManager officerApplicationManager = new OfficerApplicationManager();
+    private OfficerApplicationService officerApplicationManager = new OfficerApplicationService();
     private List<Application> projectApplicationsAsOfficer;
     private BTOProject assignedProject;
 
     public HDBOfficer(String name, String nric, String password, int age, String maritalStatus) {
         super(name, nric, password, age, maritalStatus);
         this.projectApplicationsAsOfficer = officerApplicationManager.getApplicationsByUser(name);
-        this.assignedProject = projectManager.getAssignedProjectByOfficer(name);
+        this.assignedProject = projectController.getAssignedProjectByOfficer(name);
     }
 
     public void registerToHandleProject(BTOProject project) {
@@ -41,7 +41,7 @@ public class HDBOfficer extends Applicant {
         }
     }
 
-    public void viewAssignedProjectDetails(ProjectManager projectManager) {
+    public void viewAssignedProjectDetails(ProjectController projectManager) {
         if (assignedProject == null) {
             System.out.println("You are not assigned to any project.");
             return;
@@ -50,7 +50,7 @@ public class HDBOfficer extends Applicant {
         System.out.println(assignedProject);
     }
 
-    public void viewAndReplyToEnquiries(EnquiryManager enquiryManager, Scanner scanner) {
+    public void viewAndReplyToEnquiries(EnquiryService enquiryManager, Scanner scanner) {
         if (assignedProject == null) {
             System.out.println("You are not assigned to any project.");
             return;
@@ -84,7 +84,7 @@ public class HDBOfficer extends Applicant {
             return;
         }
 
-        ProjectApplication projectApplication = projectApplicationManager.getApplicationByUser(nric);
+        ProjectApplication projectApplication = projectApplicationService.getApplicationByUser(nric);
 
         if (projectApplication == null) {
             System.out.println("Applicantion not found.");
@@ -120,7 +120,7 @@ public class HDBOfficer extends Applicant {
             }
         } 
         projectApplication.setStatus("Booked");
-        projectApplicationManager.updateApplicationStatus(name, applicationProject, "Booked");
+        projectApplicationService.updateApplicationStatus(name, applicationProject, "Booked");
         System.out.println("Flat booking updated successfully.");
 
     }
