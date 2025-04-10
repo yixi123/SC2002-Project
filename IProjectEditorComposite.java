@@ -1,0 +1,1 @@
+public interface IProjectEditorComposite extends IUnitEditor, IDateEditor, IOfficerSlotEditor {}
