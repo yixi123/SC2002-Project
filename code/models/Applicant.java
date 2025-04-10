@@ -8,7 +8,7 @@ import services.ProjectController;
 public class Applicant extends User {
     protected ProjectApplication projectApplication;
     protected ProjectApplicationService projectApplicationService = new ProjectApplicationService();
-
+    // comment
     public Applicant(String name, String nric, String password, int age, String maritalStatus) {
         super(name, nric, password, age, maritalStatus);
         projectApplication = projectApplicationService.getApplicationByUser(nric);
