@@ -9,16 +9,16 @@ import utils.FileSaver;
 public class ProjectApplicationService {
     private static List<ProjectApplication> applications = FileLoader.loadProjectApplications("code/database/ProjectApplicationList.csv");
 
-    public List<ProjectApplication> getApplications() {
+    public static List<ProjectApplication> getApplications() {
         return applications;
     }
 
-    public void addApplication(ProjectApplication application) {
+    public static void addApplication(ProjectApplication application) {
         applications.add(application);
         saveApplications();
     }
 
-    public void updateApplicationStatus(String user, String project, String newStatus) {
+    public static void updateApplicationStatus(String user, String project, String newStatus) {
         for (ProjectApplication application : applications) {
             if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
                 application.setStatus(newStatus);
@@ -29,7 +29,7 @@ public class ProjectApplicationService {
         System.out.println("Application not found.");
     }
 
-    public ProjectApplication getApplicationByUser(String nric) {
+    public static ProjectApplication getApplicationByUser(String nric) {
         for (ProjectApplication application : applications) {
             if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
                 return application;
@@ -38,7 +38,7 @@ public class ProjectApplicationService {
         return null; // No application found for the user
     }
     
-    public List<ProjectApplication> getApplicationsByProject(String project) {
+    public static List<ProjectApplication> getApplicationsByProject(String project) {
         List<ProjectApplication> result = new ArrayList<>();
         for (ProjectApplication application : applications) {
             if (application.getProjectName().equalsIgnoreCase(project)) {
@@ -48,7 +48,7 @@ public class ProjectApplicationService {
         return result;
     }
 
-    private void saveApplications() {
+    private static void saveApplications() {
         FileSaver.saveProjectApplications("code/database/ProjectApplicationList.csv", applications);
     }
 }

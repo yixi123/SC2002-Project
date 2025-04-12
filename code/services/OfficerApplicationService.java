@@ -9,16 +9,16 @@ import utils.FileSaver;
 public class OfficerApplicationService {
     private static List<Application> applications = FileLoader.loadOfficerApplications("code/database/OfficerApplicationList.csv");
 
-    public List<Application> getApplications() {
+    public static List<Application> getApplications() {
         return applications;
     }
 
-    public void addApplication(Application application) {
+    public static void addApplication(Application application) {
         applications.add(application);
         saveApplications();
     }
 
-    public void updateApplicationStatus(String user, String project, String newStatus) {
+    public static void updateApplicationStatus(String user, String project, String newStatus) {
         for (Application application : applications) {
             if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
                 application.setStatus(newStatus);
@@ -29,7 +29,7 @@ public class OfficerApplicationService {
         System.out.println("Application not found.");
     }
 
-    public List<Application> getApplicationsByUser(String nric) {
+    public static List<Application> getApplicationsByUser(String nric) {
         List<Application> result = new ArrayList<>();
         for (Application application : applications) {
             if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
@@ -39,7 +39,7 @@ public class OfficerApplicationService {
         return result;
     }
 
-    public List<Application> getApplicationsByProject(String project) {
+    public static List<Application> getApplicationsByProject(String project) {
         List<Application> result = new ArrayList<>();
         for (Application application : applications) {
             if (application.getProjectName().equalsIgnoreCase(project)) {
@@ -49,7 +49,7 @@ public class OfficerApplicationService {
         return result;
     }
 
-    private void saveApplications() {
+    private static void saveApplications() {
         FileSaver.saveOfficerApplications("code/database/OfficerApplicationList.csv", applications);
     }
 }

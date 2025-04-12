@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import models.BTOProject;
+import models.FilterSettings;
 
 public class FilterUtil {
 
@@ -55,5 +56,42 @@ public class FilterUtil {
 
     public static List<BTOProject> filterByVisibility(List<BTOProject> projects) {
         return filterBy(projects, BTOProject::isVisible);
+    }
+
+    public static List<BTOProject> filterBySettings(List<BTOProject> projects, FilterSettings settings) {
+        List<BTOProject> filteredProjects = projects;
+
+        if (settings.getProjectName() != null) {
+            filteredProjects = filterByProjectName(filteredProjects, settings.getProjectName());
+        }
+        if (settings.getNeighborhood() != null) {
+            filteredProjects = filterByNeighborhood(filteredProjects, settings.getNeighborhood());
+        }
+        if (settings.getMinTwoRoomUnits() != null && settings.getMinTwoRoomUnits() > 0) {
+            filteredProjects = filterByTwoRoomUnits(filteredProjects, settings.getMinTwoRoomUnits());
+        }
+        if (settings.getMinThreeRoomUnits() != null && settings.getMinThreeRoomUnits() > 0) {
+            filteredProjects = filterByThreeRoomUnits(filteredProjects, settings.getMinThreeRoomUnits());
+        }
+        if (settings.getMaxPriceForType1() != null && settings.getMaxPriceForType1() > 0) {
+            filteredProjects = filterBySellingPriceForType1(filteredProjects, settings.getMaxPriceForType1());
+        }
+        if (settings.getMaxPriceForType2() != null && settings.getMaxPriceForType2() > 0) {
+            filteredProjects = filterBySellingPriceForType2(filteredProjects, settings.getMaxPriceForType2());
+        }
+        if (settings.getOpeningDate() != null) {
+            filteredProjects = filterByOpeningDate(filteredProjects, settings.getOpeningDate());
+        }
+        if (settings.getClosingDate() != null) {
+            filteredProjects = filterByClosingDate(filteredProjects, settings.getClosingDate());
+        }
+        if (settings.getManager() != null) {
+            filteredProjects = filterByManager(filteredProjects, settings.getManager());
+        }
+        if (settings.getOfficerSlot() != null && settings.getOfficerSlot() > 0) {
+            filteredProjects = filterByOfficerSlot(filteredProjects, settings.getOfficerSlot());
+        }
+
+        return filteredProjects;
     }
 }

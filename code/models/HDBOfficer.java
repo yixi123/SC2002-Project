@@ -5,17 +5,17 @@ import java.util.List;
 import java.util.Scanner;
 import services.EnquiryService;
 import services.OfficerApplicationService;
+import services.ProjectApplicationService;
 import services.ProjectController;
 
 public class HDBOfficer extends Applicant {
-    private OfficerApplicationService officerApplicationManager = new OfficerApplicationService();
     private List<Application> projectApplicationsAsOfficer;
     private BTOProject assignedProject;
 
     public HDBOfficer(String name, String nric, String password, int age, String maritalStatus) {
         super(name, nric, password, age, maritalStatus);
-        this.projectApplicationsAsOfficer = officerApplicationManager.getApplicationsByUser(name);
-        this.assignedProject = projectController.getAssignedProjectByOfficer(name);
+        this.projectApplicationsAsOfficer = OfficerApplicationService.getApplicationsByUser(name);
+        this.assignedProject = ProjectController.getAssignedProjectByOfficer(name);
     }
 
     public void registerToHandleProject(BTOProject project) {
@@ -27,7 +27,7 @@ public class HDBOfficer extends Applicant {
         String projectName = project.getProjectName();
         Application projectApplication = new Application(name, projectName, "Pending", new Date());
         projectApplicationsAsOfficer.add(projectApplication);
-        officerApplicationManager.addApplication(projectApplication);
+        OfficerApplicationService.addApplication(projectApplication);
         System.out.println("Registration to handle project submitted successfully.");
     }
 
@@ -50,13 +50,13 @@ public class HDBOfficer extends Applicant {
         System.out.println(assignedProject);
     }
 
-    public void viewAndReplyToEnquiries(EnquiryService enquiryManager, Scanner scanner) {
+    public void viewAndReplyToEnquiries(Scanner scanner) {
         if (assignedProject == null) {
             System.out.println("You are not assigned to any project.");
             return;
         }
 
-        List<Enquiry> enquiries = enquiryManager.getEnquiriesByProject(assignedProject.getProjectName());
+        List<Enquiry> enquiries = EnquiryService.getEnquiriesByProject(assignedProject.getProjectName());
         if (enquiries.isEmpty()) {
             System.out.println("No enquiries for the assigned project.");
             return;
@@ -72,7 +72,7 @@ public class HDBOfficer extends Applicant {
         if (choice > 0 && choice <= enquiries.size()) {
             System.out.print("Enter your reply: ");
             String replyContent = scanner.nextLine();
-            addReply(enquiries.get(choice - 1), replyContent, enquiryManager);
+            addReply(enquiries.get(choice - 1), replyContent);
         } else {
             System.out.println("Invalid choice.");
         }
@@ -84,7 +84,7 @@ public class HDBOfficer extends Applicant {
             return;
         }
 
-        ProjectApplication projectApplication = projectApplicationService.getApplicationByUser(nric);
+        ProjectApplication projectApplication = ProjectApplicationService.getApplicationByUser(nric);
 
         if (projectApplication == null) {
             System.out.println("Applicantion not found.");
@@ -120,7 +120,7 @@ public class HDBOfficer extends Applicant {
             }
         } 
         projectApplication.setStatus("Booked");
-        projectApplicationService.updateApplicationStatus(name, applicationProject, "Booked");
+        ProjectApplicationService.updateApplicationStatus(name, applicationProject, "Booked");
         System.out.println("Flat booking updated successfully.");
 
     }
