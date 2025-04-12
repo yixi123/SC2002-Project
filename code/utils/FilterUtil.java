@@ -67,16 +67,16 @@ public class FilterUtil {
         if (settings.getNeighborhood() != null) {
             filteredProjects = filterByNeighborhood(filteredProjects, settings.getNeighborhood());
         }
-        if (settings.getMinTwoRoomUnits() > 0) {
+        if (settings.getMinTwoRoomUnits() != null && settings.getMinTwoRoomUnits() > 0) {
             filteredProjects = filterByTwoRoomUnits(filteredProjects, settings.getMinTwoRoomUnits());
         }
-        if (settings.getMinThreeRoomUnits() > 0) {
+        if (settings.getMinThreeRoomUnits() != null && settings.getMinThreeRoomUnits() > 0) {
             filteredProjects = filterByThreeRoomUnits(filteredProjects, settings.getMinThreeRoomUnits());
         }
-        if (settings.getMaxPriceForType1() > 0) {
+        if (settings.getMaxPriceForType1() != null && settings.getMaxPriceForType1() > 0) {
             filteredProjects = filterBySellingPriceForType1(filteredProjects, settings.getMaxPriceForType1());
         }
-        if (settings.getMaxPriceForType2() > 0) {
+        if (settings.getMaxPriceForType2() != null && settings.getMaxPriceForType2() > 0) {
             filteredProjects = filterBySellingPriceForType2(filteredProjects, settings.getMaxPriceForType2());
         }
         if (settings.getOpeningDate() != null) {
@@ -88,7 +88,7 @@ public class FilterUtil {
         if (settings.getManager() != null) {
             filteredProjects = filterByManager(filteredProjects, settings.getManager());
         }
-        if (settings.getOfficerSlot() > 0) {
+        if (settings.getOfficerSlot() != null && settings.getOfficerSlot() > 0) {
             filteredProjects = filterByOfficerSlot(filteredProjects, settings.getOfficerSlot());
         }
 

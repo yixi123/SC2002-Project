@@ -59,7 +59,7 @@ public class Enquiry {
 
     @Override
     public String toString() {
-        return String.format("ID=%d\nUser=%s\nProject=%s\nContent=%s\nTimestamp=%s",
-                id, user, project, content, timestamp);
+        return String.format("User=%s\nProject=%s\nContent=%s\nTimestamp=%s",
+                user, project, content, timestamp);
     }
 }

@@ -30,7 +30,6 @@ public class AuthController {
             throw new IllegalArgumentException("Invalid NRIC or password.");
         }
         catch(IllegalArgumentException e){
-            System.out.println(e);
             return null;
         }
     }

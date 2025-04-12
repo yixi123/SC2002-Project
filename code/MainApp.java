@@ -7,6 +7,7 @@ import services.*;
 import utils.*;
 
 public class MainApp {
+    static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
     public static void main(String[] args) {
         AuthController loginManager = new AuthController();
 
@@ -54,7 +55,6 @@ public class MainApp {
 
     private static void applicantMenu(Applicant applicant, Scanner scanner) {
         System.out.println("Applicant Menu:");
-        FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
         int choice;
         do {
             System.out.println("1. View Projects");
@@ -205,11 +205,39 @@ public class MainApp {
                     } while (filterChoice != 14);
                 }
                 case 3 -> {
-                    System.out.print("Enter project name to apply: ");
-                    String projectName = scanner.nextLine();
-                    System.out.print("Enter room type (2-Room or 3-Room): ");
-                    String roomType = scanner.nextLine();
-                    applicant.registerForProject(projectName, roomType);
+                    if (applicant.getProjectApplication() != null) {
+                        System.out.println("You already applied for a project.");
+                    } else {
+                        System.out.println("Available Projects:");
+                        List<BTOProject> filteredProjects = FilterUtil.filterBySettings(ProjectController.getProjects(), filterSettings);
+                        List<BTOProject> sortedProjects = SortUtil.sortBySettings(filteredProjects, filterSettings);
+                        for (int i = 0; i < sortedProjects.size(); i++) {
+                            System.out.println((i + 1) + ". " + sortedProjects.get(i));
+                        }
+                        System.out.print("Enter the number of the project to apply: ");
+                        int projectChoice = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                        if (projectChoice > 0 && projectChoice <= sortedProjects.size()) {
+                            BTOProject selectedProject = sortedProjects.get(projectChoice - 1);
+                            System.out.println("Choose room type:");
+                            System.out.println("1. 2-Room");
+                            System.out.println("2. 3-Room");
+                            System.out.print("Enter your choice (1 or 2): ");
+                            int roomTypeChoice = scanner.nextInt();
+                            scanner.nextLine(); // Consume newline
+                            String roomType = switch (roomTypeChoice) {
+                                case 1 -> "2-Room";
+                                case 2 -> "3-Room";
+                                default -> {
+                                    System.out.println("Invalid choice. Returning to menu.");
+                                    break;
+                                }
+                            };
+                            applicant.registerForProject(selectedProject.getProjectName(), roomType);
+                        } else {
+                            System.out.println("Invalid choice. Returning to menu.");
+                        }
+                    }
                 }
                 case 4 -> applicant.viewApplicationStatus();
                 case 5 -> applicant.withdrawApplication();
@@ -220,7 +248,7 @@ public class MainApp {
                         System.out.println("No enquiries found.");
                     } else {
                         for (int i = 0; i < userEnquiries.size(); i++) {
-                            System.out.println((i + 1) + ".\n" + userEnquiries.get(i));
+                            System.out.println((i + 1) + "." + userEnquiries.get(i));
                         }
                         System.out.print("Enter the number of the enquiry to view its chat: ");
                         int enquiryChoice = scanner.nextInt();

@@ -36,6 +36,10 @@ public class Applicant extends User {
         }
     }
     
+    public ProjectApplication getProjectApplication() {
+        return projectApplication;
+    }
+
     public void viewApplicationStatus() {
         if (projectApplication == null) {
             System.out.println("No application found.");
@@ -47,7 +51,7 @@ public class Applicant extends User {
     public void withdrawApplication() {
         if (projectApplication != null) {
             System.out.println("Withdrawing application for project: " + projectApplication.getProjectName());
-            ProjectApplicationService.updateApplicationStatus(this.name, projectApplication.getProjectName(), "Withdrawn");
+            ProjectApplicationService.updateApplicationStatus(this.nric, projectApplication.getProjectName(), "Withdrawn");
             projectApplication = null;
         } else {
             System.out.println("No application to withdraw.");
