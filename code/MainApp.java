@@ -1,13 +1,7 @@
 import java.util.List;
 import java.util.Scanner;
-import models.Applicant;
-import models.Enquiry;
-import models.HDBManager;
-import models.HDBOfficer;
-import models.User;
-import services.EnquiryService;
-import services.AuthController;
-import services.ProjectController;
+import models.*;
+import services.*;
 
 public class MainApp {
     public static void main(String[] args) {
@@ -56,8 +50,6 @@ public class MainApp {
     }
 
     private static void applicantMenu(Applicant applicant, Scanner scanner) {
-        EnquiryService enquiryManager = new EnquiryService();
-        ProjectController projectManager = new ProjectController();
 
         System.out.println("Applicant Menu:");
         int choice;
@@ -79,13 +71,13 @@ public class MainApp {
                     String projectName = scanner.nextLine();
                     System.out.print("Enter room type (2-Room or 3-Room): ");
                     String roomType = scanner.nextLine();
-                    applicant.registerForProject(projectName, roomType, projectManager);
+                    applicant.registerForProject(projectName, roomType);
                 }
                 case 3 -> applicant.viewApplicationStatus();
                 case 4 -> applicant.withdrawApplication();
                 case 5 -> {
                     System.out.println("Your Enquiries:");
-                    List<Enquiry> userEnquiries = enquiryManager.getEnquiriesByUser(applicant.getName());
+                    List<Enquiry> userEnquiries = EnquiryService.getEnquiriesByUser(applicant.getName());
                     if (userEnquiries.isEmpty()) {
                         System.out.println("No enquiries found.");
                     } else {
@@ -96,7 +88,7 @@ public class MainApp {
                         int enquiryChoice = scanner.nextInt();
                         scanner.nextLine(); // Consume newline
                         if (enquiryChoice > 0 && enquiryChoice <= userEnquiries.size()) {
-                            Enquiry lastEnquiry = enquiryManager.printChat(userEnquiries.get(enquiryChoice - 1).getId());
+                            Enquiry lastEnquiry = EnquiryService.printChat(userEnquiries.get(enquiryChoice - 1).getId());
                             if (lastEnquiry != null) {
                                 System.out.println("Options:");
                                 System.out.println("1. Edit the last enquiry/reply (if you are the user)");
@@ -112,7 +104,7 @@ public class MainApp {
                                             System.out.print("Enter new content for the enquiry: ");
                                             String newContent = scanner.nextLine();
                                             lastEnquiry.setContent(newContent);
-                                            enquiryManager.saveEnquiries();
+                                            EnquiryService.saveEnquiries();
                                             System.out.println("Enquiry updated successfully.");
                                         } else {
                                             System.out.println("You are not the owner of this enquiry. Cannot edit.");
@@ -121,12 +113,12 @@ public class MainApp {
                                     case 2 -> {
                                         System.out.print("Enter your reply: ");
                                         String replyContent = scanner.nextLine();
-                                        applicant.addReply(lastEnquiry, replyContent, enquiryManager);
+                                        applicant.addReply(lastEnquiry, replyContent);
                                     }
                                     case 3 -> {
                                         if (lastEnquiry.getUser().equals(applicant.getName())) {
-                                            enquiryManager.getEnquiries().remove(lastEnquiry);
-                                            enquiryManager.saveEnquiries();
+                                            EnquiryService.getEnquiries().remove(lastEnquiry);
+                                            EnquiryService.saveEnquiries();
                                             System.out.println("Enquiry deleted successfully.");
                                         } else {
                                             System.out.println("You are not the owner of this enquiry. Cannot delete.");
@@ -146,7 +138,7 @@ public class MainApp {
                     String projectName = scanner.nextLine();
                     System.out.print("Enter enquiry content: ");
                     String content = scanner.nextLine();
-                    applicant.createEnquiry(projectName, content, enquiryManager, projectManager);
+                    applicant.createEnquiry(projectName, content);
                 }
                 case 7 -> System.out.println("Exiting...");
                 default -> System.out.println("Invalid choice.");
@@ -155,8 +147,6 @@ public class MainApp {
     }
 
     private static void hdbOfficerMenu(HDBOfficer officer, Scanner scanner) {
-        EnquiryService enquiryManager = new EnquiryService();
-        ProjectController projectManager = new ProjectController();
 
         System.out.println("HDB Officer Menu:");
         int choice;
@@ -182,7 +172,7 @@ public class MainApp {
                     String projectName = scanner.nextLine();
                     System.out.print("Enter room type (2-Room or 3-Room): ");
                     String roomType = scanner.nextLine();
-                    officer.registerForProject(projectName, roomType, projectManager);
+                    officer.registerForProject(projectName, roomType);
                 }
                 case 3 -> officer.viewApplicationStatus();
                 case 4 -> officer.withdrawApplication();

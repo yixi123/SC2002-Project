@@ -5,20 +5,19 @@ import models.BTOProject;
 import utils.FileLoader;
 import utils.FileSaver;
 
-public class ProjectController {
-    private static List<BTOProject> projects = FileLoader.loadProjects("code/database/ProjectList.csv");
+public class ProjectController  {
+    private static List<BTOProject> projects = FileLoader.loadProjects();
 
-    public List<BTOProject> getProjects() {
+    public static List<BTOProject> getProjects() {
         return projects;
     }
 
-    public void createProject(BTOProject project) {
+    public static void createProject(BTOProject project) {
         projects.add(project);
-        // Save the project to the database (CSV file)
-        FileSaver.saveProjects("code/database/ProjectList.csv", projects);
+        FileSaver.saveProjects(projects);
     }
 
-    public BTOProject getAssignedProjectByOfficer(String officerName) {
+    public static BTOProject getAssignedProjectByOfficer(String officerName) {
         for (BTOProject project : projects) {
             if (project.getOfficers() != null && project.getOfficers().contains(officerName)) {
                 // Check if current date is within the opening and closing dates

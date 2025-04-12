@@ -18,8 +18,7 @@ public class HDBManager extends User {
             sellingPriceForType1, sellingPriceForType2, openingDate, closingDate, true
         );
         newProject.setManager(this.name);
-        ProjectController projectManager = new ProjectController();
-        projectManager.createProject(newProject);
+        ProjectController.createProject(newProject);
         System.out.println("Project created successfully: " + projectName);
     }
 
