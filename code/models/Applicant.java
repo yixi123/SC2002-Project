@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import services.EnquiryService;
 import services.ProjectApplicationService;
-import services.ProjectController;
+import services.controller.ProjectController;
 
 public class Applicant extends User {
     protected ProjectApplication projectApplication;
@@ -13,31 +13,13 @@ public class Applicant extends User {
         super(name, nric, password, age, maritalStatus);
         projectApplication = ProjectApplicationService.getApplicationByUser(nric);
     }
-
-    public void viewProjects() {
-        System.out.println("Available BTO Projects:");
-        for (BTOProject project : ProjectController.getProjects()) {
-            System.out.println(project);
-        }
-    }
-
-    public void registerForProject(String projectName, String roomType) {
-        if (projectApplication != null) {
-            System.out.println("You already applied for a project.");
-            return;
-        }
-
-        if (ProjectController.getProjects().stream().anyMatch(p -> p.getProjectName().equals(projectName))) {
-            projectApplication = new ProjectApplication(this.name, projectName, "Pending", new Date(), roomType);
-            ProjectApplicationService.addApplication(projectApplication);
-            System.out.println("Registration submitted for project: " + projectName);
-        } else {
-            System.out.println("Project not found.");
-        }
-    }
     
     public ProjectApplication getProjectApplication() {
         return projectApplication;
+    }
+
+    public void updateProjectApplication(ProjectApplication project){
+        projectApplication = project;
     }
 
     public void viewApplicationStatus() {

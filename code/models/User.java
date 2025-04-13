@@ -2,7 +2,7 @@ package models;
 
 import java.time.LocalDateTime;
 import services.EnquiryService;
-import services.ProjectController;
+import services.controller.ProjectController;
 
 public abstract class User {
     protected String name;

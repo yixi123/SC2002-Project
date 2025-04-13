@@ -1,4 +1,4 @@
-package services;
+package services.controller;
 
 import java.util.*;
 import models.*;
@@ -10,20 +10,25 @@ public class AuthController {
     private static List<HDBOfficer> officers = FileLoader.loadOfficers("code/database/OfficerList.csv");
     private static List<HDBManager> managers = FileLoader.loadManagers("code/database/ManagerList.csv");
 
+    private static User currentUser;
+
     public User authenticate(String nric, String password)  {
         try{
             for (Applicant applicant : applicants) {
                 if (applicant.getNric().equals(nric) && applicant.getPassword().equals(password)) {
+                    currentUser = applicant; 
                     return applicant;
                 }
             }
             for (HDBOfficer officer : officers) {
                 if (officer.getNric().equals(nric) && officer.getPassword().equals(password)) {
+                    currentUser = officer;
                     return officer;
                 }
             }
             for (HDBManager manager : managers) {
                 if (manager.getNric().equals(nric) && manager.getPassword().equals(password)) {
+                    currentUser = manager;
                     return manager;
                 }
             }
@@ -52,5 +57,13 @@ public class AuthController {
         catch(IllegalArgumentException e){
             System.out.println(e);
         }
+    }
+
+    public User getCurrentUser(){
+        return currentUser;
+    }
+
+    public void setCurrentUser(User user){
+        currentUser = user;
     }
 }

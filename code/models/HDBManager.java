@@ -1,7 +1,8 @@
 package models;
 
 import java.util.Date;
-import services.ProjectController;
+
+import services.controller.ProjectController;
 
 public class HDBManager extends User {
     private String managedProject;

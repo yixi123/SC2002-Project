@@ -6,7 +6,7 @@ import java.util.Scanner;
 import services.EnquiryService;
 import services.OfficerApplicationService;
 import services.ProjectApplicationService;
-import services.ProjectController;
+import services.controller.ProjectController;
 
 public class HDBOfficer extends Applicant {
     private List<Application> projectApplicationsAsOfficer;
