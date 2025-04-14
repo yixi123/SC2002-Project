@@ -19,15 +19,9 @@ import database.dataclass.projects.*;
 public class MainApp {
     static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
 
-    public void initiateDB() {
-        // Load data from files into respective databases
-        ApplicantDB.initiateDB();
-        OfficerDB.initiateDB();
-        ManagerDB.initiateDB();
-        ProjectDB.initiateDB();
-        EnquiryDB.initiateDB();
-    }
     public static void main(String[] args) {
+        initiateDB(); // Initialize databases
+
         AuthController loginManager = new AuthController();
         Scanner scanner = new Scanner(System.in);
         String nric, password;
@@ -139,6 +133,16 @@ public class MainApp {
                 default -> System.out.println("Invalid choice.");
             }
         } while (choice != 11);
+    }
+
+    
+    public static void initiateDB() {
+        // Load data from files into respective databases
+        ApplicantDB.initiateDB();
+        OfficerDB.initiateDB();
+        ManagerDB.initiateDB();
+        ProjectDB.initiateDB();
+        EnquiryDB.initiateDB();
     }
 
     private static void hdbManagerMenu(HDBManager manager, Scanner scanner) {
