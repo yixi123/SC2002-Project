@@ -1,11 +1,14 @@
 package services.controller;
 
 import java.util.*;
-import models.BTOProject;
+
+import models.projects.BTOProject;
+import models.projects.ProjectApplication;
+import services.ProjectApplicationService;
 import utils.FileLoader;
 import utils.FileSaver;
 
-public class ProjectController  {
+public class ProjectController{
     private static List<BTOProject> projects = FileLoader.loadProjects();
 
     public static List<BTOProject> getProjects() {
@@ -30,36 +33,24 @@ public class ProjectController  {
         return null; // No project assigned to the officer
     }
 
-    public static
-        if (applicant.getProjectApplication() != null) {
-            System.out.println("You already applied for a project.");
+    public static void applyProject(Scanner scanner){
+
+    }
+
+    public void registerForProject(String projectName, String roomType) {
+
+        if (ProjectController.getProjects().stream().anyMatch(p -> p.getProjectName().equals(projectName))) {
+            projectApplication = new ProjectApplication(this.name, projectName, "Pending", new Date(), roomType);
+            ProjectApplicationService.addApplication(projectApplication);
+            System.out.println("Registration submitted for project: " + projectName);
         } else {
-            System.out.println("Available Projects:");
-
-            System.out.print("Enter the project number you want to apply: ");
-            int projectChoice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            if (projectChoice > 0 && projectChoice <= sortedProjects.size()) {
-                BTOProject selectedProject = sortedProjects.get(projectChoice - 1);
-                System.out.println("Choose room type:");
-                System.out.println("1. 2-Room");
-                System.out.println("2. 3-Room");
-                System.out.print("Enter your choice (1 or 2): ");
-                int roomTypeChoice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
-                String roomType = switch (roomTypeChoice) {
-                    case 1 -> "2-Room";
-                    case 2 -> "3-Room";
-                    default -> {
-                        System.out.println("Invalid choice. Returning to menu."); yield "";
-                    }
-                };
-                applicant.registerForProject(selectedProject.getProjectName(), roomType);
-            } else {
-                System.out.println("Invalid choice. Returning to menu.");
-            }
+            System.out.println("Project not found.");
         }
+    }
 
+    
 
+    public static void viewProject(List<>){
+
+    }
 }

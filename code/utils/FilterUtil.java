@@ -3,8 +3,9 @@ package utils;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import models.BTOProject;
-import models.FilterSettings;
+
+import models.projects.BTOProject;
+import models.projects.FilterSettings;
 
 public class FilterUtil {
 
@@ -47,7 +48,7 @@ public class FilterUtil {
     }
 
     public static List<BTOProject> filterByManager(List<BTOProject> projects, String managerName) {
-        return filterBy(projects, project -> project.getManager().equalsIgnoreCase(managerName));
+        return filterBy(projects, project -> project.getManagerID().equalsIgnoreCase(managerName));
     }
 
     public static List<BTOProject> filterByOfficerSlot(List<BTOProject> projects, int minSlots) {

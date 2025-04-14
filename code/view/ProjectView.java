@@ -2,8 +2,8 @@ package view;
 
 import java.util.List;
 
-import models.BTOProject;
-import models.FilterSettings;
+import models.projects.BTOProject;
+import models.projects.FilterSettings;
 import services.controller.ProjectController;
 import utils.FilterUtil;
 import utils.SortUtil;

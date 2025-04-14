@@ -5,14 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 
-import models.User;
 import services.EnquiryService;
-import models.Applicant;
-import models.BTOProject;
-import models.Enquiry;
-import models.FilterSettings;
-
-import utils.FilterUtil;
+import models.projects.Enquiry;
+import models.projects.FilterSettings;
+import models.users.Applicant;
+import models.users.User;
 import utils.SortUtil;
 import view.ApplicantView;
 import view.ProjectView;
@@ -26,7 +23,7 @@ public class ApplicantController extends UserController{
   }
 
   public void initiateController(Scanner scanner){
-    view.displayMenu();
+    applicantView.displayMenu();
     int choice;
     do {
       choice = scanner.nextInt();

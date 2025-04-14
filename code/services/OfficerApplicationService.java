@@ -2,7 +2,8 @@ package services;
 
 import java.util.ArrayList;
 import java.util.List;
-import models.Application;
+
+import models.projects.Application;
 import utils.FileLoader;
 import utils.FileSaver;
 

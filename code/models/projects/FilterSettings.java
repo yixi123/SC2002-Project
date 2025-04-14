@@ -1,4 +1,4 @@
-package models;
+package models.projects;
 import java.util.Date;
 
 public class FilterSettings {

@@ -1,20 +1,20 @@
-package models;
+package models.projects;
 
 import java.time.LocalDateTime;
 
 public class Enquiry {
     private int id;
     private String user;
-    private String project;
+    private String projectID;
     private String category;
     private String content;
     private LocalDateTime timestamp; 
     private int replyId;
 
-    public Enquiry(int id, String user, String project, String category, String content, LocalDateTime timestamp, int replyId) {
+    public Enquiry(int id, String user, String projectID, String category, String content, LocalDateTime timestamp, int replyId) {
         this.id = id;
         this.user = user;
-        this.project = project;
+        this.projectID = projectID;
         this.category = category;
         this.content = content;
         this.timestamp = timestamp; 
@@ -29,8 +29,8 @@ public class Enquiry {
         return user;
     }
 
-    public String getProject() {
-        return project;
+    public String getProjectID() {
+        return projectID;
     }
 
     public String getCategory() {
@@ -60,6 +60,6 @@ public class Enquiry {
     @Override
     public String toString() {
         return String.format("User=%s\nProject=%s\nContent=%s\nTimestamp=%s",
-                user, project, content, timestamp);
+                user, projectID, content, timestamp);
     }
 }

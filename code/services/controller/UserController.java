@@ -1,6 +1,6 @@
 package services.controller;
 
-import models.User;
+import models.users.User;
 
 public abstract class UserController {
   AuthController auth = new AuthController();

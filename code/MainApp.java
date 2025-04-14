@@ -3,12 +3,30 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 import models.*;
+import models.projects.FilterSettings;
+import models.users.Applicant;
+import models.users.HDBManager;
+import models.users.HDBOfficer;
+import models.users.User;
 import services.*;
 import services.controller.AuthController;
 import utils.*;
 
+
+import database.dataclass.users.*;
+import database.dataclass.projects.*;
+
 public class MainApp {
     static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
+
+    public void initiateDB() {
+        // Load data from files into respective databases
+        ApplicantDB.initiateDB();
+        OfficerDB.initiateDB();
+        ManagerDB.initiateDB();
+        ProjectDB.initiateDB();
+        EnquiryDB.initiateDB();
+    }
     public static void main(String[] args) {
         AuthController loginManager = new AuthController();
         Scanner scanner = new Scanner(System.in);
@@ -50,7 +68,6 @@ public class MainApp {
     }
 
     private static void applicantMenu(Applicant applicant, Scanner scanner) {
-        ApplicantController.st
     }
 
     private static void hdbOfficerMenu(HDBOfficer officer, Scanner scanner) {

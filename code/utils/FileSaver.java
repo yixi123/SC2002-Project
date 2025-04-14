@@ -5,6 +5,13 @@ import java.text.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import models.*;
+import models.projects.Application;
+import models.projects.BTOProject;
+import models.projects.Enquiry;
+import models.projects.ProjectApplication;
+import models.users.Applicant;
+import models.users.HDBManager;
+import models.users.HDBOfficer;
 
 public class FileSaver {
 
@@ -106,7 +113,7 @@ public class FileSaver {
                         project.getSellingPriceForType2(),
                         dateFormat.format(project.getOpeningDate()),
                         dateFormat.format(project.getClosingDate()),
-                        project.getManager(),
+                        project.getManagerID(),
                         project.getOfficerSlot(),
                         String.join(";", project.getOfficers()),
                         project.isVisible() // Include visibility
@@ -125,7 +132,7 @@ public class FileSaver {
                 bw.write(String.format("%d,%s,%s,%s,%s,%s,%d\n",
                     enquiry.getId(),
                     enquiry.getUser(),
-                    enquiry.getProject(),
+                    enquiry.getProjectID(),
                     enquiry.getCategory(),
                     enquiry.getContent(),
                     enquiry.getTimestamp().format(formatter), // Format timestamp
