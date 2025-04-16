@@ -2,11 +2,6 @@ package services.controller;
 
 import java.util.Scanner;
 
-import models.users.Applicant;
-
-import java.util.List;
-import java.util.ArrayList;
-
 // Assuming UserController is in the same package or imported
 public class OfficerController extends UserController {
 
@@ -48,10 +43,6 @@ public class OfficerController extends UserController {
   }
 
   public void deleteEnquiryAsApp() {
-  }
-
-  @Override
-  public void viewProjectList() {
   }
 
 }

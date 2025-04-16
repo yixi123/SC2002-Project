@@ -52,8 +52,4 @@ public class ManagerController extends UserController{
     
   }
 
-  @Override
-  public void viewProjectList() {
-    
-  }  
 }

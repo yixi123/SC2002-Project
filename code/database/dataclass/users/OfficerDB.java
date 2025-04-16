@@ -1,8 +1,6 @@
 package database.dataclass.users;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import models.users.HDBOfficer;
 import utils.FileLoader;
 
@@ -20,5 +18,14 @@ public class OfficerDB {
 
   public static List<HDBOfficer> getDB(){
     return db;
+  }
+
+  public static String getUsernameByID(String userID){
+    for (HDBOfficer officer : db) {
+      if (officer.getNric().equals(userID)) {
+        return officer.getName();
+      }
+    }
+    return null;
   }
 }
