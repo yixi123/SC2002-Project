@@ -1,15 +1,13 @@
 package models.users;
 
-import java.util.Date;
-import java.util.List;
-
+import models.enums.MaritalStatus;
 import models.projects.ProjectApplication;
 import services.subservices.ProjectApplicationService;
 
 public class Applicant extends User {
     protected ProjectApplication appliedProject;
 
-    public Applicant(String name, String nric, String password, int age, String maritalStatus) {
+    public Applicant(String name, String nric, String password, int age, MaritalStatus maritalStatus) {
         super(name, nric, password, age, maritalStatus);
         appliedProject = ProjectApplicationService.getApplicationByUser(nric);
     }

@@ -145,15 +145,16 @@ public class FileSaver {
     }
 
     public static void saveProjectApplications(String filePath, List<ProjectApplication> applications) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date,Flat Type\n"); // Header
             for (ProjectApplication application : applications) {
                 bw.write(String.format("%s,%s,%s,%s\n",
                         application.getUser(),
                         application.getProjectName(),
-                        application.getStatus(),
-                        application.getApplicationDate(),
-                        application.getFlatType()));
+                        application.getStatus().toString(),
+                        dateFormat.format(application.getApplicationDate()),
+                        application.getFlatType().toString()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,14 +162,15 @@ public class FileSaver {
     }
 
     public static void saveOfficerApplications(String filePath, List<Application> applications) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date\n"); // Header
             for (Application application : applications) {
                 bw.write(String.format("%s,%s,%s,%s\n",
                         application.getUser(),
                         application.getProjectName(),
-                        application.getStatus(),
-                        application.getApplicationDate()));
+                        application.getStatus().toString(),
+                        dateFormat.format(application.getApplicationDate())));
             }
         } catch (IOException e) {
             e.printStackTrace();

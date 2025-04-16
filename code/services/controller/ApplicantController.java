@@ -1,9 +1,10 @@
 package services.controller;
 
 import database.dataclass.projects.ProjectDB;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import models.enums.FlatType;
+import models.enums.MaritalStatus;
 import models.projects.*;
 import models.users.Applicant;
 import services.subservices.ProjectApplicationService;
@@ -88,17 +89,6 @@ public class ApplicantController extends UserController {
             System.out.println("You have already applied for a project. Please check your application status.");
             return;
         }
-        List<String> roomTypeLeft = new ArrayList<>();
-        if (selectedProject.getTwoRoomUnits() > 0) {
-            roomTypeLeft.add("2-Room");
-        }
-        if (selectedProject.getThreeRoomUnits() > 0) {
-            roomTypeLeft.add("3-Room");
-        }
-        if (roomTypeLeft.isEmpty()) {
-            System.out.println("No room types available for this project.");
-            return;
-        }
         System.out.println("Choose room type:");
         System.out.println("1. 2-Room");
         System.out.println("2. 3-Room");
@@ -106,15 +96,44 @@ public class ApplicantController extends UserController {
         int roomTypeChoice = sc.nextInt();
         sc.nextLine(); // Consume newline
 
-        String roomType;
+        FlatType roomType;
         switch (roomTypeChoice) {
-            case 1 -> roomType = "2-Room";
-            case 2 -> roomType = "3-Room";
+            case 1 -> {
+                roomType = FlatType.TWO_ROOM;
+                if (selectedProject.getTwoRoomUnits() <= 0) {
+                    System.out.println("No 2-room units available for this project. Please choose another room type.");
+                    return;
+                }
+                if (retreiveApplicant().getMaritalStatus() == MaritalStatus.SINGLE && retreiveApplicant().getAge() < 35) {
+                    System.out.println("You must be at least 35 years old to apply for a 2-room unit as a single applicant. Please choose another room type.");
+                    return;
+                }   
+                if (retreiveApplicant().getAge() < 21) {
+                    System.out.println("You must be at least 21 years old to apply for a 2-room unit. Please choose another room type.");
+                    return;
+                }
+            }
+            case 2 -> {
+                roomType = FlatType.THREE_ROOM;
+                if (selectedProject.getThreeRoomUnits() <= 0) {
+                    System.out.println("No 3-room units available for this project. Please choose another room type.");
+                    return;
+                }
+                if (retreiveApplicant().getMaritalStatus() != MaritalStatus.MARRIED) {
+                    System.out.println("3-room units are only available for married applicants. Please choose another room type.");
+                    return;
+                }
+                if (retreiveApplicant().getAge() < 21) {
+                    System.out.println("You must be at least 21 years old to apply for a 3-room unit. Please choose another room type.");
+                    return;
+                }
+            }
             default -> {
                 System.out.println("Invalid choice. Returning to menu.");
                 return;
             }
         }
+        
         ProjectApplicationService.addApplication(selectedProject, retreiveApplicant().getNric(), roomType);
         System.out.println("You have successfully applied for " + selectedProject.getProjectName() + ".");
     }
