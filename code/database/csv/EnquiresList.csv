@@ -1,3 +1,2 @@
-ID,User,Project,Category,Content,timestamp,ReplyID
-1,John,Acacia Breeze,Enquiry,How many HDB slot are there?,2025-03-07 13:22:21,2
-2,Daniel,Acacia Breeze,Reply,There are 2 HDB slot,2025-03-07 20:02:31,0
+ID,UserID,Project,Content,timestamp,ReplierUserID,ReplyContent,ReplierTimestamp
+1,S1234567A,Acacia Breeze,How many HDB slot are there?,2025-03-07 13:22:21,T2109876H,There are 2 HDB slot,2025-03-07 20:02:31

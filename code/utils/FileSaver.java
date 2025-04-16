@@ -4,7 +4,6 @@ import java.io.*;
 import java.text.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import models.*;
 import models.projects.Application;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
@@ -127,16 +126,17 @@ public class FileSaver {
     public static void saveEnquiries(String filePath, List<Enquiry> enquiries) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            bw.write("ID,User,Project,Category,Content,timestamp,ReplyID\n"); // Header
+            bw.write("ID,UserID,Project,Content,timestamp,ReplierUserID,ReplyContent,ReplierTimestamp\n"); // Header
             for (Enquiry enquiry : enquiries) {
-                bw.write(String.format("%d,%s,%s,%s,%s,%s,%d\n",
+                bw.write(String.format("%d,%s,%s,%s,%s,%s,%s,%s\n",
                     enquiry.getId(),
-                    enquiry.getUser(),
+                    enquiry.getUserID(),
                     enquiry.getProjectID(),
-                    enquiry.getCategory(),
                     enquiry.getContent(),
                     enquiry.getTimestamp().format(formatter), // Format timestamp
-                    enquiry.getReplyId()
+                    enquiry.getReplierUserID(),
+                    enquiry.getReplyContent(),
+                    enquiry.getReplierTimestamp() != null ? enquiry.getReplierTimestamp().format(formatter) : "" // Format replier timestamp
                 ));
             }
         } catch (IOException e) {

@@ -1,25 +1,17 @@
 package services.controller;
 
-import java.util.*;
-
 import database.dataclass.users.ApplicantDB;
 import database.dataclass.users.ManagerDB;
 import database.dataclass.users.OfficerDB;
-
 import exception.AuthException;
-
-import models.*;
+import java.util.*;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
 
-import utils.FileLoader;
-import utils.FileSaver;
-
 
 public class AuthController {
-    private static User currentUser;
     private static int attempt = 1;
 
     public User login(Scanner sc) throws AuthException{
@@ -33,10 +25,9 @@ public class AuthController {
 
         try{
             User user = authenticate(nric, password);
-            currentUser = user;
-            System.out.println("Login successful! Welcome " + currentUser.getName() + ".");
+            System.out.println("Login successful! Welcome " + user.getName() + ".");
             System.out.println("--------------------------------");
-            return currentUser;
+            return user;
         }
         catch(AuthException e){
             System.out.println(e.getMessage() + "\nPlease try again.");
@@ -61,7 +52,6 @@ public class AuthController {
         List<? extends User> users= ApplicantDB.getDB();
         for (User applicant: users) {
             if (applicant.getNric().equals(nric) && applicant.getPassword().equals(password)) {
-                currentUser = applicant; 
                 return applicant;
             }
         }
@@ -69,7 +59,6 @@ public class AuthController {
         users = OfficerDB.getDB();
         for (User officer : users) {
             if (officer.getNric().equals(nric) && officer.getPassword().equals(password)) {
-                currentUser = officer;
                 return officer;
             }
         }
@@ -77,7 +66,6 @@ public class AuthController {
         users = ManagerDB.getDB();
         for (User manager : users) {
             if (manager.getNric().equals(nric) && manager.getPassword().equals(password)) {
-                currentUser = manager;
                 return manager;
             }
         }
@@ -104,11 +92,4 @@ public class AuthController {
         }
     }
 
-    public User getCurrentUser(){
-        return currentUser;
-    }
-
-    public void setCurrentUser(User user){
-        currentUser = user;
-    }
 }

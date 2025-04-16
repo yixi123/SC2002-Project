@@ -1,11 +1,8 @@
 package database.dataclass.projects;
 
+import java.util.List;
 import models.projects.Enquiry;
-import utils.FileLoader;
-
-import java.util.List ;
-import java.util.Iterator;
-import java.util.ArrayList;
+import utils.FileLoader ;
 
 public class EnquiryDB {
 
@@ -21,7 +18,7 @@ public class EnquiryDB {
   }
 
   //remove
-  public static List<Enquiry> getDB(Enquiry enq){
+  public static List<Enquiry> getDB(){
     return db;
   }
 }
