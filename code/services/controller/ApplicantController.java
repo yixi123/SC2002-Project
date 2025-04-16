@@ -1,82 +1,126 @@
 package services.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import database.dataclass.projects.ProjectDB;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import database.dataclass.projects.ProjectDB;
-
-import models.projects.Enquiry;
-import models.projects.FilterSettings;
-import models.users.Applicant;
-import models.users.User;
 import models.projects.*;
-
-import services.subservices.EnquiryService;
+import models.users.Applicant;
+import services.subservices.ProjectApplicationService;
+import utils.FilterUtil;
 import view.ApplicantView;
-import view.ProjectView;
 
-public class ApplicantController {
-    static FilterSettings filterSettings = new FilterSettings();
+public class ApplicantController extends UserController {
+    
     ApplicantView applicantView = new ApplicantView();
 
-    public static void start(Scanner sc){
+    public Applicant retreiveApplicant(){
+        return (Applicant) AuthController.getCurrentUser();
+    }
+
+    @Override
+    public void start(Scanner sc){
         ApplicantController app = new ApplicantController();
 
         System.out.println("--------------------------------");
         System.out.println("\tApplicant Portal");
         System.out.println("--------------------------------");
         System.out.println("1. View Project List");
-        System.out.println("2. Apply for a Project");
+        System.out.println("2. Adjust Filter Settings");
         System.out.println("3. View Application Status");
         System.out.println("4. Withdraw Project");
         System.out.println("5. View Enquiry");
-        System.out.println("6. Add Enquiry");
-        System.out.println("7. Logout");
+        System.out.println("6. Logout");
         System.out.println("--------------------------------");
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
         sc.nextLine();
 
         switch (choice) {
-            case 1:
-                app.viewProjectList(sc);
-                break;
-            case 2:
-                app.applyProject(sc);
-                break;
-            case 3:
-                app.viewApplicationStatus(sc);
-                break;
-            case 4:
-                app.withdrawProject(sc);
-                break;
-            case 5:
-                app.viewEnquiry(sc);
-                break;
-            case 6:
-                app.addEnquiry(sc);
-                break;
-            default:
+            case 1 -> app.viewProjectList(sc);
+            case 2 -> app.adjustFilterSettings(sc);
+            case 3 -> app.viewApplicationStatus(sc);
+            case 4 -> app.withdrawProject(sc);
+            case 5 -> app.viewEnquiry(sc);
+            case 6 -> System.out.println("Logging out...");
+            default -> {
                 System.out.println("Invalid choice. Please try again.");
                 start(sc);
-                break;
+            }
         }
     }
 
     public void viewProjectList(Scanner sc){
         List<BTOProject> projects =  ProjectDB.getDB();
-        projects.stream()
-                .filter(
+        List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
+        if (filteredProjects.isEmpty()) {
+            System.out.println("No projects available based on the current filter settings.");
+        } else {
+            for (int i = 0; i < filteredProjects.size(); i++) {
+                System.out.println((i + 1) + ". " + filteredProjects.get(i).getProjectName());
+            }
+            int projectChoice = sc.nextInt() - 1;
+            sc.nextLine(); // Consume newline
+            if (projectChoice >= 0 && projectChoice < filteredProjects.size()) {
+                BTOProject selectedProject = filteredProjects.get(projectChoice);
+                System.out.println("You have selected: " + selectedProject.getProjectName());
+                System.out.println("1. Apply for this project");
+                System.out.println("2. Ask questions about this project");
+                System.out.println("3. Back to project list");
+                System.out.print("Enter your choice: ");
+                int actionChoice = sc.nextInt();
+                sc.nextLine(); // Consume newline
+                switch (actionChoice) {
+                    case 1 -> applyForProject(sc, selectedProject);
+                    case 2 -> addEnquiry(sc);
+                    case 3 -> System.out.println("Back to project list.");
+                    default -> System.out.println("Invalid choice. Returning to menu.");
+                }
+            }
+            else {
+                System.out.println("Invalid project choice. Returning to menu.");
+            }
+        }
     }
 
-    public void applyProject(Scanner sc){
+    public void applyForProject(Scanner sc, BTOProject selectedProject) {
+        if (ProjectApplicationService.getApplicationByUser(retreiveApplicant().getNric()) != null) {
+            System.out.println("You have already applied for a project. Please check your application status.");
+            return;
+        }
+        List<String> roomTypeLeft = new ArrayList<>();
+        if (selectedProject.getTwoRoomUnits() > 0) {
+            roomTypeLeft.add("2-Room");
+        }
+        if (selectedProject.getThreeRoomUnits() > 0) {
+            roomTypeLeft.add("3-Room");
+        }
+        if (roomTypeLeft.isEmpty()) {
+            System.out.println("No room types available for this project.");
+            return;
+        }
+        System.out.println("Choose room type:");
+        System.out.println("1. 2-Room");
+        System.out.println("2. 3-Room");
+        System.out.print("Enter your choice: ");
+        int roomTypeChoice = sc.nextInt();
+        sc.nextLine(); // Consume newline
 
+        String roomType;
+        switch (roomTypeChoice) {
+            case 1 -> roomType = "2-Room";
+            case 2 -> roomType = "3-Room";
+            default -> {
+                System.out.println("Invalid choice. Returning to menu.");
+                return;
+            }
+        }
+        ProjectApplicationService.addApplication(selectedProject, retreiveApplicant().getNric(), roomType);
+        System.out.println("You have successfully applied for " + selectedProject.getProjectName() + ".");
     }
 
     public void viewApplicationStatus(Scanner sc) {
-
+        
     }
 
     public void withdrawProject(Scanner sc) {

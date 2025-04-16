@@ -114,7 +114,10 @@ public class BTOProject {
                "Manager: " + managerID + "\n" +
                "Officer Slot: " + officerSlot + "\n" +
                "Officers: " + String.join(", ", officersID) + "\n" +
-               "Visibility: " + (visibility ? "Visible" : "Hidden") + "\n" +
                "--------------------------------------------------";
+    }
+
+    public String shortToString() {
+        return String.format("%-30s   %s   %s - %s", projectName, neighborhood, openingDate.toString(), closingDate.toString());
     }
 }

@@ -138,4 +138,6 @@ public class FilterSettings {
         MANAGER,
         OFFICER_SLOT
     }
+
+    
 }

@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class ManagerController extends UserController{
 
-  public static void start(Scanner sc){
+  public void start(Scanner sc){
 
   }
 
@@ -52,8 +52,4 @@ public class ManagerController extends UserController{
     
   }
 
-  @Override
-  public void viewProjectList() {
-    
-  }  
 }
