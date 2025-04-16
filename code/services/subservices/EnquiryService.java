@@ -1,20 +1,15 @@
 package services.subservices;
 
+import database.dataclass.projects.EnquiryDB;
 import java.util.ArrayList;
 import java.util.List;
-
 import models.projects.Enquiry;
-import utils.FileLoader;
-import utils.FileSaver;
 
-public class EnquiryService implements IEnquiryService {
-    private static List<Enquiry> enquiries = FileLoader.loadEnquiries("code/database/EnquiresList.csv");
-
-    public static List<Enquiry> getEnquiries() {
-        return enquiries;
-    }
+public class EnquiryService {
+    private static List<Enquiry> enquiries = new ArrayList<>();
 
     public static void addEnquiry(Enquiry enquiry) {
+        enquiries = EnquiryDB.getDB();
         enquiries.add(enquiry);
         saveEnquiries();
     }
@@ -25,30 +20,26 @@ public class EnquiryService implements IEnquiryService {
     }
 
     public static void saveEnquiries() {
-        FileSaver.saveEnquiries("code/database/EnquiresList.csv", enquiries);
+        EnquiryDB.updateDB(enquiries);
     }
 
-    public static Enquiry printChat(int id) {
+    public static void printEnquiry(int id) {
         Enquiry current = enquiries.stream()
                                    .filter(enquiry -> enquiry.getId() == id)
                                    .findFirst()
                                    .orElse(null);
         if (current == null) {
             System.out.println("Enquiry with ID " + id + " not found.");
-            return null;
+            return;
         }
 
         System.out.println(current);
-        if (current.getReplyId() != 0) {
-            return printChat(current.getReplyId());
-        }
-        return current; // Return the last printed enquiry
     }
 
-    public static List<Enquiry> getEnquiriesByUser(String user) {
+    public static List<Enquiry> getEnquiriesByUserID(String userID) {
         List<Enquiry> result = new ArrayList<>();
         for (Enquiry enquiry : enquiries) {
-            if (enquiry.getCategory().equalsIgnoreCase("Enquiry") && enquiry.getUser().equalsIgnoreCase(user)) {
+            if (enquiry.getUserID().equalsIgnoreCase(userID)) {
                 result.add(enquiry);
             }
         }
@@ -58,7 +49,7 @@ public class EnquiryService implements IEnquiryService {
     public static List<Enquiry> getEnquiriesByProject(String project) {
         List<Enquiry> result = new ArrayList<>();
         for (Enquiry enquiry : enquiries) {
-            if (enquiry.getCategory().equalsIgnoreCase("Enquiry") && enquiry.getProjectID().equalsIgnoreCase(project)) {
+            if (enquiry.getProjectID().equalsIgnoreCase(project)) {
                 result.add(enquiry);
             }
         }

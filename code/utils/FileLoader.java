@@ -6,8 +6,6 @@ import java.text.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import models.*;
-import models.projects.Application;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.OfficerApplication;
@@ -135,10 +133,11 @@ public class FileLoader implements IFileLoader {
                     Integer.parseInt(data[0]), // ID
                     data[1],                  // User
                     data[2],                  // Project
-                    data[3],                  // Category
-                    data[4],                  // Content
-                    LocalDateTime.parse(data[5], formatter), // Timestamp
-                    Integer.parseInt(data[6]) // ReplyID
+                    data[3],                  // Content
+                    LocalDateTime.parse(data[4], formatter), // Timestamp
+                    data[5],                  // ReplierUserID
+                    data[6],                  // ReplyContent
+                    LocalDateTime.parse(data[7], formatter)  // ReplierTimestamp
                 ));
             }
         } catch (IOException e) {
