@@ -2,9 +2,6 @@ package services.controller;
 
 import java.util.Scanner;
 
-import services.*;
-import utils.*;
-
 import models.users.Applicant;
 
 import java.util.List;
@@ -13,7 +10,7 @@ import java.util.ArrayList;
 // Assuming UserController is in the same package or imported
 public class OfficerController extends UserController {
 
-  public static void start(Scanner sc){
+  public void start(Scanner sc){
 
   }
 

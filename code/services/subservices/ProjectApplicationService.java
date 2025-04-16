@@ -1,12 +1,15 @@
 package services.subservices;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
+import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 import services.interfaces.IApplicationService;
 import utils.FileLoader;
 import utils.FileSaver;
+
+
 
 public class ProjectApplicationService implements IApplicationService{
     private static List<ProjectApplication> applications = FileLoader.loadProjectApplications("code/database/ProjectApplicationList.csv");
@@ -15,7 +18,8 @@ public class ProjectApplicationService implements IApplicationService{
         return applications;
     }
 
-    public static void addApplication(ProjectApplication application) {
+    public static void addApplication(BTOProject project, String userID, String flatType) {
+        ProjectApplication application = new ProjectApplication(userID, project.getProjectName(), "Pending", new Date(), flatType);
         applications.add(application);
         saveApplications();
     }
