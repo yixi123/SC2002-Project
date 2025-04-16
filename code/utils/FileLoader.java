@@ -7,16 +7,24 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import models.*;
+import models.projects.Application;
+import models.projects.BTOProject;
+import models.projects.Enquiry;
+import models.projects.OfficerApplication;
+import models.projects.ProjectApplication;
+import models.users.Applicant;
+import models.users.HDBManager;
+import models.users.HDBOfficer;
 
 public class FileLoader implements IFileLoader {
 
-    private static final String APPLICANTS_FILE = "code/database/ApplicantList.csv";
-    private static final String OFFICERS_FILE = "code/database/OfficerList.csv";
-    private static final String MANAGERS_FILE = "code/database/ManagerList.csv";
-    private static final String PROJECTS_FILE = "code/database/ProjectList.csv";
-    private static final String ENQUIRIES_FILE = "code/database/EnquiresList.csv";
-    private static final String PROJECT_APPLICATIONS_FILE = "code/database/ProjectApplicationList.csv";
-    private static final String OFFICER_APPLICATIONS_FILE = "code/database/OfficerApplicationList.csv";
+    private static final String APPLICANTS_FILE = "code/database/csv/ApplicantList.csv";
+    private static final String OFFICERS_FILE = "code/database/csv/OfficerList.csv";
+    private static final String MANAGERS_FILE = "code/database/csv/ManagerList.csv";
+    private static final String PROJECTS_FILE = "code/database/csv/ProjectList.csv";
+    private static final String ENQUIRIES_FILE = "code/database/csv/EnquiresList.csv";
+    private static final String PROJECT_APPLICATIONS_FILE = "code/database/csv/ProjectApplicationList.csv";
+    private static final String OFFICER_APPLICATIONS_FILE = "code/database/csv/OfficerApplicationList.csv";
 
     public static List<Applicant> loadApplicants() {
         return loadApplicants(APPLICANTS_FILE);
@@ -38,11 +46,11 @@ public class FileLoader implements IFileLoader {
         return loadEnquiries(ENQUIRIES_FILE);
     }
 
-    public static List<Application> loadProjectApplications() {
-        return loadOfficerApplications(PROJECT_APPLICATIONS_FILE);
+    public static List<ProjectApplication> loadProjectApplications() {
+        return loadProjectApplications(PROJECT_APPLICATIONS_FILE);
     }
 
-    public static List<Application> loadOfficerApplications() {
+    public static List<OfficerApplication> loadOfficerApplications() {
         return loadOfficerApplications(OFFICER_APPLICATIONS_FILE);
     }
 
@@ -104,7 +112,7 @@ public class FileLoader implements IFileLoader {
                     Double.parseDouble(data[4]), Double.parseDouble(data[7]),
                     dateFormat.parse(data[8]), dateFormat.parse(data[9]), Boolean.parseBoolean(data[13])
                 );
-                project.setManager(data[10]);
+                project.setManagerID(data[10]);
                 project.setOfficerSlot(Integer.parseInt(data[11]));
                 project.setOfficers(Arrays.asList(data[12].split(";")));
                 projects.add(project);
@@ -161,15 +169,15 @@ public class FileLoader implements IFileLoader {
         return applications;
     }
 
-    public static List<Application> loadOfficerApplications(String filePath) {
-        List<Application> applications = new ArrayList<>();
+    public static List<OfficerApplication> loadOfficerApplications(String filePath) {
+        List<OfficerApplication> applications = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
             br.readLine(); // Skip header
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                applications.add(new Application(
+                applications.add(new OfficerApplication(
                     data[0], 
                     data[1], 
                     data[2], 

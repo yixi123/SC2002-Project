@@ -1,4 +1,4 @@
-package models;
+package models.projects;
 
 import java.util.Date;
 import java.util.List;
@@ -13,9 +13,9 @@ public class BTOProject {
     private Date openingDate;
     private Date closingDate;
     private boolean visibility;
-    private String manager;
+    private String managerID;
     private int officerSlot; 
-    private List<String> officers; 
+    private List<String> officersID; 
 
     public BTOProject(String projectName, String neighborhood, int twoRoomUnits, int threeRoomUnits, 
                       double sellingPriceForType1, double sellingPriceForType2, 
@@ -31,20 +31,8 @@ public class BTOProject {
         this.visibility = visibility;
     }
 
-    public void setManager(String manager) {
-        this.manager = manager;
-    }
-
-    public void setOfficerSlot(int officerSlot) {
-        this.officerSlot = officerSlot;
-    }
-
-    public void setOfficers(List<String> officers) {
-        this.officers = officers;
-    }
-
-    public String getManager() {
-        return manager;
+    public String getManagerID() {
+        return managerID;
     }
 
     public int getOfficerSlot() {
@@ -52,7 +40,7 @@ public class BTOProject {
     }
 
     public List<String> getOfficers() {
-        return officers;
+        return officersID;
     }
 
     public String getProjectName() {
@@ -87,6 +75,18 @@ public class BTOProject {
         return closingDate;
     }
 
+    public void setManagerID(String manager) {
+        this.managerID = manager;
+    }
+
+    public void setOfficerSlot(int officerSlot) {
+        this.officerSlot = officerSlot;
+    }
+
+    public void setOfficers(List<String> officers) {
+        this.officersID = officers;
+    }
+
     public void setTwoRoomUnits(int twoRoomUnits) {
         this.twoRoomUnits = twoRoomUnits;
     }
@@ -95,12 +95,12 @@ public class BTOProject {
         this.threeRoomUnits = threeRoomUnits;
     }
 
-    public boolean isVisible() {
-        return visibility;
-    }
-
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
+    }
+
+    public boolean isVisible() {
+        return visibility;
     }
 
     @Override
@@ -111,9 +111,9 @@ public class BTOProject {
                "3-Room Units: " + threeRoomUnits + " (Price: $" + sellingPriceForType2 + ")\n" +
                "Application Opening Date: " + openingDate + "\n" +
                "Application Closing Date: " + closingDate + "\n" +
-               "Manager: " + manager + "\n" +
+               "Manager: " + managerID + "\n" +
                "Officer Slot: " + officerSlot + "\n" +
-               "Officers: " + String.join(", ", officers) + "\n" +
+               "Officers: " + String.join(", ", officersID) + "\n" +
                "Visibility: " + (visibility ? "Visible" : "Hidden") + "\n" +
                "--------------------------------------------------";
     }

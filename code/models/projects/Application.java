@@ -1,22 +1,22 @@
-package models;
+package models.projects;
 
 import java.util.Date;
 
 public class Application {
-    protected String user;
+    protected String userID;
     protected String projectName;
     protected String status;
     protected Date applicationDate;
 
     public Application(String user, String projectName, String status, Date applicationDate) {
-        this.user = user;
+        this.userID = user;
         this.projectName = projectName;
         this.status = status;
         this.applicationDate = applicationDate;
     }
 
     public String getUser() {
-        return user;
+        return userID;
     }
 
     public String getProjectName() {
@@ -38,6 +38,6 @@ public class Application {
     @Override
     public String toString() {
         return String.format("Application[User=%s, Project=%s, Status=%s, ApplicationDate=%s]",
-                user, projectName, status, applicationDate);
+                userID, projectName, status, applicationDate);
     }
 }

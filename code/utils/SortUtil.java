@@ -2,8 +2,9 @@ package utils;
 
 import java.util.Comparator;
 import java.util.List;
-import models.BTOProject;
-import models.FilterSettings;
+
+import models.projects.BTOProject;
+import models.projects.FilterSettings;
 
 public class SortUtil {
 
@@ -60,7 +61,7 @@ public class SortUtil {
     }
 
     public static List<BTOProject> sortByManager(List<BTOProject> projects, boolean ascending) {
-        projects.sort(Comparator.comparing(BTOProject::getManager, ascending ? Comparator.naturalOrder() : Comparator.reverseOrder()));
+        projects.sort(Comparator.comparing(BTOProject::getManagerID, ascending ? Comparator.naturalOrder() : Comparator.reverseOrder()));
         return projects;
     }
 
