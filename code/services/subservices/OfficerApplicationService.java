@@ -1,9 +1,9 @@
 package services.subservices;
 
+import database.dataclass.projects.OfficerAppDB;
 import java.util.ArrayList;
 import java.util.List;
-
-import database.dataclass.projects.OfficerAppDB;
+import models.enums.ProjectAppStat;
 import models.projects.Application;
 import models.projects.OfficerApplication;
 import services.interfaces.IApplicationService;
@@ -21,7 +21,7 @@ public class OfficerApplicationService implements IApplicationService {
         saveApplications();
     }
 
-    public static void updateApplicationStatus(String user, String project, String newStatus) {
+    public static void updateApplicationStatus(String user, String project, ProjectAppStat newStatus) {
         for (Application application : applications) {
             if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
                 application.setStatus(newStatus);
@@ -35,7 +35,7 @@ public class OfficerApplicationService implements IApplicationService {
     public static List<Application> getApplicationsByUser(String nric) {
         List<Application> result = new ArrayList<>();
         for (Application application : applications) {
-            if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
+            if (application.getUser().equalsIgnoreCase(nric) && !(application.getStatus() == ProjectAppStat.WITHDRAW)) {
                 result.add(application);
             }
         }
