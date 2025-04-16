@@ -2,9 +2,9 @@ package models.users;
 
 import java.time.LocalDateTime;
 
+import archive.ProjectController;
 import models.projects.Enquiry;
-import services.EnquiryService;
-import services.controller.ProjectController;
+import services.subservices.EnquiryService;
 
 public abstract class User {
     protected String name;

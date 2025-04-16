@@ -1,10 +1,10 @@
-package services.controller;
+package archive;
 
 import java.util.*;
 
 import models.projects.BTOProject;
 import models.projects.ProjectApplication;
-import services.ProjectApplicationService;
+import services.subservices.ProjectApplicationService;
 import utils.FileLoader;
 import utils.FileSaver;
 
@@ -39,18 +39,18 @@ public class ProjectController{
 
     public void registerForProject(String projectName, String roomType) {
 
-        if (ProjectController.getProjects().stream().anyMatch(p -> p.getProjectName().equals(projectName))) {
-            projectApplication = new ProjectApplication(this.name, projectName, "Pending", new Date(), roomType);
-            ProjectApplicationService.addApplication(projectApplication);
-            System.out.println("Registration submitted for project: " + projectName);
-        } else {
-            System.out.println("Project not found.");
-        }
+        // if (ProjectController.getProjects().stream().anyMatch(p -> p.getProjectName().equals(projectName))) {
+        //     projectApplication = new ProjectApplication(this.name, projectName, "Pending", new Date(), roomType);
+        //     ProjectApplicationService.addApplication(projectApplication);
+        //     System.out.println("Registration submitted for project: " + projectName);
+        // } else {
+        //     System.out.println("Project not found.");
+        // }
     }
 
     
 
-    public static void viewProject(List<>){
+    // public static void viewProject(List<>){
 
-    }
+    // }
 }

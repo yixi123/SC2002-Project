@@ -1,7 +1,7 @@
 package models.users;
 
+import archive.ProjectController;
 import models.projects.BTOProject;
-import services.controller.ProjectController;
 
 public class HDBOfficer extends Applicant {
     private BTOProject assignedProject;

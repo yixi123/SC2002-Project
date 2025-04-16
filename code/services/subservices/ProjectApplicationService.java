@@ -1,13 +1,14 @@
-package services;
+package services.subservices;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import models.projects.ProjectApplication;
+import services.interfaces.IApplicationService;
 import utils.FileLoader;
 import utils.FileSaver;
 
-public class ProjectApplicationService {
+public class ProjectApplicationService implements IApplicationService{
     private static List<ProjectApplication> applications = FileLoader.loadProjectApplications("code/database/ProjectApplicationList.csv");
 
     public static List<ProjectApplication> getApplications() {

@@ -8,133 +8,94 @@ import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
-import services.*;
+
+import services.controller.ApplicantController;
 import services.controller.AuthController;
+import services.controller.ManagerController;
+import services.controller.OfficerController;
 import utils.*;
 
 
 import database.dataclass.users.*;
+import exception.AuthException;
 import database.dataclass.projects.*;
 
-public class MainApp {
+public class MainApp{
     static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
 
     public static void main(String[] args) {
         initiateDB(); // Initialize databases
 
-        AuthController loginManager = new AuthController();
-        Scanner scanner = new Scanner(System.in);
-        String nric, password;
+        AuthController auth = new AuthController();
+        Scanner sc = new Scanner(System.in);
+        
+        try{
+            entryMenu(sc, auth);
+        }
+        //Security Measure: Unexpected Error
+        catch(Exception e){
+            System.out.println("System crashed! Please restart!");
+            saveDB();
+        }
 
-        try {
-            User user = loginManager.authenticate(nric, password);
-            if (user != null) {
-                System.out.println("Login successful! Welcome, " + user.getNric());
-                System.out.println("Role: " + user.getRole());
+    }
 
-                // Example: Password change functionality
-                System.out.print("Do you want to change your password? (yes/no): ");
-                String changePassword = scanner.nextLine();
-                if (changePassword.equalsIgnoreCase("yes")) {
-                    System.out.print("Enter old password: ");
-                    String oldPassword = scanner.nextLine();
-                    System.out.print("Enter new password: ");
-                    String newPassword = scanner.nextLine();
-                    loginManager.updatePassword(user, oldPassword, newPassword);
-                    System.out.println("Password updated successfully. Please log in again.");
-                    return;
+    public static void entryMenu(Scanner sc, AuthController auth){
+        int choice = 0;
+
+        System.out.println("=========================================");
+        System.out.println("\tBTO Project Management System");
+        System.out.println("=========================================");
+
+        do{
+            try{
+                System.out.println("1. Log In");
+                System.out.println("2. Register as Applicant");
+                System.out.println("3. Exit App");
+                System.out.println("-----------------------------------------");
+                System.out.printf("Enter your choice (1-3): ");
+                System.out.println("-----------------------------------------");
+                choice = sc.nextInt(); sc.nextLine();
+                
+                switch(choice){
+                    case 1:
+                        User user = auth.login(sc); 
+                        navigateMenu(user, sc);
+                        break;
+                    case 2:
+                        //yet to be done
+                        break;
+                    case 3:
+                        System.out.println("Exiting...");
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Invalid choice. Please try again.");
                 }
-
-                // Role-based navigation
-                if (user instanceof Applicant) {
-                    applicantMenu((Applicant) user, scanner);
-                } else if (user instanceof HDBOfficer) {
-                    hdbOfficerMenu((HDBOfficer) user, scanner);
-                } else if (user instanceof HDBManager) {
-                    hdbManagerMenu((HDBManager) user, scanner);
-                }
-            } else {
-                System.out.println("Invalid NRIC or password.");
             }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            catch(AuthException e){
+                System.out.println(e.getMessage());
+            }
+            catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+            }
+
+        } while (choice != 3);
+        
+        System.out.println("\t\tThank you!");
+        System.out.println("=========================================");
+    }
+        
+    public static void navigateMenu(User user, Scanner sc){
+        if(user instanceof Applicant){
+            ApplicantController.start(sc);
+        }
+        else if(user instanceof HDBOfficer){
+            OfficerController.start(sc);
+        }
+        else if(user instanceof HDBManager){
+            ManagerController.start(sc);
         }
     }
-
-    private static void applicantMenu(Applicant applicant, Scanner scanner) {
-    }
-
-    private static void hdbOfficerMenu(HDBOfficer officer, Scanner scanner) {
-
-        System.out.println("HDB Officer Menu:");
-        int choice;
-        do {
-            System.out.println("1. View Projects");
-            System.out.println("2. Apply for Project");
-            System.out.println("3. View Application Status");
-            System.out.println("4. Withdraw Application");
-            System.out.println("5. Register to Handle a Project");
-            System.out.println("6. View Status of Registration");
-            System.out.println("7. View Details of Assigned Project");
-            System.out.println("8. View and Reply to Enquiries");
-            System.out.println("9. Update Flat Booking Details");
-            System.out.println("10. Generate Receipt for Applicant");
-            System.out.println("11. Exit");
-            System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-            switch (choice) {
-                case 1 -> officer.viewProjects();
-                case 2 -> {
-                    System.out.print("Enter project name to apply: ");
-                    String projectName = scanner.nextLine();
-                    System.out.print("Enter room type (2-Room or 3-Room): ");
-                    String roomType = scanner.nextLine();
-                    officer.registerForProject(projectName, roomType);
-                }
-                case 3 -> officer.viewApplicationStatus();
-                case 4 -> officer.withdrawApplication();
-                case 5 -> {
-                    System.out.print("Enter project name to register as HDB Officer: ");
-                    String projectName = scanner.nextLine();
-                    // Logic to check criteria and register for the project
-                }
-                case 6 -> {
-                    System.out.println("Registration Status:");
-                    // Logic to display registration status
-                }
-                case 7 -> {
-                    System.out.println("Details of Assigned Project:");
-                    // Logic to display project details regardless of visibility
-                }
-                case 8 -> {
-                    System.out.println("Enquiries for Assigned Project:");
-                    // Logic to view and reply to enquiries
-                    System.out.print("Enter enquiry ID to reply: ");
-                    int enquiryId = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    System.out.print("Enter your reply: ");
-                    String replyContent = scanner.nextLine();
-                    // Logic to add reply to the enquiry
-                }
-                case 9 -> {
-                    System.out.print("Enter applicant NRIC: ");
-                    String applicantNric = scanner.nextLine();
-                    System.out.print("Enter flat type (2-Room or 3-Room): ");
-                    String flatType = scanner.nextLine();
-                    // Logic to update flat booking details
-                }
-                case 10 -> {
-                    System.out.print("Enter applicant NRIC to generate receipt: ");
-                    String applicantNric = scanner.nextLine();
-                    // Logic to generate and display receipt
-                }
-                case 11 -> System.out.println("Exiting...");
-                default -> System.out.println("Invalid choice.");
-            }
-        } while (choice != 11);
-    }
-
     
     public static void initiateDB() {
         // Load data from files into respective databases
@@ -145,8 +106,7 @@ public class MainApp {
         EnquiryDB.initiateDB();
     }
 
-    private static void hdbManagerMenu(HDBManager manager, Scanner scanner) {
-        System.out.println("HDB Manager Menu:");
-        // Add menu options for HDB Manager
+    public static void saveDB(){
+        //save DB
     }
 }

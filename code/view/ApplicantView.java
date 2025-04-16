@@ -5,12 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Scanner;
 
+import archive.ProjectController;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.FilterSettings;
-import services.EnquiryService;
 import services.controller.ApplicantController;
-import services.controller.ProjectController;
+import services.subservices.EnquiryService;
 import utils.FilterUtil;
 import utils.SortUtil;
 

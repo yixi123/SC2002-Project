@@ -1,20 +1,22 @@
-package services;
+package services.subservices;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import database.dataclass.projects.OfficerAppDB;
 import models.projects.Application;
-import utils.FileLoader;
-import utils.FileSaver;
+import models.projects.OfficerApplication;
+import services.interfaces.IApplicationService;
 
-public class OfficerApplicationService {
-    private static List<Application> applications = FileLoader.loadOfficerApplications("code/database/OfficerApplicationList.csv");
 
-    public static List<Application> getApplications() {
+public class OfficerApplicationService implements IApplicationService {
+    private static List<OfficerApplication> applications = OfficerAppDB.getDB();
+
+    public static List<OfficerApplication> getApplications() {
         return applications;
     }
 
-    public static void addApplication(Application application) {
+    public static void addApplication(OfficerApplication application) {
         applications.add(application);
         saveApplications();
     }
@@ -51,6 +53,6 @@ public class OfficerApplicationService {
     }
 
     private static void saveApplications() {
-        FileSaver.saveOfficerApplications("code/database/OfficerApplicationList.csv", applications);
+        OfficerAppDB.updateDB(applications);
     }
 }

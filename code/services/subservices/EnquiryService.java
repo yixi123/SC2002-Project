@@ -1,4 +1,4 @@
-package services;
+package services.subservices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import models.projects.Enquiry;
 import utils.FileLoader;
 import utils.FileSaver;
 
-public class EnquiryService {
+public class EnquiryService implements IEnquiryService {
     private static List<Enquiry> enquiries = FileLoader.loadEnquiries("code/database/EnquiresList.csv");
 
     public static List<Enquiry> getEnquiries() {
@@ -58,7 +58,7 @@ public class EnquiryService {
     public static List<Enquiry> getEnquiriesByProject(String project) {
         List<Enquiry> result = new ArrayList<>();
         for (Enquiry enquiry : enquiries) {
-            if (enquiry.getCategory().equalsIgnoreCase("Enquiry") && enquiry.getProject().equalsIgnoreCase(project)) {
+            if (enquiry.getCategory().equalsIgnoreCase("Enquiry") && enquiry.getProjectID().equalsIgnoreCase(project)) {
                 result.add(enquiry);
             }
         }

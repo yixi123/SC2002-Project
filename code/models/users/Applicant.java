@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import models.projects.ProjectApplication;
-import services.ProjectApplicationService;
+import services.subservices.ProjectApplicationService;
 
 public class Applicant extends User {
     protected ProjectApplication appliedProject;
