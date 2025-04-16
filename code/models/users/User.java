@@ -1,19 +1,15 @@
 package models.users;
 
-import java.time.LocalDateTime;
-
-import archive.ProjectController;
-import models.projects.Enquiry;
-import services.subservices.EnquiryService;
+import models.enums.MaritalStatus;
 
 public abstract class User {
     protected String name;
     protected String nric;
     protected String password;
     protected int age;
-    protected String maritalStatus;
+    protected MaritalStatus maritalStatus;
 
-    public User(String name, String nric, String password, int age, String maritalStatus) {
+    public User(String name, String nric, String password, int age, MaritalStatus maritalStatus) {
         this.name = name;
         this.nric = nric;
         this.password = password;
@@ -37,7 +33,7 @@ public abstract class User {
         return age;
     }
 
-    public String getMaritalStatus() {
+    public MaritalStatus getMaritalStatus() {
         return maritalStatus;
     }
 

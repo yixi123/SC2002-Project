@@ -1,12 +1,13 @@
 package models.users;
 
 import archive.ProjectController;
+import models.enums.MaritalStatus;
 import models.projects.BTOProject;
 
 public class HDBOfficer extends Applicant {
     private BTOProject assignedProject;
 
-    public HDBOfficer(String name, String nric, String password, int age, String maritalStatus) {
+    public HDBOfficer(String name, String nric, String password, int age, MaritalStatus maritalStatus) {
         super(name, nric, password, age, maritalStatus);
         this.assignedProject = ProjectController.getAssignedProjectByOfficer(name);
     }

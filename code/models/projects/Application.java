@@ -1,14 +1,15 @@
 package models.projects;
 
 import java.util.Date;
+import models.enums.ProjectAppStat;
 
 public class Application {
     protected String userID;
     protected String projectName;
-    protected String status;
+    protected ProjectAppStat status;
     protected Date applicationDate;
 
-    public Application(String user, String projectName, String status, Date applicationDate) {
+    public Application(String user, String projectName, ProjectAppStat status, Date applicationDate) {
         this.userID = user;
         this.projectName = projectName;
         this.status = status;
@@ -23,7 +24,7 @@ public class Application {
         return projectName;
     }
 
-    public String getStatus() {
+    public ProjectAppStat getStatus() {
         return status;
     }
 
@@ -31,7 +32,7 @@ public class Application {
         return applicationDate;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ProjectAppStat status) {
         this.status = status;
     }
 

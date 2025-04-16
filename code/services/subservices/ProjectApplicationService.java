@@ -3,6 +3,8 @@ package services.subservices;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import models.enums.FlatType;
+import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 import services.interfaces.IApplicationService;
@@ -18,13 +20,13 @@ public class ProjectApplicationService implements IApplicationService{
         return applications;
     }
 
-    public static void addApplication(BTOProject project, String userID, String flatType) {
-        ProjectApplication application = new ProjectApplication(userID, project.getProjectName(), "Pending", new Date(), flatType);
+    public static void addApplication(BTOProject project, String userID, FlatType flatType) {
+        ProjectApplication application = new ProjectApplication(userID, project.getProjectName(), ProjectAppStat.PENDING, new Date(), flatType);
         applications.add(application);
         saveApplications();
     }
 
-    public static void updateApplicationStatus(String user, String project, String newStatus) {
+    public static void updateApplicationStatus(String user, String project, ProjectAppStat newStatus) {
         for (ProjectApplication application : applications) {
             if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
                 application.setStatus(newStatus);
@@ -37,7 +39,7 @@ public class ProjectApplicationService implements IApplicationService{
 
     public static ProjectApplication getApplicationByUser(String nric) {
         for (ProjectApplication application : applications) {
-            if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
+            if (application.getUser().equalsIgnoreCase(nric) && !(application.getStatus() == ProjectAppStat.UNSUCCESSFUL)) {
                 return application;
             }
         }
