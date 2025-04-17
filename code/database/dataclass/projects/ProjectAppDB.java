@@ -23,7 +23,7 @@ public class ProjectAppDB {
 
   public static ProjectApplication getApplicationByUser(String nric) {
       for (ProjectApplication application : db) {
-          if (application.getUser().equalsIgnoreCase(nric) && !(application.getStatus() == ProjectAppStat.UNSUCCESSFUL)) {
+          if (application.getUser().equalsIgnoreCase(nric) && !(application.getStatus() == ProjectAppStat.WITHDRAWN)) {
               return application;
           }
       }

@@ -26,7 +26,7 @@ public class OfficerAppDB {
   public static List<OfficerApplication> getApplicationsByUser(String nric) {
       List<OfficerApplication> result = new ArrayList<>();
       for (OfficerApplication application : db) {
-          if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equals(ProjectAppStat.WITHDRAWN)) {
+          if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equals()) {
               result.add(application);
           }
       }
