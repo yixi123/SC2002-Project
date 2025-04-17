@@ -108,13 +108,13 @@ public class FileLoader implements IFileLoader {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 BTOProject project = new BTOProject(
-                    data[0], data[1], Integer.parseInt(data[3]), Integer.parseInt(data[6]),
-                    Double.parseDouble(data[4]), Double.parseDouble(data[7]),
-                    dateFormat.parse(data[8]), dateFormat.parse(data[9]), Boolean.parseBoolean(data[13])
+                    data[0], data[1], Integer.parseInt(data[2]), Integer.parseInt(data[4]),
+                    Double.parseDouble(data[3]), Double.parseDouble(data[5]),
+                    dateFormat.parse(data[6]), dateFormat.parse(data[7]), Boolean.parseBoolean(data[11])
                 );
-                project.setManagerID(data[10]);
-                project.setOfficerSlot(Integer.parseInt(data[11]));
-                project.setOfficers(Arrays.asList(data[12].split(";")));
+                project.setManagerID(data[8]);
+                project.setOfficerSlot(Integer.parseInt(data[9]));
+                project.setOfficers(Arrays.asList(data[10].split(";")));
                 projects.add(project);
             }
         } catch (IOException | ParseException e) {

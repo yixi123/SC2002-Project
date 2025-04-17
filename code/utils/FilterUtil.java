@@ -3,7 +3,6 @@ package utils;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import models.projects.BTOProject;
 import models.projects.FilterSettings;
 
@@ -91,6 +90,9 @@ public class FilterUtil {
         }
         if (settings.getOfficerSlot() != null && settings.getOfficerSlot() > 0) {
             filteredProjects = filterByOfficerSlot(filteredProjects, settings.getOfficerSlot());
+        }
+        if (settings.getVisibility()) {
+            filteredProjects = filterByVisibility(filteredProjects);
         }
 
         return filteredProjects;

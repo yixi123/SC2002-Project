@@ -3,6 +3,7 @@ package services.interfaces;
 import java.util.Scanner;
 
 import models.enums.FlatType;
+import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.users.Applicant;
 import models.users.HDBOfficer;

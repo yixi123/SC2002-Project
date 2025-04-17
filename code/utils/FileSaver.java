@@ -15,13 +15,13 @@ import models.users.HDBOfficer;
 
 public class FileSaver {
 
-    private static final String APPLICANTS_FILE = "code/database/ApplicantList.csv";
-    private static final String OFFICERS_FILE = "code/database/OfficerList.csv";
-    private static final String MANAGERS_FILE = "code/database/ManagerList.csv";
-    private static final String PROJECTS_FILE = "code/database/ProjectList.csv";
-    private static final String ENQUIRIES_FILE = "code/database/EnquiresList.csv";
-    private static final String PROJECT_APPLICATIONS_FILE = "code/database/ProjectApplicationList.csv";
-    private static final String OFFICER_APPLICATIONS_FILE = "code/database/OfficerApplicationList.csv";
+    private static final String APPLICANTS_FILE = "code/database/csv/ApplicantList.csv";
+    private static final String OFFICERS_FILE = "code/database/csv/OfficerList.csv";
+    private static final String MANAGERS_FILE = "code/database/csv/ManagerList.csv";
+    private static final String PROJECTS_FILE = "code/database/csv/ProjectList.csv";
+    private static final String ENQUIRIES_FILE = "code/database/csv/EnquiresList.csv";
+    private static final String PROJECT_APPLICATIONS_FILE = "code/database/csv/ProjectApplicationList.csv";
+    private static final String OFFICER_APPLICATIONS_FILE = "code/database/csv/OfficerApplicationList.csv";
 
     public static void saveApplicants(List<Applicant> applicants) {
         saveApplicants(APPLICANTS_FILE, applicants);
@@ -101,10 +101,10 @@ public class FileSaver {
 
     public static void saveProjects(String filePath, List<BTOProject> projects) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            bw.write("Project Name,Neighborhood,Type 1,Number of units for Type 1,Selling price for Type 1,Type 2,Number of units for Type 2,Selling price for Type 2,Application opening date,Application closing date,Manager,Officer Slot,Officer,Visibility\n"); // Updated header
+            bw.write("Project Name,Neighborhood,Number of units for 2-room,Selling price for 2-room,Number of units for 3-room,Selling price for 3-room,Application opening date,Application closing date,Manager,Officer Slot,Officer,Visibility\n"); // Updated header
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             for (BTOProject project : projects) {
-                bw.write(String.format("%s,%s,2-Room,%d,%.2f,3-Room,%d,%.2f,%s,%s,%s,%d,%s,%b\n",
+                bw.write(String.format("%s,%s,%d,%.2f,%d,%.2f,%s,%s,%s,%d,%s,%b\n",
                         project.getProjectName(),
                         project.getNeighborhood(),
                         project.getTwoRoomUnits(),
@@ -150,7 +150,7 @@ public class FileSaver {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date,Flat Type\n"); // Header
             for (ProjectApplication application : applications) {
-                bw.write(String.format("%s,%s,%s,%s\n",
+                bw.write(String.format("%s,%s,%s,%s,%s\n",
                         application.getUser(),
                         application.getProjectName(),
                         application.getStatus().toString(),

@@ -10,7 +10,6 @@ import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
 
-
 public class AuthController {
     private static int attempt = 1;
     private static final int MAX_ATTEMPTS = 3;
@@ -26,7 +25,7 @@ public class AuthController {
         System.out.println("--------------------------------");
 
         try{
-            User currentUser = authenticate(nric, password);
+            currentUser = authenticate(nric, password);
             System.out.println("Login successful! Welcome " + currentUser.getName() + ".");
             System.out.println("--------------------------------");
             return currentUser;

@@ -1,21 +1,15 @@
 package services.subservices;
 
-import java.util.ArrayList;
+import database.dataclass.projects.ProjectAppDB;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-
-import database.dataclass.projects.ProjectAppDB;
 import models.enums.FlatType;
 import models.enums.MaritalStatus;
 import models.enums.ProjectAppStat;
-import models.projects.Application;
-import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import services.interfaces.IProjectApplicationService;
-import utils.FileLoader;
-import utils.FileSaver;
 
 
 
@@ -68,12 +62,26 @@ public class ProjectApplicationService implements IProjectApplicationService{
         List<ProjectApplication> applications = ProjectAppDB.getDB();
         for (ProjectApplication application : applications) {
             if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
-                application.setStatus(newStatus);
-                ProjectAppDB.updateDB(applications);
+                updateApplicationStatus(application, newStatus);
                 return;
             }
         }
         System.out.println("Application not found!");
+    }
+
+    public void updateApplicationStatus(ProjectApplication application, ProjectAppStat newStatus) {
+        if (newStatus == application.getStatus()) {
+            System.out.println("Application status is already " + newStatus);
+            return;
+        }
+        application.setStatus(newStatus);
+        ProjectAppDB.updateDB();
+        System.out.println("Application status updated to: " + newStatus);
+    }
+
+    @Override
+    public void withdrawApplication(ProjectApplication application){
+        updateApplicationStatus(application, ProjectAppStat.WITHDRAW_REQ);
     }
 
     public void withdrawApplication(String userId, String project){
@@ -84,8 +92,13 @@ public class ProjectApplicationService implements IProjectApplicationService{
         updateApplicationStatus(userId, project, ProjectAppStat.BOOK_REQ);
     }
 
-    public ProjectAppStat viewApplicationStatus(String user){
-        return ProjectAppDB.getApplicationByUser(user).getStatus();
+    public ProjectAppStat getApplicationStatus(String user){
+        ProjectApplication application = ProjectAppDB.getApplicationByUser(user);
+        if (application == null) {
+            System.out.println("No application found for user: " + user);
+            return null;
+        }
+        return application.getStatus();
     }
 
     private boolean checkApplicationEligibility(int age, MaritalStatus status, FlatType flatType){

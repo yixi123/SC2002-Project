@@ -1,24 +1,16 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
+import database.dataclass.projects.*;
+import database.dataclass.users.*;
+import exception.AuthException;
 import java.util.Scanner;
-import models.*;
 import models.projects.FilterSettings;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
-
 import services.controller.ApplicantController;
 import services.controller.AuthController;
 import services.controller.ManagerController;
 import services.controller.OfficerController;
-import utils.*;
-
-
-import database.dataclass.users.*;
-import exception.AuthException;
-import database.dataclass.projects.*;
 
 public class MainApp{
     static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
@@ -29,14 +21,15 @@ public class MainApp{
         AuthController auth = new AuthController();
         Scanner sc = new Scanner(System.in);
         
-        try{
+        // try{
             entryMenu(sc, auth);
-        }
+        // }
         //Security Measure: Unexpected Error
-        catch(Exception e){
-            System.out.println("System crashed! Please restart!");
-            saveDB();
-        }
+        // catch(Exception e){
+        //     System.out.println("System crashed! Please restart!");
+        //     System.out.println("Error: " + e.getMessage());
+        //     saveDB();
+        // }
 
     }
 
@@ -53,7 +46,7 @@ public class MainApp{
                 System.out.println("2. Register as Applicant");
                 System.out.println("3. Exit App");
                 System.out.println("-----------------------------------------");
-                System.out.printf("Enter your choice (1-3): ");
+                System.out.println("Enter your choice (1-3): ");
                 System.out.println("-----------------------------------------");
                 choice = sc.nextInt(); sc.nextLine();
                 
@@ -107,6 +100,8 @@ public class MainApp{
         ManagerDB.initiateDB();
         ProjectDB.initiateDB();
         EnquiryDB.initiateDB();
+        ProjectAppDB.initiateDB();
+        OfficerAppDB.initiateDB();
     }
 
     public static void saveDB(){
