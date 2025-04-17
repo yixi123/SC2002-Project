@@ -1,5 +1,6 @@
 package database.dataclass.projects;
 
+import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.Application;
 import models.projects.OfficerApplication;
@@ -26,7 +27,7 @@ public class OfficerAppDB {
   public static List<OfficerApplication> getApplicationsByUser(String nric) {
       List<OfficerApplication> result = new ArrayList<>();
       for (OfficerApplication application : db) {
-          if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equals()) {
+          if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equals(OfficerAppStat.REJECTED)) {
               result.add(application);
           }
       }

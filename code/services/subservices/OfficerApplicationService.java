@@ -3,12 +3,15 @@ package services.subservices;
 import database.dataclass.projects.OfficerAppDB;
 import java.util.ArrayList;
 import java.util.List;
+
+import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import java.util.Scanner;
 
 import database.dataclass.projects.OfficerAppDB;
 import models.projects.Application;
 import models.projects.OfficerApplication;
+import models.users.HDBOfficer;
 import services.interfaces.IOfficerApplicationService;
 
 
@@ -19,7 +22,7 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         return applications;
     }
 
-    public static void addApplication(OfficerApplication application) {
+    public void addApplication(String projectName, String userID){
         applications.add(application);
         saveApplications();
     }
@@ -58,4 +61,5 @@ public class OfficerApplicationService implements IOfficerApplicationService {
     private static void saveApplications() {
         OfficerAppDB.updateDB(applications);
     }
+
 }
