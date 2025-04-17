@@ -32,7 +32,7 @@ public class ApplicantController extends UserController {
     @Override
     public void start(Scanner sc){
         ApplicantController app = new ApplicantController();
-
+        filterSettings.setVisibility(true);
         int choice;
 
         do{

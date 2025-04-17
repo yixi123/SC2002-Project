@@ -1,18 +1,20 @@
 package models.projects;
 import java.util.Date;
+import models.enums.FlatType;
 
 public class FilterSettings {
     private String projectName;
     private Date openingDate;
     private Date closingDate;
     private String neighborhood;
-    private String flatType;
+    private FlatType flatType;
     private Double maxPriceForType1;
     private Double maxPriceForType2;
     private String manager;
     private Integer minTwoRoomUnits;
     private Integer minThreeRoomUnits;
     private Integer officerSlot;
+    private Boolean visibility;
     private SortBy sortBy;
     private boolean sortAscending;
 
@@ -53,11 +55,11 @@ public class FilterSettings {
         this.neighborhood = neighborhood;
     }
 
-    public String getFlatType() {
+    public FlatType getFlatType() {
         return flatType;
     }
 
-    public void setFlatType(String flatType) {
+    public void setFlatType(FlatType flatType) {
         this.flatType = flatType;
     }
 
@@ -115,6 +117,14 @@ public class FilterSettings {
 
     public void setSortBy(SortBy sortBy) {
         this.sortBy = sortBy;
+    }
+
+    public Boolean getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Boolean visibility) {
+        this.visibility = visibility;
     }
 
     public boolean isSortAscending() {
