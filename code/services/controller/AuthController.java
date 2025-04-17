@@ -10,7 +10,6 @@ import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
 
-
 public class AuthController {
     private static int attempt = 1;
     private static final int MAX_ATTEMPTS = 3;
