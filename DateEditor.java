@@ -5,7 +5,16 @@ public class DateEditor implements IDateEditor {
     @Override
     public void editDates() {
         Scanner sc = new Scanner(System.in);
-        Project project = ActiveProjectResolver.getCurrentProject((HDBManager) LoginSession.getUser());
+        HDBManager manager = (HDBManager) LoginSession.getUser();
+
+        // Loop through all projects and find the active one
+        Project project = null;
+        for (Project p : ProjectDB.getAllProjects()) {
+            if (p.getManager().equals(manager) && p.isVisible()) {
+                project = p;
+                break;
+            }
+        }
 
         if (project == null) {
             System.out.println("❌ No active project to edit.");

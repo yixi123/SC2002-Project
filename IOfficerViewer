@@ -1,0 +1,4 @@
+public interface IOfficerViewer {
+    void viewPendingOfficers(Project project);
+    void viewApprovedOfficers(Project project);
+}

@@ -1,0 +1,5 @@
+public interface IApplicationHandler {
+    void approveApplication(Applicant applicant);
+    void rejectApplication(Applicant applicant);
+    void handleWithdrawal(Applicant applicant, boolean approve);
+}

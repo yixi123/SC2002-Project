@@ -1,19 +1,26 @@
 public class VisibilityToggler implements IVisibilityToggler {
+    private final ManagerController controller;
+
+    public VisibilityToggler(ManagerController controller) {
+        this.controller = controller;
+    }
+
     @Override
     public void toggleVisibility(Project selectedProject) {
-        HDBManager manager = (HDBManager) LoginSession.getUser();
+        HDBManager manager = controller.getCurrentManager();
 
         if (!selectedProject.getManager().equals(manager)) {
             System.out.println("❌ Not your project.");
-            return;
+            return;s
         }
 
         if (!selectedProject.isVisible()) {
-            if (ActiveProjectResolver.getCurrentProject(manager) != null) {
+            if (hasActiveProject(manager)) {
                 System.out.println("❌ You already have an active project.");
                 return;
             }
 
+            // Set all manager's projects to invisible
             for (Project p : ProjectDB.getAllProjects()) {
                 if (p.getManager().equals(manager)) {
                     p.setVisible(false);
@@ -26,5 +33,14 @@ public class VisibilityToggler implements IVisibilityToggler {
             selectedProject.setVisible(false);
             System.out.println("🔕 Project visibility turned off.");
         }
+    }
+
+    private boolean hasActiveProject(HDBManager manager) {
+        for (Project p : ProjectDB.getAllProjects()) {
+            if (p.getManager().equals(manager) && p.isVisible()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

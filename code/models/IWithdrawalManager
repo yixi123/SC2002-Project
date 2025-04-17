@@ -1,0 +1,3 @@
+public interface IWithdrawalManager {
+    void handleWithdrawal(Applicant applicant, boolean approve);
+}

@@ -1,12 +1,17 @@
 public class ApplicationRejector implements IApplicationRejector {
+    private final ManagerController controller;
+
+    public ApplicationRejector(ManagerController controller) {
+        this.controller = controller;
+    }
+
     @Override
     public void rejectApplication(Applicant applicant) {
-        HDBManager manager = (HDBManager) LoginSession.getUser();
+        HDBManager manager = controller.getCurrentManager();
         Project project = applicant.getProject();
 
-        if (!project.getManager().equals(manager) ||
-            !ActiveProjectResolver.getCurrentProject(manager).equals(project)) {
-            System.out.println("❌ Cannot reject: Not your active project.");
+        if (!project.getManager().equals(manager) || !project.isVisible()) {
+            System.out.println("❌ Cannot reject: Not your visible project.");
             return;
         }
 

@@ -1,24 +1,28 @@
 public class ApplicationApprover implements IApplicationApprover {
-    private final IFlatQuotaValidator quotaValidator = new FlatQuotaValidator();
-    private final IFlatQuotaReducer quotaReducer = new FlatQuotaReducer();
+    private final ManagerController controller;
+    private final IFlatQuotaManager quotaManager;
+
+    public ApplicationApprover(ManagerController controller, IFlatQuotaManager quotaManager) {
+        this.controller = controller;
+        this.quotaManager = quotaManager;
+    }
 
     @Override
     public void approveApplication(Applicant applicant) {
-        HDBManager manager = (HDBManager) LoginSession.getUser();
+        HDBManager manager = controller.getCurrentManager();
         Project project = applicant.getProject();
 
-        if (!project.getManager().equals(manager) ||
-            !ActiveProjectResolver.getCurrentProject(manager).equals(project)) {
-            System.out.println("❌ Cannot approve: Not your active project.");
+        if (!project.getManager().equals(manager) || !project.isVisible()) {
+            System.out.println("❌ Cannot approve: Not your visible project.");
             return;
         }
 
-        if (!quotaValidator.isFlatAvailable(project, applicant.getRequestedFlatType())) {
+        if (!quotaManager.isFlatAvailable(project, applicant.getRequestedFlatType())) {
             System.out.println("❌ No units available for requested flat type.");
             return;
         }
 
-        quotaReducer.reduceFlatQuota(project, applicant.getRequestedFlatType());
+        quotaManager.reduceFlatQuota(project, applicant.getRequestedFlatType());
         applicant.setStatus(ApplicationStatus.APPROVED);
 
         System.out.println("✅ Application approved.");
