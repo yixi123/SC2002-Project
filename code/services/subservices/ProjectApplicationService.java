@@ -78,8 +78,13 @@ public class ProjectApplicationService implements IProjectApplicationService{
         updateApplicationStatus(userId, project, ProjectAppStat.BOOK_REQ);
     }
 
-    public ProjectAppStat viewApplicationStatus(String user){
-        return ProjectAppDB.getApplicationByUser(user).getStatus();
+    public ProjectAppStat getApplicationStatus(String user){
+        ProjectApplication application = ProjectAppDB.getApplicationByUser(user);
+        if (application == null) {
+            System.out.println("No application found for user: " + user);
+            return null;
+        }
+        return application.getStatus();
     }
 
     private boolean checkApplicationEligibility(int age, MaritalStatus status, FlatType flatType){

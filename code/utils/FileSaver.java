@@ -15,13 +15,13 @@ import models.users.HDBOfficer;
 
 public class FileSaver {
 
-    private static final String APPLICANTS_FILE = "code/database/ApplicantList.csv";
-    private static final String OFFICERS_FILE = "code/database/OfficerList.csv";
-    private static final String MANAGERS_FILE = "code/database/ManagerList.csv";
-    private static final String PROJECTS_FILE = "code/database/ProjectList.csv";
-    private static final String ENQUIRIES_FILE = "code/database/EnquiresList.csv";
-    private static final String PROJECT_APPLICATIONS_FILE = "code/database/ProjectApplicationList.csv";
-    private static final String OFFICER_APPLICATIONS_FILE = "code/database/OfficerApplicationList.csv";
+    private static final String APPLICANTS_FILE = "code/database/csv/ApplicantList.csv";
+    private static final String OFFICERS_FILE = "code/database/csv/OfficerList.csv";
+    private static final String MANAGERS_FILE = "code/database/csv/ManagerList.csv";
+    private static final String PROJECTS_FILE = "code/database/csv/ProjectList.csv";
+    private static final String ENQUIRIES_FILE = "code/database/csv/EnquiresList.csv";
+    private static final String PROJECT_APPLICATIONS_FILE = "code/database/csv/ProjectApplicationList.csv";
+    private static final String OFFICER_APPLICATIONS_FILE = "code/database/csv/OfficerApplicationList.csv";
 
     public static void saveApplicants(List<Applicant> applicants) {
         saveApplicants(APPLICANTS_FILE, applicants);
@@ -150,7 +150,7 @@ public class FileSaver {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date,Flat Type\n"); // Header
             for (ProjectApplication application : applications) {
-                bw.write(String.format("%s,%s,%s,%s\n",
+                bw.write(String.format("%s,%s,%s,%s,%s\n",
                         application.getUser(),
                         application.getProjectName(),
                         application.getStatus().toString(),

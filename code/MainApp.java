@@ -21,14 +21,15 @@ public class MainApp{
         AuthController auth = new AuthController();
         Scanner sc = new Scanner(System.in);
         
-        try{
+        // try{
             entryMenu(sc, auth);
-        }
+        // }
         //Security Measure: Unexpected Error
-        catch(Exception e){
-            System.out.println("System crashed! Please restart!");
-            saveDB();
-        }
+        // catch(Exception e){
+        //     System.out.println("System crashed! Please restart!");
+        //     System.out.println("Error: " + e.getMessage());
+        //     saveDB();
+        // }
 
     }
 
@@ -67,7 +68,9 @@ public class MainApp{
             catch(AuthException e){
                 System.out.println(e.getMessage());
             }
-            
+            catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+            }
 
         } while (choice != 3);
         
@@ -97,6 +100,8 @@ public class MainApp{
         ManagerDB.initiateDB();
         ProjectDB.initiateDB();
         EnquiryDB.initiateDB();
+        ProjectAppDB.initiateDB();
+        OfficerAppDB.initiateDB();
     }
 
     public static void saveDB(){

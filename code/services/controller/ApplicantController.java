@@ -4,6 +4,7 @@ import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
 import java.util.List;
 import java.util.Scanner;
+import models.enums.ProjectAppStat;
 import models.projects.*;
 import models.users.Applicant;
 import services.interfaces.IEnquiryService;
@@ -105,12 +106,16 @@ public class ApplicantController extends UserController {
 
     public void viewApplicationStatus() {
         Applicant applicant = retreiveApplicant();
-        projectApplicationService.viewApplicationStatus(applicant.getNric());
+        String userID = applicant.getNric();
+        ProjectAppStat status = projectApplicationService.getApplicationStatus(userID);
+        System.out.print("Your current application status is: " + status + "\n");
     }
 
     public void withdrawProject() {
         Applicant applicant = retreiveApplicant();
         projectApplicationService.withdrawApplication(applicant.getAppliedProject().getProjectName(), applicant.getNric());
+        
+
     }
 
     public void addEnquiry(Scanner sc, BTOProject selectedProject) {
