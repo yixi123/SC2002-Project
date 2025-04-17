@@ -5,17 +5,17 @@ import models.projects.ProjectApplication;
 import services.subservices.ProjectApplicationService;
 
 public class Applicant extends User {
-    protected ProjectApplication appliedProject;
+    protected ProjectApplication currentApplication;
 
     public Applicant(String name, String nric, String password, int age, MaritalStatus maritalStatus) {
         super(name, nric, password, age, maritalStatus);
     }
     
-    public ProjectApplication getAppliedProject() {
-        return appliedProject;
+    public ProjectApplication getCurrentApplication() {
+        return currentApplication;
     }
 
-    public void setAppliedProject(ProjectApplication project){
-        appliedProject = project;
+    public void setCurrentApplication(ProjectApplication project){
+        currentApplication = project;
     }
 }

@@ -62,12 +62,26 @@ public class ProjectApplicationService implements IProjectApplicationService{
         List<ProjectApplication> applications = ProjectAppDB.getDB();
         for (ProjectApplication application : applications) {
             if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
-                application.setStatus(newStatus);
-                ProjectAppDB.updateDB(applications);
+                updateApplicationStatus(application, newStatus);
                 return;
             }
         }
         System.out.println("Application not found!");
+    }
+
+    public void updateApplicationStatus(ProjectApplication application, ProjectAppStat newStatus) {
+        if (newStatus == application.getStatus()) {
+            System.out.println("Application status is already " + newStatus);
+            return;
+        }
+        application.setStatus(newStatus);
+        ProjectAppDB.updateDB();
+        System.out.println("Application status updated to: " + newStatus);
+    }
+
+    @Override
+    public void withdrawApplication(ProjectApplication application){
+        updateApplicationStatus(application, ProjectAppStat.WITHDRAW_REQ);
     }
 
     public void withdrawApplication(String userId, String project){

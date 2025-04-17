@@ -19,6 +19,10 @@ public class ProjectAppDB {
     db = dataList;
     FileSaver.saveProjectApplications(db);
   }
+  public static void updateDB(){
+    FileSaver.saveProjectApplications(db);
+  }
+
 
   public static ProjectApplication getApplicationByUser(String nric) {
       for (ProjectApplication application : db) {

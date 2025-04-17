@@ -46,7 +46,7 @@ public class MainApp{
                 System.out.println("2. Register as Applicant");
                 System.out.println("3. Exit App");
                 System.out.println("-----------------------------------------");
-                System.out.printf("Enter your choice (1-3): ");
+                System.out.println("Enter your choice (1-3): ");
                 System.out.println("-----------------------------------------");
                 choice = sc.nextInt(); sc.nextLine();
                 

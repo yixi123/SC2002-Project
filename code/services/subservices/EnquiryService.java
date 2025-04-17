@@ -82,6 +82,10 @@ public class EnquiryService implements IEnquiryService{
             for (int i = 0; i < enquiryList.size(); i++) {
                 System.out.println((i + 1) + ". " + enquiryList.get(i).toString());
             }
+            System.out.println("---------------------------------------");
+            System.out.println("0. Back to menu");
+            System.out.print("Please select an enquiry by entering the corresponding number: ");
+
             int EnquiryChoice = sc.nextInt() - 1;
             sc.nextLine(); // Consume newline
             if (EnquiryChoice >= 0 && EnquiryChoice < enquiryList.size()) {
@@ -89,6 +93,9 @@ public class EnquiryService implements IEnquiryService{
                 Enquiry selectedEnquiry = enquiryList.get(EnquiryChoice);
                 return selectedEnquiry;
             }
+            else if (EnquiryChoice == -1) {
+                System.out.println("Returning to menu.");
+            } 
             else {
                 System.out.println("Invalid enquiry choice. Returning to menu.");
             }

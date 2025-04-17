@@ -4,7 +4,6 @@ import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
 import java.util.List;
 import java.util.Scanner;
-import models.enums.ProjectAppStat;
 import models.projects.*;
 import models.users.Applicant;
 import services.interfaces.IEnquiryService;
@@ -25,7 +24,9 @@ public class ApplicantController extends UserController {
     IEnquiryService enquiryService = new EnquiryService();
 
     public Applicant retreiveApplicant(){
-        return (Applicant) AuthController.getCurrentUser();
+        Applicant currentUser = (Applicant) AuthController.getCurrentUser();
+        currentUser.setCurrentApplication(ProjectAppDB.getApplicationByUser(currentUser.getNric()));
+        return currentUser;
     }
 
     @Override
@@ -106,14 +107,17 @@ public class ApplicantController extends UserController {
 
     public void viewApplicationStatus() {
         Applicant applicant = retreiveApplicant();
-        String userID = applicant.getNric();
-        ProjectAppStat status = projectApplicationService.getApplicationStatus(userID);
-        System.out.print("Your current application status is: " + status + "\n");
+        ProjectApplication currentApplication = applicant.getCurrentApplication();
+        if (currentApplication == null) {
+            System.out.println("You have not applied for any projects yet.");
+            return;
+        }
+        System.out.println(currentApplication.toString());
     }
 
     public void withdrawProject() {
         Applicant applicant = retreiveApplicant();
-        projectApplicationService.withdrawApplication(applicant.getAppliedProject().getProjectName(), applicant.getNric());
+        projectApplicationService.withdrawApplication(applicant.getCurrentApplication());
         
 
     }
