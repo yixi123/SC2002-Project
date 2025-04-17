@@ -1,4 +1,4 @@
-package services.subservices.interfaces;
+package services.interfaces;
 
 public interface IEnquiryService {
 

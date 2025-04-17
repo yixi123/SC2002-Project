@@ -3,17 +3,20 @@ package database.dataclass.users;
 import java.util.List;
 import models.users.HDBManager;
 import utils.FileLoader;
+import utils.FileSaver;
 
 public class ManagerDB {
   private static List<HDBManager> db;
 
   public static void initiateDB(){
     db = FileLoader.loadManagers();
+
   }
   
   //update or add
   public static void updateDB(List<HDBManager> dataList){
-    db = dataList;
+    FileSaver.saveManagers(dataList);
+    initiateDB();
   }
 
   public static List<HDBManager> getDB(){

@@ -1,5 +1,5 @@
-package services.subservices.interfaces;
+package services.interfaces;
 
-public class IPrintService {
-  
+public interface IPrintService {
+    void printDocument();
 }

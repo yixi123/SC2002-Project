@@ -3,6 +3,7 @@ package database.dataclass.users;
 import java.util.List;
 import models.users.HDBOfficer;
 import utils.FileLoader;
+import utils.FileSaver;
 
 public class OfficerDB {
     private static List<HDBOfficer> db;
@@ -14,6 +15,7 @@ public class OfficerDB {
   //update or add
   public static void updateDB(List<HDBOfficer> dataList){
     db = dataList;
+    FileSaver.saveOfficers(db);
   }
 
   public static List<HDBOfficer> getDB(){

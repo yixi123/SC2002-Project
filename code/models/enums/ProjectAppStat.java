@@ -4,6 +4,8 @@ public enum ProjectAppStat {
   PENDING,
   SUCCESSFUL,
   UNSUCCESSFUL,
+  BOOK_REQ,
   BOOKED,
-  WITHDRAW
+  WITHDRAW_REQ,
+  WITHDRAWN;
 }

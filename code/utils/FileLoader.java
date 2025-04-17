@@ -14,6 +14,7 @@ import models.projects.ProjectApplication;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
+import models.enums.OfficerAppStat;
 
 public class FileLoader implements IFileLoader {
 
@@ -180,7 +181,7 @@ public class FileLoader implements IFileLoader {
                 applications.add(new OfficerApplication(
                     data[0], 
                     data[1], 
-                    ProjectAppStat.valueOf(data[2]), 
+                    OfficerAppStat.valueOf(data[2]), 
                     dateFormat.parse(data[3])
                 ));
             }

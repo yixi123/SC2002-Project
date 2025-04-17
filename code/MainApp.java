@@ -1,16 +1,24 @@
-import database.dataclass.projects.*;
-import database.dataclass.users.*;
-import exception.AuthException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Scanner;
+import models.*;
 import models.projects.FilterSettings;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
+
 import services.controller.ApplicantController;
 import services.controller.AuthController;
 import services.controller.ManagerController;
 import services.controller.OfficerController;
+import utils.*;
+
+
+import database.dataclass.users.*;
+import exception.AuthException;
+import database.dataclass.projects.*;
 
 public class MainApp{
     static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
@@ -48,6 +56,7 @@ public class MainApp{
                 System.out.printf("Enter your choice (1-3): ");
                 System.out.println("-----------------------------------------");
                 choice = sc.nextInt(); sc.nextLine();
+                
                 switch(choice){
                     case 1:
                         User user = auth.login(sc); 
@@ -75,25 +84,22 @@ public class MainApp{
         System.out.println("\t\tThank you!");
         System.out.println("=========================================");
     }
-    
+        
     public static void navigateMenu(User user, Scanner sc){
         if(user instanceof Applicant){
             ApplicantController app = new ApplicantController();
             app.start(sc);
-         }
-         else if(user instanceof HDBOfficer){
-            OfficerController officer = new OfficerController();
-            officer.start(sc);
-         }
-         else if(user instanceof HDBManager){
-            ManagerController manager = new ManagerController(); 
-            manager.start(sc);
-         }
-         else{
-            System.out.println("Invalid user type. Please try again.");
-         }
+        }
+        else if(user instanceof HDBOfficer){
+            OfficerController app = new OfficerController();
+            app.start(sc);
+        }
+        else if(user instanceof HDBManager){
+            ManagerController app = new ManagerController();
+            app.start(sc);
+        }
     }
-
+    
     public static void initiateDB() {
         // Load data from files into respective databases
         ApplicantDB.initiateDB();

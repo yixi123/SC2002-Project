@@ -3,6 +3,7 @@ package database.dataclass.users;
 import java.util.List;
 import models.users.Applicant;
 import utils.FileLoader;
+import utils.FileSaver;
 
 public class ApplicantDB {
   private static List<Applicant> db;
@@ -13,7 +14,8 @@ public class ApplicantDB {
   
   //update or add
   public static void updateDB(List<Applicant> dataList){
-    db = dataList;
+    FileSaver.saveApplicants(dataList);
+    initiateDB();
   }
 
   public static List<Applicant> getDB(){
@@ -28,4 +30,5 @@ public class ApplicantDB {
     }
     return null;
   }
+
 }

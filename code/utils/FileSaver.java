@@ -7,6 +7,7 @@ import java.util.*;
 import models.projects.Application;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
+import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import models.users.HDBManager;
@@ -46,7 +47,7 @@ public class FileSaver {
         saveProjectApplications(PROJECT_APPLICATIONS_FILE, applications);
     }
 
-    public static void saveOfficerApplications(List<Application> applications) {
+    public static void saveOfficerApplications(List<OfficerApplication> applications) {
         saveOfficerApplications(OFFICER_APPLICATIONS_FILE, applications);
     }
 
@@ -161,7 +162,7 @@ public class FileSaver {
         }
     }
 
-    public static void saveOfficerApplications(String filePath, List<Application> applications) {
+    public static void saveOfficerApplications(String filePath, List<OfficerApplication> applications) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date\n"); // Header
