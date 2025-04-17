@@ -6,6 +6,7 @@ import java.text.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import models.enums.*;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.OfficerApplication;
@@ -13,6 +14,7 @@ import models.projects.ProjectApplication;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
+import models.enums.OfficerAppStat;
 
 public class FileLoader implements IFileLoader {
 
@@ -59,7 +61,7 @@ public class FileLoader implements IFileLoader {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                applicants.add(new Applicant(data[0], data[1], data[4], Integer.parseInt(data[2]), data[3]));
+                applicants.add(new Applicant(data[0], data[1], data[4], Integer.parseInt(data[2]), MaritalStatus.valueOf(data[3])));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,7 +76,7 @@ public class FileLoader implements IFileLoader {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                officers.add(new HDBOfficer(data[0], data[1], data[4], Integer.parseInt(data[2]), data[3]));
+                officers.add(new HDBOfficer(data[0], data[1], data[4], Integer.parseInt(data[2]), MaritalStatus.valueOf(data[3])));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,7 +91,7 @@ public class FileLoader implements IFileLoader {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                managers.add(new HDBManager(data[0], data[1], data[4], Integer.parseInt(data[2]), data[3]));
+                managers.add(new HDBManager(data[0], data[1], data[4], Integer.parseInt(data[2]), MaritalStatus.valueOf(data[3])));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -157,9 +159,9 @@ public class FileLoader implements IFileLoader {
                 applications.add(new ProjectApplication(
                     data[0], 
                     data[1], 
-                    data[2], 
+                    ProjectAppStat.valueOf(data[2]), 
                     dateFormat.parse(data[3]), 
-                    data[4]
+                    FlatType.valueOf(data[4]) 
                 ));
             }
         } catch (IOException | ParseException e) {
@@ -179,7 +181,7 @@ public class FileLoader implements IFileLoader {
                 applications.add(new OfficerApplication(
                     data[0], 
                     data[1], 
-                    data[2], 
+                    OfficerAppStat.valueOf(data[2]), 
                     dateFormat.parse(data[3])
                 ));
             }

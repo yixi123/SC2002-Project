@@ -2,13 +2,17 @@ package models.projects;
 
 import java.util.Date;
 
-public class Application {
+
+import models.enums.ProjectAppStat;
+
+
+public class Application<StatType>{
     protected String userID;
     protected String projectName;
-    protected String status;
+    protected StatType status;
     protected Date applicationDate;
 
-    public Application(String user, String projectName, String status, Date applicationDate) {
+    public Application(String user, String projectName, StatType status, Date applicationDate) {
         this.userID = user;
         this.projectName = projectName;
         this.status = status;
@@ -23,7 +27,7 @@ public class Application {
         return projectName;
     }
 
-    public String getStatus() {
+    public StatType getStatus() {
         return status;
     }
 
@@ -31,8 +35,8 @@ public class Application {
         return applicationDate;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(StatType newStatus) {
+        this.status = newStatus;
     }
 
     @Override

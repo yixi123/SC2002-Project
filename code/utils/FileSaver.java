@@ -7,6 +7,7 @@ import java.util.*;
 import models.projects.Application;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
+import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import models.users.HDBManager;
@@ -46,7 +47,7 @@ public class FileSaver {
         saveProjectApplications(PROJECT_APPLICATIONS_FILE, applications);
     }
 
-    public static void saveOfficerApplications(List<Application> applications) {
+    public static void saveOfficerApplications(List<OfficerApplication> applications) {
         saveOfficerApplications(OFFICER_APPLICATIONS_FILE, applications);
     }
 
@@ -145,30 +146,32 @@ public class FileSaver {
     }
 
     public static void saveProjectApplications(String filePath, List<ProjectApplication> applications) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date,Flat Type\n"); // Header
             for (ProjectApplication application : applications) {
                 bw.write(String.format("%s,%s,%s,%s\n",
                         application.getUser(),
                         application.getProjectName(),
-                        application.getStatus(),
-                        application.getApplicationDate(),
-                        application.getFlatType()));
+                        application.getStatus().toString(),
+                        dateFormat.format(application.getApplicationDate()),
+                        application.getFlatType().toString()));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static void saveOfficerApplications(String filePath, List<Application> applications) {
+    public static void saveOfficerApplications(String filePath, List<OfficerApplication> applications) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date\n"); // Header
             for (Application application : applications) {
                 bw.write(String.format("%s,%s,%s,%s\n",
                         application.getUser(),
                         application.getProjectName(),
-                        application.getStatus(),
-                        application.getApplicationDate()));
+                        application.getStatus().toString(),
+                        dateFormat.format(application.getApplicationDate())));
             }
         } catch (IOException e) {
             e.printStackTrace();

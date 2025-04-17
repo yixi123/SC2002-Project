@@ -1,5 +1,7 @@
-package services.subservices.interfaces;
+package services.interfaces;
 
-public class IProjectManagementService {
-  
+public interface IProjectManagementService {
+  public void editProject();
+  public void deleteProject();
+  public void createProject();
 }

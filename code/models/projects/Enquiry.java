@@ -28,6 +28,10 @@ public class Enquiry {
         this(id, userID, projectID, content, timestamp, null, null, null);
     }
 
+    public Enquiry(int id, String userID, String projectID, String content) {
+        this(id, userID, projectID, content, LocalDateTime.now(), null, null, null);
+    }
+
     public int getId() {
         return id;
     }
@@ -79,7 +83,9 @@ public class Enquiry {
 
     @Override
     public String toString() {
-        return String.format("User=%s\nProject=%s\nContent=%s\nTimestamp=%s\nReplier=%s\nReplyContent=%s\nReplierTimestamp=%s",
-                userID, projectID, content, timestamp, replierUserID, replyContent, replierTimestamp);
+        String enq = String.format("User=%s [%s]\nProject=%s\n%s\n", userID, timestamp, projectID, content);
+        String rep = (replierUserID == null)? "No Reply" : String.format("Replier=%s [%s]\n %s", replierUserID, replierTimestamp, replyContent);
+        return enq + rep;
     }
+
 }
