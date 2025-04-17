@@ -1,14 +1,9 @@
 package services.subservices;
 
 import database.dataclass.projects.EnquiryDB;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.IntStream;
-
 import models.projects.Enquiry;
 import services.interfaces.IEnquiryService;
 
@@ -42,15 +37,9 @@ public class EnquiryService implements IEnquiryService{
             .forEach(enq -> System.out.println(enq.toString()));
     }
 
-    public void viewMyEnquiries(String userID) {
+    public List<Enquiry> getMyEnquiries(String userID) {
         List<Enquiry> myEnquiries = EnquiryDB.getEnquiriesByUserID(userID);
-        if (myEnquiries.isEmpty()) {
-            System.out.println("No enquiries found for user ID: " + userID);
-        }else{
-            System.out.println("My Enquiries:");
-            System.out.println("---------------------------------------");
-            myEnquiries.stream().forEach(enq -> System.out.println(enq.toString()));
-        }
+        return myEnquiries;
     }
 
     public void deleteEnquiry(int id) {
@@ -83,4 +72,61 @@ public class EnquiryService implements IEnquiryService{
     public Enquiry findEnquiry(int id){
         return EnquiryDB.getDB().stream().filter(enquiry -> enquiry.getId() == id).findFirst().orElse(null);
     }
+
+    public Enquiry chooseFromEnquiryList(Scanner sc, List<Enquiry> enquiryList) {
+        if (enquiryList.isEmpty()) {
+            System.out.println("You have no enquiries to view.");
+        } else {
+            System.out.println("My Enquiries:");
+            System.out.println("---------------------------------------");
+            for (int i = 0; i < enquiryList.size(); i++) {
+                System.out.println((i + 1) + ". " + enquiryList.get(i).toString());
+            }
+            int EnquiryChoice = sc.nextInt() - 1;
+            sc.nextLine(); // Consume newline
+            if (EnquiryChoice >= 0 && EnquiryChoice < enquiryList.size()) {
+
+                Enquiry selectedEnquiry = enquiryList.get(EnquiryChoice);
+                return selectedEnquiry;
+            }
+            else {
+                System.out.println("Invalid enquiry choice. Returning to menu.");
+            }
+        }
+        return null;
+    }
+
+    public void enquiryOption(Scanner sc, Enquiry selectedEnquiry) {
+        Boolean isReplied = selectedEnquiry.getReplierUserID() != null;
+        if (isReplied) {
+            System.out.println("This enquiry has already been replied to.");
+            System.out.println("Reply Content: " + selectedEnquiry.getReplyContent());
+            System.out.println("Replied by: " + selectedEnquiry.getReplierUserID() + " on " + selectedEnquiry.getReplierTimestamp());
+            return;
+        } else {
+            System.out.println("This enquiry has not been replied to yet.");
+        }
+        System.out.println("You can: ");
+        System.out.println("1. Edit this enquiry");
+        System.out.println("2. Delete this enquiry");
+        System.out.print("Enter your choice: ");
+
+        int actionChoice = sc.nextInt();
+        sc.nextLine(); // Consume newline
+        switch (actionChoice) {
+            case 1 -> editEnquiry(sc, selectedEnquiry);
+            case 2 -> deleteEnquiry(selectedEnquiry.getId());
+            default -> System.out.println("Invalid choice. Returning to menu.");
+        }
+    }
+
+    public void editEnquiry(Scanner sc, Enquiry selectedEnquiry) {
+        System.out.print("Enter your new enquiry content: ");
+        String newContent = sc.nextLine();
+        selectedEnquiry.setContent(newContent);
+        EnquiryDB.updateDB(EnquiryDB.getDB());
+        System.out.println("Enquiry updated successfully.");
+    }
+
+    
 }

@@ -53,8 +53,13 @@ public class Enquiry {
         return timestamp; 
     }
 
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp; 
+    }
+
     public void setContent(String content) {
         this.content = content;
+        setTimestamp(LocalDateTime.now());
     }
 
     public String getReplierUserID() {
@@ -79,6 +84,12 @@ public class Enquiry {
 
     public void setReplierTimestamp(LocalDateTime replierTimestamp) {
         this.replierTimestamp = replierTimestamp;
+    }
+
+    public void setReply(String replierUserID, String replyContent) {
+        this.replierUserID = replierUserID;
+        this.replyContent = replyContent;
+        this.replierTimestamp = LocalDateTime.now();
     }
 
     @Override

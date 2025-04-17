@@ -1,24 +1,16 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
+import database.dataclass.projects.*;
+import database.dataclass.users.*;
+import exception.AuthException;
 import java.util.Scanner;
-import models.*;
 import models.projects.FilterSettings;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
-
 import services.controller.ApplicantController;
 import services.controller.AuthController;
 import services.controller.ManagerController;
 import services.controller.OfficerController;
-import utils.*;
-
-
-import database.dataclass.users.*;
-import exception.AuthException;
-import database.dataclass.projects.*;
 
 public class MainApp{
     static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
@@ -75,9 +67,7 @@ public class MainApp{
             catch(AuthException e){
                 System.out.println(e.getMessage());
             }
-            catch(IllegalArgumentException e){
-                System.out.println(e.getMessage());
-            }
+            
 
         } while (choice != 3);
         

@@ -1,21 +1,15 @@
 package services.subservices;
 
-import java.util.ArrayList;
+import database.dataclass.projects.ProjectAppDB;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-
-import database.dataclass.projects.ProjectAppDB;
 import models.enums.FlatType;
 import models.enums.MaritalStatus;
 import models.enums.ProjectAppStat;
-import models.projects.Application;
-import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import services.interfaces.IProjectApplicationService;
-import utils.FileLoader;
-import utils.FileSaver;
 
 
 
