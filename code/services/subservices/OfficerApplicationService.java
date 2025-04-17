@@ -32,8 +32,8 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         System.out.println("Application not found.");
     }
 
-  public OfficerAppStat viewApplicationStatus(String userID){
-    return null;
-  }
+    public OfficerAppStat viewApplicationStatus(String userID){
+      return null;
+    }
 
 }

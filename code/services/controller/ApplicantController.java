@@ -47,7 +47,7 @@ public class ApplicantController extends UserController {
             System.out.println("2. Adjust Filter Settings");
             System.out.println("3. View Application Status");
             System.out.println("4. Withdraw Project");
-            System.out.println("5. View Enquiry");
+            System.out.println("5. View My Enquiry");
             System.out.println("6. Logout");
             System.out.println("--------------------------------");
             System.out.print("Enter your choice: ");
@@ -59,7 +59,7 @@ public class ApplicantController extends UserController {
                 case 2 -> app.adjustFilterSettings(sc);
                 case 3 -> app.viewApplicationStatus();
                 case 4 -> app.withdrawProject();
-                case 5 -> app.viewEnquiry(sc);
+                case 5 -> app.viewMyEnquiry(sc);
                 case 6 -> System.out.println("Logging out...");
                 default -> {
                     System.out.println("Invalid choice. Please try again.");
@@ -128,6 +128,7 @@ public class ApplicantController extends UserController {
     }
 
     public void addEnquiry(Scanner sc) {
+        
     }
 
     public void viewMyEnquiry(Scanner sc){
