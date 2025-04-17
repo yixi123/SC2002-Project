@@ -15,7 +15,6 @@ public class FilterSettings {
     private Integer officerSlot;
     private SortBy sortBy;
     private boolean sortAscending;
-    private boolean twoRoomViewOnly;
 
     public FilterSettings() {
         this.sortBy = SortBy.PROJECT_NAME; // Default sort by project name
@@ -124,14 +123,6 @@ public class FilterSettings {
 
     public void setSortAscending(boolean sortAscending) {
         this.sortAscending = sortAscending;
-    }
-
-    public boolean isTwoRoomViewOnly() {
-        return twoRoomViewOnly;
-    }
-
-    public void setTwoRoomViewOnly(boolean twoRoomViewOnly) {
-        this.twoRoomViewOnly = twoRoomViewOnly;
     }
 
     public enum SortBy {

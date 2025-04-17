@@ -1,12 +1,11 @@
 package database.dataclass.projects;
 
+import java.util.ArrayList;
+import java.util.List;
 import models.enums.ProjectAppStat;
 import models.projects.ProjectApplication;
 import utils.FileLoader;
 import utils.FileSaver;
-
-import java.util.List;
-import java.util.ArrayList;
 
 public class ProjectAppDB {
   private static List<ProjectApplication> db;

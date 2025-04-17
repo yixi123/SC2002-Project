@@ -26,7 +26,7 @@ public class AuthController {
         System.out.println("--------------------------------");
 
         try{
-            User currentUser = authenticate(nric, password);
+            currentUser = authenticate(nric, password);
             System.out.println("Login successful! Welcome " + currentUser.getName() + ".");
             System.out.println("--------------------------------");
             return currentUser;

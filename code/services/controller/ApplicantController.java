@@ -4,20 +4,15 @@ import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
 import java.util.List;
 import java.util.Scanner;
-import models.enums.FlatType;
-import models.enums.MaritalStatus;
+import models.enums.ProjectAppStat;
 import models.projects.*;
 import models.users.Applicant;
-
 import services.interfaces.IEnquiryService;
 import services.interfaces.IProjectApplicationService;
-import services.interfaces.IProjectManagementService;
 import services.interfaces.IProjectViewService;
-
+import services.subservices.EnquiryService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectViewService;
-import services.subservices.EnquiryService;
-
 import utils.FilterUtil;
 import view.ApplicantView;
 
@@ -43,7 +38,7 @@ public class ApplicantController extends UserController {
             System.out.println("--------------------------------");
             System.out.println("\tApplicant Portal");
             System.out.println("--------------------------------");
-            System.out.println("1. View Project List");
+            System.out.println("1. Enter Project Protal");
             System.out.println("2. Adjust Filter Settings");
             System.out.println("3. View Application Status");
             System.out.println("4. Withdraw Project");
@@ -55,7 +50,7 @@ public class ApplicantController extends UserController {
             sc.nextLine();
 
             switch (choice) {
-                case 1 -> app.viewProjectList(sc);
+                case 1 -> app.projectProtal(sc);
                 case 2 -> app.adjustFilterSettings(sc);
                 case 3 -> app.viewApplicationStatus();
                 case 4 -> app.withdrawProject();
@@ -69,69 +64,74 @@ public class ApplicantController extends UserController {
         } while (choice != 6);
     }
 
-    public void viewProjectList(Scanner sc){
+    public void projectProtal(Scanner sc){
         List<BTOProject> projects =  ProjectDB.getDB();
         List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
-        if (filteredProjects.isEmpty()) {
-            System.out.println("No projects available based on the current filter settings.");
-        } else {
-            for (int i = 0; i < filteredProjects.size(); i++) {
-                System.out.println((i + 1) + ". " + filteredProjects.get(i).getProjectName());
-            }
-            int projectChoice = sc.nextInt() - 1;
-            sc.nextLine(); // Consume newline
-            if (projectChoice >= 0 && projectChoice < filteredProjects.size()) {
 
-                BTOProject selectedProject = filteredProjects.get(projectChoice);
-                System.out.println("You have selected: " + selectedProject.getProjectName());
-                System.out.println("1. Apply for this project");
-                System.out.println("2. Ask questions about this project");
-                System.out.println("3. Back to project list");
-                System.out.print("Enter your choice: ");
+        BTOProject selectedProject = projectViewService.chooseFromProjectList(sc, filteredProjects);
+        if (selectedProject == null) {
+            return;
+        }
+        projectOption(sc, selectedProject);
+    }
 
-                int actionChoice = sc.nextInt();
-                sc.nextLine(); // Consume newline
-                switch (actionChoice) {
-                    case 1 -> applyForProject(sc, selectedProject);
-                    case 2 -> addEnquiry(sc);
-                    case 3 -> System.out.println("Back to project list.");
-                    default -> System.out.println("Invalid choice. Returning to menu.");
-                }
-            }
-            else {
-                System.out.println("Invalid project choice. Returning to menu.");
-            }
+    public void projectOption(Scanner sc, BTOProject selectedProject) {
+        System.out.println("You have selected: " + selectedProject.getProjectName());
+        System.out.println("1. Apply for this project");
+        System.out.println("2. Ask questions about this project");
+        System.out.println("3. Back to project list");
+        System.out.print("Enter your choice: ");
+
+        int actionChoice = sc.nextInt();
+        sc.nextLine(); // Consume newline
+        switch (actionChoice) {
+            case 1 -> applyForProject(sc, selectedProject);
+            case 2 -> addEnquiry(sc, selectedProject);
+            case 3 -> System.out.println("Back to project list.");
+            default -> System.out.println("Invalid choice. Returning to menu.");
         }
     }
 
     public void applyForProject(Scanner sc, BTOProject selectedProject) {
         Applicant applicant = retreiveApplicant();
 
-        if (ProjectAppDB.getApplicationByUser(retreiveApplicant().getNric()) != null) {
+        if (ProjectAppDB.getApplicationByUser(applicant.getNric()) != null) {
             System.out.println("You have already applied for a project. Please check your application status.");
-            return;
         }
         else{
-            applyForProject(sc, selectedProject);
+            projectApplicationService.applyForProject(sc, applicant, selectedProject.getProjectName());
         }
 
     }
 
     public void viewApplicationStatus() {
         Applicant applicant = retreiveApplicant();
-        projectApplicationService.viewApplicationStatus(applicant.getNric());
+        String userID = applicant.getNric();
+        ProjectAppStat status = projectApplicationService.getApplicationStatus(userID);
+        System.out.print("Your current application status is: " + status + "\n");
     }
 
     public void withdrawProject() {
         Applicant applicant = retreiveApplicant();
         projectApplicationService.withdrawApplication(applicant.getAppliedProject().getProjectName(), applicant.getNric());
+        
+
     }
 
-    public void addEnquiry(Scanner sc) {
-        
+    public void addEnquiry(Scanner sc, BTOProject selectedProject) {
+        Applicant applicant = retreiveApplicant();
+        System.out.print("Enter your enquiry: ");
+        String content = sc.nextLine();
+        enquiryService.addEnquiry(applicant.getNric(), selectedProject.getProjectName(), content);
     }
 
     public void viewMyEnquiry(Scanner sc){
-        
+        Applicant applicant = retreiveApplicant();
+        List<Enquiry> enquiryList =  enquiryService.getMyEnquiries(applicant.getNric());
+        Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
+        if (selectedEnquiry == null) {
+            return;
+        }
+        enquiryService.enquiryOption(sc, selectedEnquiry);
     }
 }

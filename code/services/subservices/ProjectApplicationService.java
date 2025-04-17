@@ -1,21 +1,15 @@
 package services.subservices;
 
-import java.util.ArrayList;
+import database.dataclass.projects.ProjectAppDB;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-
-import database.dataclass.projects.ProjectAppDB;
 import models.enums.FlatType;
 import models.enums.MaritalStatus;
 import models.enums.ProjectAppStat;
-import models.projects.Application;
-import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import services.interfaces.IProjectApplicationService;
-import utils.FileLoader;
-import utils.FileSaver;
 
 
 
@@ -84,8 +78,13 @@ public class ProjectApplicationService implements IProjectApplicationService{
         updateApplicationStatus(userId, project, ProjectAppStat.BOOK_REQ);
     }
 
-    public ProjectAppStat viewApplicationStatus(String user){
-        return ProjectAppDB.getApplicationByUser(user).getStatus();
+    public ProjectAppStat getApplicationStatus(String user){
+        ProjectApplication application = ProjectAppDB.getApplicationByUser(user);
+        if (application == null) {
+            System.out.println("No application found for user: " + user);
+            return null;
+        }
+        return application.getStatus();
     }
 
     private boolean checkApplicationEligibility(int age, MaritalStatus status, FlatType flatType){
