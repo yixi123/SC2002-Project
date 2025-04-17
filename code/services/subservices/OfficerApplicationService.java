@@ -2,57 +2,38 @@ package services.subservices;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import database.dataclass.projects.OfficerAppDB;
 import models.projects.Application;
 import models.projects.OfficerApplication;
-import services.interfaces.IApplicationService;
+import models.enums.OfficerAppStat;
+import models.users.HDBOfficer;
+
+import services.interfaces.IOfficerApplicationService;
 
 
-public class OfficerApplicationService implements IApplicationService {
-    private static List<OfficerApplication> applications = OfficerAppDB.getDB();
 
-    public static List<OfficerApplication> getApplications() {
-        return applications;
-    }
+public class OfficerApplicationService implements IOfficerApplicationService {
 
-    public static void addApplication(OfficerApplication application) {
-        applications.add(application);
-        saveApplications();
-    }
+    public void applyForOfficer(Scanner sc, HDBOfficer user, String selectedProjectName){}
 
-    public static void updateApplicationStatus(String user, String project, String newStatus) {
-        for (Application application : applications) {
-            if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
+    public void addApplication(String projectName, String userID){}
+
+    public void updateApplicationStatus(String user, String projectName, OfficerAppStat newStatus) {
+        List<OfficerApplication> applications = OfficerAppDB.getDB();
+        for (OfficerApplication application : applications) {
+            if (application.getUser().equals(user) && application.getProjectName().equals(projectName)) {
                 application.setStatus(newStatus);
-                saveApplications();
+                OfficerAppDB.updateDB(applications);
                 return;
             }
         }
         System.out.println("Application not found.");
     }
 
-    public static List<Application> getApplicationsByUser(String nric) {
-        List<Application> result = new ArrayList<>();
-        for (Application application : applications) {
-            if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equalsIgnoreCase("Withdrawn")) {
-                result.add(application);
-            }
-        }
-        return result;
-    }
+  public OfficerAppStat viewApplicationStatus(String userID){
+    return null;
+  }
 
-    public static List<Application> getApplicationsByProject(String project) {
-        List<Application> result = new ArrayList<>();
-        for (Application application : applications) {
-            if (application.getProjectName().equalsIgnoreCase(project)) {
-                result.add(application);
-            }
-        }
-        return result;
-    }
-
-    private static void saveApplications() {
-        OfficerAppDB.updateDB(applications);
-    }
 }

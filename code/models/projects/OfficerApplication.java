@@ -2,10 +2,11 @@ package models.projects;
 
 import java.util.Date;
 import models.enums.ProjectAppStat;
+import services.interfaces.OfficerAppStat;
 
-public class OfficerApplication extends Application {
+public class OfficerApplication extends Application<OfficerAppStat> {
 
-    public OfficerApplication(String userID, String projectName, ProjectAppStat status, Date applicationDate) {
+    public OfficerApplication(String userID, String projectName, OfficerAppStat status, Date applicationDate) {
         super(userID, projectName, status, applicationDate);
     }
 

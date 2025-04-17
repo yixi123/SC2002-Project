@@ -87,7 +87,7 @@ public class MainApp{
         
     public static void navigateMenu(User user, Scanner sc){
         if(user instanceof Applicant){
-            ApplicantController app = new ApplicantController()
+            ApplicantController app = new ApplicantController();
             app.start(sc);
         }
         else if(user instanceof HDBOfficer){

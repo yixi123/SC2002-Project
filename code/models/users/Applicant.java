@@ -9,7 +9,6 @@ public class Applicant extends User {
 
     public Applicant(String name, String nric, String password, int age, MaritalStatus maritalStatus) {
         super(name, nric, password, age, maritalStatus);
-        appliedProject = ProjectApplicationService.getApplicationByUser(nric);
     }
     
     public ProjectApplication getAppliedProject() {

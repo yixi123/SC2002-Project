@@ -1,7 +1,7 @@
 package models.enums;
 
-public enum OfficeAppStat {
+public enum OfficerAppStat {
   PENDING,
   APPROVED,
-  REJECTED,
+  REJECTED;
 }

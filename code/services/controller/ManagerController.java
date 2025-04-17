@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class ManagerController extends UserController{
 
+  public ManagerController(){
+    
+  }
+
   public void start(Scanner sc){
 
   }

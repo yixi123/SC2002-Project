@@ -118,6 +118,6 @@ public class BTOProject {
     }
 
     public String shortToString() {
-        return String.format("%-30s   %s   %s - %s", projectName, neighborhood, openingDate.toString(), closingDate.toString());
+        return String.format("%-30s [ %s ] %s - %s", projectName, neighborhood, openingDate.toString(), closingDate.toString());
     }
 }

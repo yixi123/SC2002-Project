@@ -4,7 +4,7 @@ import java.util.Date;
 import models.enums.FlatType;
 import models.enums.ProjectAppStat;
 
-public class ProjectApplication extends Application {
+public class ProjectApplication extends Application<ProjectAppStat> {
     private FlatType flatType;
 
     public ProjectApplication(String userID, String projectName, ProjectAppStat status, Date applicationDate, FlatType flatType) {
