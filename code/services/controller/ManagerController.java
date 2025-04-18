@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import database.dataclass.projects.ProjectDB;
 import models.projects.BTOProject;
+import models.users.HDBManager;
 import utils.FilterUtil;
 import services.interfaces.IOfficerApplicationService;
 import services.interfaces.IProjectApplicationService;
@@ -32,41 +33,52 @@ public class ManagerController extends UserController{
       this.projectViewService = projectViewService;
   }
 
+  public HDBManager retreiveManager(){
+    HDBManager currentUser = (HDBManager) auth.getCurrentUser();
+    return currentUser;
+  }
+
   public void start(Scanner sc){
     int option = 0;
     try{
         System.out.println("Manager            ");
         System.out.println("-------------------------------------");
         System.out.println("1. Enter Project Portal");
-        System.out.println("2. View My Projects");
-        System.out.println("3. View Project List");
+        System.out.println("2. View All Projects");
+        System.out.println("3. View/Manage My Projects");
+        System.out.println("4. Create A New Project");
         System.out.println("4. Adjust Filter Settings");
         System.out.println("4. View Enquiries");
         System.out.println("5. Logout");
+        System.out.println("-------------------------------------");
         System.out.print("Please select an option: ");
-        option = sc.nextInt();
+        option = sc.nextInt(); sc.nextLine();
+        System.out.println("\n-------------------------------------");
     }catch(IllegalArgumentException e){
       
     }
 
   }
 
-  public void enterMyProjectsPortal(Scanner sc){
+  public void manageChosenProject(Scanner sc, BTOProject chosenProject){
     int option = 0;
     do{
       try{
-          System.out.println("Manager > My Projects");
+          System.out.println("Manager");
           System.out.println("-------------------------------------");
-          System.out.println("1. Create BTO Projects");
-          System.out.println("2. Edit BTO Projects");
-          System.out.println("3. Delete BTO Projects");
-          System.out.println("4. Toggle Project Visibility");
-          System.out.println("5. View Project Applicant List");
-          System.out.println("6. View Officer Applicant List");
-          System.out.println("7. Back to Main Menu");
+          System.out.printf("Project: %s\n", chosenProject.getProjectName());
+          System.out.println("-------------------------------------");
+          System.out.println("1. Edit Project Detail");
+          System.out.println("2. Delete Project");
+          System.out.println("5. View/Manage Project Applications");
+          System.out.println("6. View/Manage Officer Applications");
+          System.out.println("7. View/Reply Enquiry");
+          System.out.println("0. Back to Main Menu");
+          System.out.println("-------------------------------------");
           System.out.print("Please select an option: ");
-          System.out.println("--------------------------------");
-          option = sc.nextInt();
+          option = sc.nextInt(); sc.nextLine();
+          System.out.println("\n-------------------------------------");
+
         }catch(IllegalArgumentException e){
 
         }
@@ -81,24 +93,44 @@ public class ManagerController extends UserController{
     filteredProjects.forEach(project -> System.out.println(project.toString()));
   }
 
+  public void manageMyProjects(Scanner sc){
+    List<BTOProject> projects = ProjectDB.getDB();
+    filterSettings.setManager(auth.getCurrentUser().getName());
+    List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
+
+    int index = 1;
+    for(BTOProject project: filteredProjects){
+      System.out.printf("[%d] %s\n", index, project.shortToString());
+      index += 1;
+    }
+    System.out.println("0. Back to Main Menu");
+    System.out.println("-------------------------------------");
+    System.out.println("Select the project you would like to manage:");
+    int choice = sc.nextInt(); sc.nextLine();
+    
+    manageChosenProject(sc, filteredProjects.get(choice - 1));
+  }
+
   public void viewOfficerApplicantList(){
-
-  }
-
-  public void createBTOProjects() {
     
   }
 
-  public void editBTOProjects() {
-    
+  public void createBTOProjects(Scanner sc, BTOProject chosenProject) {
+    HDBManager manager = retreiveManager();
+    try{
+      projectManagementService.createProject(sc, manager.getNric(), manager.getManagedProjectsID());
+    }catch(Exception e){
+      System.out.println("Error creating project: " + e.getMessage());
+    }
   }
 
-  public void deleteBTROProjects() {
-    
+  public void editBTOProjects(Scanner sc, BTOProject chosenProject) {
+    projectManagementService.editProject(sc, chosenProject);
   }
 
-  public void toggleProjectVisibility() {
-    
+
+  public void deleteBTOProjects(Scanner sc, BTOProject chosenProject) {
+    projectManagementService.deleteProject(sc, chosenProject);
   }
 
   public void approveProjectApp() {

@@ -1,5 +1,6 @@
 package models.projects;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class BTOProject {
 
     public BTOProject(String projectName, String neighborhood, int twoRoomUnits, int threeRoomUnits, 
                       double sellingPriceForType1, double sellingPriceForType2, 
-                      Date openingDate, Date closingDate, boolean visibility) {
+                      Date openingDate, Date closingDate, boolean visibility, int officerSlots) {
         this.projectName = projectName;
         this.neighborhood = neighborhood;
         this.twoRoomUnits = twoRoomUnits;
@@ -29,6 +30,7 @@ public class BTOProject {
         this.openingDate = openingDate;
         this.closingDate = closingDate;
         this.visibility = visibility;
+        this.officerSlot = officerSlots;
     }
 
     public String getManagerID() {
@@ -99,8 +101,21 @@ public class BTOProject {
         this.visibility = visibility;
     }
 
+    public void setOpeningDate(Date openingDate) {
+        this.openingDate = openingDate;
+    }
+    
+    public void setClosingDate(Date closingDate) {
+        this.closingDate = closingDate;
+    }
+
     public boolean isVisible() {
         return visibility;
+    }
+
+    public boolean isActive() {
+        Date today = new Date();
+        return isVisible() &&  today.before(closingDate) && today.after(openingDate);
     }
 
     @Override

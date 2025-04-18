@@ -68,25 +68,25 @@ public class AuthController {
         System.out.println("-----------------------------------------");
     }
 
-    public User authenticate(String nric, String password) throws AuthException {
+    public void authenticate(String nric, String password) throws AuthException {
         List<? extends User> users= ApplicantDB.getDB();
         for (User applicant: users) {
             if (applicant.getNric().equals(nric) && applicant.getPassword().equals(password)) {
-                currentUser = applicant;
+                currentUser = applicant; return;
             }
         }
 
         users = OfficerDB.getDB();
         for (User officer : users) {
             if (officer.getNric().equals(nric) && officer.getPassword().equals(password)) {
-                currentUser = officer;
+                currentUser = officer; return;
             }
         }
 
         users = ManagerDB.getDB();
         for (User manager : users) {
             if (manager.getNric().equals(nric) && manager.getPassword().equals(password)) {
-                currentUser = manager;
+                currentUser = manager; return;
             }
         }
         throw new AuthException("Invalid NRIC or password.");
