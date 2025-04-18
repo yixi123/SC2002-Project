@@ -2,6 +2,7 @@ package services.subservices;
 
 import database.dataclass.projects.OfficerAppDB;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import models.enums.OfficerAppStat;
@@ -23,7 +24,7 @@ public class OfficerApplicationService implements IOfficerApplicationService {
     }
 
     public void addApplication(String projectName, String userID){
-        applications.add(application);
+        applications.add(new OfficerApplication(userID, projectName, OfficerAppStat.PENDING, new Date()));
         saveApplications();
     }
 
@@ -41,7 +42,7 @@ public class OfficerApplicationService implements IOfficerApplicationService {
     public static List<Application> getApplicationsByUser(String nric) {
         List<Application> result = new ArrayList<>();
         for (Application application : applications) {
-            if (application.getUser().equalsIgnoreCase(nric) && !(application.getStatus() == ProjectAppStat.WITHDRAW)) {
+            if (application.getUser().equalsIgnoreCase(nric) && !(application.getStatus() == ProjectAppStat.WITHDRAWN)) {
                 result.add(application);
             }
         }

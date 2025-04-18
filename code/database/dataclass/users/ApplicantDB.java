@@ -22,6 +22,16 @@ public class ApplicantDB {
     return db;
   }
 
+  public static void updateUser(Applicant applicant) {
+    for (int i = 0; i < db.size(); i++) {
+      if (db.get(i).getNric().equals(applicant.getNric())) {
+        db.set(i, applicant);
+        break;
+      }
+    }
+    FileSaver.saveApplicants(db);
+  }
+
   public static String getUsernameByID(String userID){
     for (Applicant applicant : db) {
       if (applicant.getNric().equals(userID)) {

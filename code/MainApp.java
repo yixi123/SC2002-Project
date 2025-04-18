@@ -37,7 +37,7 @@ public class MainApp{
         int choice = 0;
 
         System.out.println("=========================================");
-        System.out.println("\tBTO Project Management System");
+        System.out.println("     BTO Project Management System");
         System.out.println("=========================================");
 
         do{

@@ -19,9 +19,16 @@ public class ManagerDB {
     initiateDB();
   }
 
-  public static List<HDBManager> getDB(){
-    return db;
+  public static void updateUser(HDBManager user) {
+    for(int i = 0; i < db.size(); i++){
+      if(db.get(i).getNric().equals(user.getNric())){
+        db.set(i, user);
+      }
+    }
+    FileSaver.saveManagers(db);
   }
+
+  public static List<HDBManager> getDB() {return db;}
 
   public static String getUsernameByID(String userID){
     for (HDBManager manager : db) {
@@ -31,4 +38,6 @@ public class ManagerDB {
     }
     return null;
   }
+
+
 }

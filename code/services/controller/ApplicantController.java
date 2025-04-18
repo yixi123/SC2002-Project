@@ -51,7 +51,7 @@ public class ApplicantController extends UserController {
             sc.nextLine();
 
             switch (choice) {
-                case 1 -> app.projectProtal(sc);
+                case 1 -> app.displayProjectProtal(sc);
                 case 2 -> app.adjustFilterSettings(sc);
                 case 3 -> app.viewApplicationStatus();
                 case 4 -> app.withdrawProject();
@@ -65,7 +65,7 @@ public class ApplicantController extends UserController {
         } while (choice != 6);
     }
 
-    public void projectProtal(Scanner sc){
+    public void displayProjectProtal(Scanner sc){
         List<BTOProject> projects =  ProjectDB.getDB();
         List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
 
@@ -73,10 +73,10 @@ public class ApplicantController extends UserController {
         if (selectedProject == null) {
             return;
         }
-        projectOption(sc, selectedProject);
+        displayProjectOption(sc, selectedProject);
     }
 
-    public void projectOption(Scanner sc, BTOProject selectedProject) {
+    public void displayProjectOption(Scanner sc, BTOProject selectedProject) {
         System.out.println("You have selected: " + selectedProject.getProjectName());
         System.out.println("1. Apply for this project");
         System.out.println("2. Ask questions about this project");

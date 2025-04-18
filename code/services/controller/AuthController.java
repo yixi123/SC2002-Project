@@ -13,30 +13,31 @@ import models.users.User;
 public class AuthController {
     private static int attempt = 1;
     private static final int MAX_ATTEMPTS = 3;
+    
     private static User currentUser = null;
 
     public User login(Scanner sc) throws AuthException{
-        System.out.println("\t\t Login Page \t\t");
-        System.out.println("--------------------------------");
+        System.out.println("\t Login Page \t\t");
+        System.out.println("-----------------------------------------");
         System.out.print("Enter NRIC: ");
         String nric = sc.nextLine();
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
-        System.out.println("--------------------------------");
+        System.out.println("-----------------------------------------");
 
         try{
             currentUser = authenticate(nric, password);
             System.out.println("Login successful! Welcome " + currentUser.getName() + ".");
-            System.out.println("--------------------------------");
+            System.out.println("-----------------------------------------");
             return currentUser;
         }
         catch(AuthException e){
             System.out.println(e.getMessage() + "\nPlease try again.");
-            System.out.println("--------------------------------");
+            System.out.println("-----------------------------------------");
             attempt += 1;
             if(attempt <= MAX_ATTEMPTS){
                 System.out.printf("Attempt (%d / 3)", attempt);
-                System.out.println("--------------------------------");
+                System.out.println("-----------------------------------------");
                 return login(sc);
             }
             else{
@@ -73,23 +74,23 @@ public class AuthController {
         throw new AuthException("Invalid NRIC or password.");
     }
 
-    public void updatePassword(User user, String oldPassword, String newPassword) {
+    public void changePassword(User user, String oldPassword, String newPassword) {
         try{
             if (user.getPassword().equals(oldPassword)) {
                 user.setPassword(newPassword);
                 if (user instanceof Applicant) {
-
+                    ApplicantDB.updateUser((Applicant) user);
                 } else if (user instanceof HDBOfficer) {
-
+                    OfficerDB.updateUser((HDBOfficer) user);
                 } else if (user instanceof HDBManager) {
-
+                    ManagerDB.updateUser((HDBManager) user);
                 }
             } else {
                 throw new IllegalArgumentException("Invalid password.");
             }
         }
         catch(IllegalArgumentException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 

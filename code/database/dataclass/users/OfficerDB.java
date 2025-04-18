@@ -30,4 +30,12 @@ public class OfficerDB {
     }
     return null;
   }
+
+  public static void updateUser(HDBOfficer user) {
+    for(int i = 0; i < db.size(); i++){
+      if(db.get(i).getNric().equals(user.getNric())){
+        db.set(i, user);
+      }
+    }
+  }
 }
