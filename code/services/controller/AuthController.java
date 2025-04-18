@@ -37,7 +37,7 @@ public class AuthController {
             attempt += 1;
             if(attempt <= MAX_ATTEMPTS){
                 System.out.printf("Attempt (%d / 3)", attempt);
-                System.out.println("-----------------------------------------");
+                System.out.println("\n-----------------------------------------");
                 return login(sc);
             }
             else{
@@ -46,6 +46,12 @@ public class AuthController {
                 throw new AuthException("Please try again later");
             }
         }  
+    }
+
+    public void logout(){
+        currentUser = null;
+        System.out.println("You have logged out successfully.");
+        System.out.println("-----------------------------------------");
     }
 
     public void changePasswordPage(Scanner sc){
@@ -68,11 +74,12 @@ public class AuthController {
         System.out.println("-----------------------------------------");
     }
 
-    public User authenticate(String nric, String password) throws AuthException {
+    public void authenticate(String nric, String password) throws AuthException {
         List<? extends User> users= ApplicantDB.getDB();
         for (User applicant: users) {
             if (applicant.getNric().equals(nric) && applicant.getPassword().equals(password)) {
                 currentUser = applicant;
+                return;
             }
         }
 
@@ -80,6 +87,7 @@ public class AuthController {
         for (User officer : users) {
             if (officer.getNric().equals(nric) && officer.getPassword().equals(password)) {
                 currentUser = officer;
+                return;
             }
         }
 
@@ -87,6 +95,7 @@ public class AuthController {
         for (User manager : users) {
             if (manager.getNric().equals(nric) && manager.getPassword().equals(password)) {
                 currentUser = manager;
+                return;
             }
         }
         throw new AuthException("Invalid NRIC or password.");

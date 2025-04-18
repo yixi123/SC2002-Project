@@ -5,7 +5,7 @@ import models.enums.FlatType;
 import models.projects.FilterSettings;
 
 public abstract class UserController {
-  FilterSettings filterSettings = new FilterSettings();
+  protected FilterSettings filterSettings = new FilterSettings();
   protected AuthController auth = new AuthController();
 
   public abstract void start(Scanner sc);
