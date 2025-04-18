@@ -260,9 +260,8 @@ public class ProjectManagementService implements IProjectManagementService {
       }
 
       BTOProject newProject = new BTOProject(projectName, neighborhood, twoRoomUnits, threeRoomUnits, 
-                                          sellingPrice2, sellingPrice3, openingDate, closingDate, false, 
-                                          officerSlots);
-      newProject.setManagerID(managerID);
+                                          sellingPrice2, sellingPrice3, openingDate, closingDate, managerID, 
+                                          officerSlots, false);
       ProjectDB.addProject(newProject);
 
       System.out.printf("Project '%s' created successfully.\n", projectName);

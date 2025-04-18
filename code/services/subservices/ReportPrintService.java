@@ -1,5 +1,11 @@
 package services.subservices;
 
-public class ReportPrintService {
-  
+import services.interfaces.IPrintService;
+
+public class ReportPrintService implements IPrintService {
+    
+    public void printDocument(){
+
+    }
+    
 }

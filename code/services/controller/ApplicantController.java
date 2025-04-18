@@ -30,7 +30,7 @@ public class ApplicantController extends UserController {
 
     public Applicant retreiveApplicant(){
         Applicant currentUser = (Applicant) auth.getCurrentUser();
-        currentUser.setCurrentApplication(ProjectAppDB.getApplicationByUser(currentUser.getNric()));
+        currentUser.setMyApplication(ProjectAppDB.getApplicationByUser(currentUser.getNric()));
         return currentUser;
     }
 
@@ -118,7 +118,7 @@ public class ApplicantController extends UserController {
 
     public void viewApplicationStatus() {
         Applicant applicant = retreiveApplicant();
-        List<ProjectApplication> applicationList = applicant.getCurrentApplication();
+        List<ProjectApplication> applicationList = applicant.getMyApplication();
         if (applicationList.isEmpty()) {
             System.out.println("You have not applied for any projects yet.");
             return;
@@ -135,7 +135,7 @@ public class ApplicantController extends UserController {
 
     public void withdrawProject() {
         Applicant applicant = retreiveApplicant();
-        List<ProjectApplication> applicationList = applicant.getCurrentApplication();
+        List<ProjectApplication> applicationList = applicant.getMyApplication();
         if (applicationList.isEmpty()) {
             System.out.println("You have not applied for any projects yet.");
             return;
@@ -175,7 +175,7 @@ public class ApplicantController extends UserController {
         if (selectedEnquiry == null) {
             return;
         }
-        enquiryService.enquiryOption(sc, selectedEnquiry);
+        enquiryService.viewEnquiryActionMenu(sc, selectedEnquiry);
     }
 
     public void changeMyPassword(Scanner sc){

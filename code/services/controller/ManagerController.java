@@ -1,5 +1,6 @@
 package services.controller;
 
+import database.dataclass.projects.EnquiryDB;
 import database.dataclass.projects.ProjectDB;
 import java.util.List;
 import java.util.Scanner;
@@ -7,18 +8,23 @@ import models.enums.FlatType;
 import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
+import models.projects.Enquiry;
 import models.users.HDBManager;
 import utils.FilterUtil;
 import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
+import services.interfaces.IEnquiryService;
 import services.interfaces.IOfficerApplicationService;
+import services.interfaces.IPrintService;
 import services.interfaces.IProjectApplicationService;
 import services.interfaces.IProjectManagementService;
 import services.interfaces.IProjectViewService;
+import services.subservices.EnquiryService;
 import services.subservices.OfficerApplicationService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectManagementService;
 import services.subservices.ProjectViewService;
+import services.subservices.ReportPrintService;
 import utils.FilterUtil;
 
 public class ManagerController extends UserController{
@@ -26,16 +32,21 @@ public class ManagerController extends UserController{
   IProjectManagementService projectManagementService = new ProjectManagementService();
   IOfficerApplicationService officerApplicationService = new OfficerApplicationService();
   IProjectViewService projectViewService = new ProjectViewService();
+  IEnquiryService enquiryService = new EnquiryService();
+  IPrintService printService = new ReportPrintService();
+
 
   public ManagerController(){
   }
 
   public ManagerController( IProjectApplicationService projectAppService, IProjectManagementService projectManagementService, 
-    IOfficerApplicationService officerApplicationService, IProjectViewService projectViewService){
+    IOfficerApplicationService officerApplicationService, IProjectViewService projectViewService, IEnquiryService enquiryService, IPrintService printService){
       this.projectAppService = projectAppService;
       this.projectManagementService = projectManagementService;
       this.officerApplicationService = officerApplicationService;
       this.projectViewService = projectViewService;
+      this.enquiryService = enquiryService;
+      this.printService = printService;
   }
 
   public HDBManager retreiveManager(){
@@ -91,11 +102,39 @@ public class ManagerController extends UserController{
 
   }
 
-  public void viewProjectsList(){
+  public void viewAllProjectList(Scanner sc){
     List<BTOProject> projects =  ProjectDB.getDB();
     List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
+
+    System.out.println("Project List View [View Only]");
+    System.out.println("-------------------------------------");
+    System.out.println("Enter My Project Portal for\nProject and Enquiry Management");
+    System.out.println("-------------------------------------");
     
-    filteredProjects.forEach(project -> System.out.println(project.toString()));
+    int index = 1;
+    for(BTOProject project: filteredProjects){
+      System.out.printf("[%d] %s\n", index, project.shortToString());
+      index++;
+    }
+    int choice = 0;
+    System.out.println("[0] Back to Main Menu");
+    System.out.println("-------------------------------------");
+    System.out.print("Select the project: ");
+    choice = sc.nextInt(); sc.nextLine();
+  }
+
+  public void readOnlyProjectAction(Scanner sc, String projectName) {
+    System.out.println("You have selected: " + projectName);
+    System.out.println("1. View Project Enquiry List");
+    System.out.println("2. Back to Project List View");
+    System.out.println("-------------------------------------");
+    System.out.print("Enter your choice: ");
+    int actionChoice = sc.nextInt(); sc.nextLine();
+    switch(actionChoice){
+      case 1 -> { enquiryService.viewEnquiriesByProject(projectName);}
+      case 2 -> { System.out.println("Returning to Project List View.");}
+      default -> { System.out.println("Invalid choice. Return to menu.");}
+    }
   }
 
   public void manageMyProjects(Scanner sc){
@@ -116,9 +155,6 @@ public class ManagerController extends UserController{
     manageChosenProject(sc, filteredProjects.get(choice - 1));
   }
 
-  public void viewOfficerApplicantList(){
-
-  }
 
   public void viewProjectApplicantionList(Scanner sc, BTOProject selectedProject) {
     System.out.println("You have selected: " + selectedProject.getProjectName());
@@ -193,11 +229,6 @@ public class ManagerController extends UserController{
     }
   }
 
-
-  public void createBTOProjects() {
-    
-  }
-
   public void createBTOProjects(Scanner sc, BTOProject chosenProject) {
     HDBManager manager = retreiveManager();
     try{
@@ -259,12 +290,35 @@ public class ManagerController extends UserController{
     
   }
 
-  public void viewEnquiry() {
+  public void viewMyProjectEnquiry(Scanner sc, String projectName) {
     
+    do{
+      System.out.println("Viewing enquiry for project: " + projectName);
+      List<Enquiry> enquiryList = EnquiryDB.getEnquiriesByProject(projectName);
+
+      Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
+      
+      if(selectedEnquiry == null) { return;}
+
+      replyMyProjectEnquiry(sc, selectedEnquiry.getId());
+    }while(true);
   }
 
-  public void replyEnquiry() {
+  public void replyMyProjectEnquiry(Scanner sc, int enquiryId) {
     
+    do{
+      try{
+        System.out.print("Enter your reply content: ");
+        String replyContent = sc.nextLine();
+        enquiryService.replyEnquiry(enquiryId, auth.getCurrentUser().getNric(), replyContent);
+        System.out.println("Reply sent successfully.");
+        System.out.println("-------------------------------------");
+        break;
+      }catch(Exception e){
+        System.out.println("Error: " + e.getMessage());
+        System.out.println("Unsuccessful Reply, Please try again.");
+      }
+    }while(true);
   }
 
 }
