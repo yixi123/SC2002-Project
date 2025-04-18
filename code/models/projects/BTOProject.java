@@ -87,6 +87,10 @@ public class BTOProject {
         this.officersID = officers;
     }
 
+    public void addOfficer(String officer) {
+        this.officersID.add(officer);
+    }
+
     public void setTwoRoomUnits(int twoRoomUnits) {
         this.twoRoomUnits = twoRoomUnits;
     }

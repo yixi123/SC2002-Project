@@ -3,8 +3,10 @@ package services.controller;
 import database.dataclass.projects.ProjectDB;
 import java.util.List;
 import java.util.Scanner;
+import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
+import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
 import services.interfaces.IOfficerApplicationService;
 import services.interfaces.IProjectApplicationService;
@@ -86,7 +88,7 @@ public class ManagerController extends UserController{
 
   }
 
-  public void viewProjectApplicantList(Scanner sc, BTOProject selectedProject) {
+  public void viewProjectApplicantionList(Scanner sc, BTOProject selectedProject) {
     System.out.println("You have selected: " + selectedProject.getProjectName());
 
     List<ProjectApplication> projectApps = projectAppService.getProjectApplications(selectedProject.getProjectName());
@@ -122,6 +124,44 @@ public class ManagerController extends UserController{
     }
   }
 
+
+  public void viewOfficerApplicantionList(Scanner sc, BTOProject selectedProject) {
+    System.out.println("You have selected: " + selectedProject.getProjectName());
+
+    List<OfficerApplication> projectApps = officerApplicationService.getProjectApplications(selectedProject.getProjectName());
+    if (projectApps.isEmpty()) {
+        System.out.println("No applications found for this project.");
+        return;
+    }
+    
+    OfficerApplication selectedOfficerApp = officerApplicationService.chooseFromApplicationList(sc, projectApps);
+    if (selectedOfficerApp == null) {
+        return;
+    }
+    
+    displayOfficerApplicationAction(sc, selectedOfficerApp, selectedProject);
+  }
+
+  public void displayOfficerApplicationAction(Scanner sc, OfficerApplication selectedOfficerApp, BTOProject selectedProject) {
+
+    if (selectedOfficerApp.getStatus() != OfficerAppStat.PENDING) {
+        System.out.println("This application is not pending. Cannot approve or reject.");
+        return;
+    }
+    System.out.println("You have selected: " + selectedOfficerApp.toString());
+    System.out.println("1. Approve Officer Application");
+    System.out.println("2. Reject Officer Application");
+    System.out.print("Enter your choice: ");
+    
+    int actionChoice = sc.nextInt();
+    switch(actionChoice){
+      case 1 -> approveOfficerApp(selectedOfficerApp, selectedProject);
+      case 2 -> rejectOfficerApp(selectedOfficerApp);
+      default -> { System.out.println("Invalid choice. Return to menu.");}
+    }
+  }
+
+
   public void createBTOProjects() {
     
   }
@@ -148,8 +188,16 @@ public class ManagerController extends UserController{
     System.out.println("You have successfully rejected the project application for " + selectedProjectApp.getProjectName() + ".");
   }
 
-  public void approvOfficerApp() {
+  public void approveOfficerApp(OfficerApplication selectedOfficerApp, BTOProject selectedProject) {
+    officerApplicationService.updateApplicationStatus(selectedOfficerApp, OfficerAppStat.APPROVED);
+    selectedProject.addOfficer(selectedOfficerApp.getUser());
+    System.out.println("You have successfully approved the officer application for " + selectedProject.getProjectName() + ".");
     
+  }
+
+  public void rejectOfficerApp(OfficerApplication selectedOfficerApp) {
+    officerApplicationService.updateApplicationStatus(selectedOfficerApp, OfficerAppStat.REJECTED);
+    System.out.println("You have successfully rejected the officer application for " + selectedOfficerApp.getProjectName() + ".");
   }
 
   public void generateReport() {

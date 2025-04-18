@@ -110,6 +110,7 @@ public class ProjectApplicationService implements IProjectApplicationService{
         return ProjectAppDB.getApplicationsByProject(projectName);
     }
 
+    @Override
     public ProjectApplication chooseFromApplicationList(Scanner sc, List<ProjectApplication> applications) {
         System.out.println("Display only 'pending' applications? (yes/no): ");
         String filterChoice = sc.nextLine().trim().toLowerCase();
