@@ -1,7 +1,6 @@
 package models.projects;
 
 import java.util.Date;
-import models.enums.ProjectAppStat;
 import models.enums.OfficerAppStat;
 
 public class OfficerApplication extends Application {

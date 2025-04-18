@@ -3,6 +3,7 @@ package services.controller;
 import database.dataclass.projects.ProjectDB;
 import java.util.List;
 import java.util.Scanner;
+import models.enums.FlatType;
 import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
@@ -102,10 +103,10 @@ public class ManagerController extends UserController{
         return;
     }
     
-    displayProjectApplicationAction(sc, selectedProjectApp);
+    displayProjectApplicationAction(sc, selectedProjectApp, selectedProject);
   }
 
-  public void displayProjectApplicationAction(Scanner sc, ProjectApplication selectedProjectApp) {
+  public void displayProjectApplicationAction(Scanner sc, ProjectApplication selectedProjectApp, BTOProject selectedProject) {
 
     if (selectedProjectApp.getStatus() != ProjectAppStat.PENDING) {
         System.out.println("This application is not pending. Cannot approve or reject.");
@@ -118,7 +119,7 @@ public class ManagerController extends UserController{
     
     int actionChoice = sc.nextInt();
     switch(actionChoice){
-      case 1 -> approveProjectApp(selectedProjectApp);
+      case 1 -> approveProjectApp(selectedProjectApp, selectedProject);
       case 2 -> rejectProjectApp(selectedProjectApp);
       default -> { System.out.println("Invalid choice. Return to menu.");}
     }
@@ -178,7 +179,20 @@ public class ManagerController extends UserController{
     
   }
 
-  public void approveProjectApp(ProjectApplication selectedProjectApp) {
+  public void approveProjectApp(ProjectApplication selectedProjectApp, BTOProject selectedProject) {
+    FlatType flatType = selectedProjectApp.getFlatType();
+    if (flatType == FlatType.TWO_ROOM) {
+        if (selectedProject.getTwoRoomUnits() <= 0) {
+            System.out.println("No two-room slots available for this project.");
+            return;
+        }
+    } 
+    if (flatType == FlatType.THREE_ROOM) {
+      if (selectedProject.getThreeRoomUnits() <= 0) {
+          System.out.println("No three-room slots available for this project.");
+          return;
+      }
+    }
     projectAppService.updateApplicationStatus(selectedProjectApp, ProjectAppStat.SUCCESSFUL);
     System.out.println("You have successfully approved the project application for " + selectedProjectApp.getProjectName() + ".");
   }
@@ -189,6 +203,10 @@ public class ManagerController extends UserController{
   }
 
   public void approveOfficerApp(OfficerApplication selectedOfficerApp, BTOProject selectedProject) {
+    if (selectedProject.getOfficerSlot() <= 0) {
+        System.out.println("No officer slots available for this project.");
+        return;
+    }
     officerApplicationService.updateApplicationStatus(selectedOfficerApp, OfficerAppStat.APPROVED);
     selectedProject.addOfficer(selectedOfficerApp.getUser());
     System.out.println("You have successfully approved the officer application for " + selectedProject.getProjectName() + ".");

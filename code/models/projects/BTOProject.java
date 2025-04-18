@@ -88,6 +88,7 @@ public class BTOProject {
     }
 
     public void addOfficer(String officer) {
+        officerSlot--;
         this.officersID.add(officer);
     }
 
