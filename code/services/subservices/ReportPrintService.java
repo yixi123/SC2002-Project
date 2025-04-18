@@ -69,6 +69,11 @@ public class ReportPrintService {
             }
             default -> System.out.println("Invalid choice. Returning to menu.");
         }
+        
+        if (applicantsAndApplication.isEmpty()) {
+            System.out.println("No applicants found for the selected filter.");
+            return;
+        }
 
         System.out.println("A report of the list of applicants based on the filter category is as follows:");
         System.out.println("-------------------------------------------------");
