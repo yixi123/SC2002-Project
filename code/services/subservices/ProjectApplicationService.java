@@ -69,6 +69,7 @@ public class ProjectApplicationService implements IProjectApplicationService{
         System.out.println("Application not found!");
     }
 
+    @Override
     public void updateApplicationStatus(ProjectApplication application, ProjectAppStat newStatus) {
         if (newStatus == application.getStatus()) {
             System.out.println("Application status is already " + newStatus);
@@ -88,17 +89,9 @@ public class ProjectApplicationService implements IProjectApplicationService{
         updateApplicationStatus(userId, project, ProjectAppStat.WITHDRAW_REQ);
     }
 
+    @Override
     public void bookApplication(String userId, String project){
         updateApplicationStatus(userId, project, ProjectAppStat.BOOK_REQ);
-    }
-
-    public ProjectAppStat getApplicationStatus(String user){
-        ProjectApplication application = ProjectAppDB.getApplicationByUser(user);
-        if (application == null) {
-            System.out.println("No application found for user: " + user);
-            return null;
-        }
-        return application.getStatus();
     }
 
     private boolean checkApplicationEligibility(int age, MaritalStatus status, FlatType flatType){
@@ -110,5 +103,33 @@ public class ProjectApplicationService implements IProjectApplicationService{
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<ProjectApplication> getProjectApplications(String projectName) {
+        return ProjectAppDB.getApplicationsByProject(projectName);
+    }
+
+    @Override
+    public ProjectApplication chooseFromApplicationList(Scanner sc, List<ProjectApplication> applications) {
+        System.out.println("Display only 'pending' applications? (yes/no): ");
+        String filterChoice = sc.nextLine().trim().toLowerCase();
+        if (filterChoice.equals("yes")) {
+            applications.removeIf(app -> !app.getStatus().equals(ProjectAppStat.PENDING));
+        }
+        
+        System.out.println("Choose an application to view details:");
+        for (int i = 0; i < applications.size(); i++) {
+            System.out.println((i + 1) + ". " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
+        }
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine(); // Consume newline
+        if (choice < 1 || choice > applications.size()) {
+            System.out.println("Invalid choice. Returning to menu.");
+            return null;
+        }
+        ProjectApplication selectedApplication = applications.get(choice - 1);
+        return selectedApplication;
     }
 }

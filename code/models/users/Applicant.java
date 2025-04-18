@@ -1,21 +1,21 @@
 package models.users;
 
+import java.util.List;
 import models.enums.MaritalStatus;
 import models.projects.ProjectApplication;
-import services.subservices.ProjectApplicationService;
 
 public class Applicant extends User {
-    protected ProjectApplication currentApplication;
+    protected List<ProjectApplication> currentApplication;
 
     public Applicant(String name, String nric, String password, int age, MaritalStatus maritalStatus) {
         super(name, nric, password, age, maritalStatus);
     }
     
-    public ProjectApplication getCurrentApplication() {
+    public List<ProjectApplication> getCurrentApplication() {
         return currentApplication;
     }
 
-    public void setCurrentApplication(ProjectApplication project){
+    public void setCurrentApplication(List<ProjectApplication> project){
         currentApplication = project;
     }
 }

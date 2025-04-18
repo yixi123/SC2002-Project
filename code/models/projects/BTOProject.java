@@ -20,7 +20,7 @@ public class BTOProject {
 
     public BTOProject(String projectName, String neighborhood, int twoRoomUnits, int threeRoomUnits, 
                       double sellingPriceForType1, double sellingPriceForType2, 
-                      Date openingDate, Date closingDate, boolean visibility, int officerSlots) {
+                      Date openingDate, Date closingDate, String managerID, int officerSlots, boolean visibility) {
         this.projectName = projectName;
         this.neighborhood = neighborhood;
         this.twoRoomUnits = twoRoomUnits;
@@ -29,6 +29,8 @@ public class BTOProject {
         this.sellingPriceForType2 = sellingPriceForType2;
         this.openingDate = openingDate;
         this.closingDate = closingDate;
+        this.managerID = managerID;
+        this.officerSlot = officerSlots;
         this.visibility = visibility;
         this.officerSlot = officerSlots;
     }
@@ -87,6 +89,11 @@ public class BTOProject {
 
     public void setOfficers(List<String> officers) {
         this.officersID = officers;
+    }
+
+    public void addOfficer(String officer) {
+        officerSlot--;
+        this.officersID.add(officer);
     }
 
     public void setTwoRoomUnits(int twoRoomUnits) {

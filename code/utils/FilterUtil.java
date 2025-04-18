@@ -91,7 +91,7 @@ public class FilterUtil {
         if (settings.getOfficerSlot() != null && settings.getOfficerSlot() > 0) {
             filteredProjects = filterByOfficerSlot(filteredProjects, settings.getOfficerSlot());
         }
-        if (settings.getVisibility()) {
+        if (settings.getVisibility() != null && settings.getVisibility()) {
             filteredProjects = filterByVisibility(filteredProjects);
         }
 

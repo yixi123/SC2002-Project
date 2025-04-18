@@ -14,7 +14,6 @@ import models.projects.ProjectApplication;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
-import models.enums.OfficerAppStat;
 
 public class FileLoader implements IFileLoader {
 
@@ -110,10 +109,8 @@ public class FileLoader implements IFileLoader {
                 BTOProject project = new BTOProject(
                     data[0], data[1], Integer.parseInt(data[2]), Integer.parseInt(data[4]),
                     Double.parseDouble(data[3]), Double.parseDouble(data[5]),
-                    dateFormat.parse(data[6]), dateFormat.parse(data[7]), Boolean.parseBoolean(data[11])
+                    dateFormat.parse(data[6]), dateFormat.parse(data[7]), data[8], Integer.parseInt(data[9]) , Boolean.parseBoolean(data[11])
                 );
-                project.setManagerID(data[8]);
-                project.setOfficerSlot(Integer.parseInt(data[9]));
                 project.setOfficers(Arrays.asList(data[10].split(";")));
                 projects.add(project);
             }
