@@ -1,23 +1,42 @@
 package services.subservices;
 
+import database.dataclass.projects.ProjectAppDB;
+import database.dataclass.users.ApplicantDB;
+import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import database.dataclass.projects.ProjectAppDB;
+import models.enums.ProjectAppStat;
+import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import services.interfaces.IReportPrintService;
 
 public class ReportPrintService implements IReportPrintService {
 
-    public void printReport(Scanner sc, Map<Applicant, ProjectApplication> applicantsAndApplication) {
-        System.out.println("Report Print Filter Options:");
+    public void printReport(Scanner sc, BTOProject project) {
+        
+        List<ProjectApplication> projectApplications = ProjectAppDB.getApplicationsByProject(project.getProjectName());
+        projectApplications = projectApplications.stream()
+                .filter(app -> app.getStatus() == ProjectAppStat.BOOKED)
+                .collect(Collectors.toList());
+        if (projectApplications.isEmpty()) {
+            System.out.println("No applicants found for the selected project.");
+            return;
+        }
+
+        Map<Applicant, ProjectApplication> applicantsAndApplication = projectApplications.stream()
+                .collect(Collectors.toMap(app -> ApplicantDB.getApplicantByID(app.getUser()), app -> app));
 
         applicantsAndApplication = filterReportContent(sc, applicantsAndApplication);
-        
-        System.out.println("Generating report...");
-        
+
+        if (applicantsAndApplication == null || applicantsAndApplication.isEmpty()) {
+            System.out.println("No applicants found for the selected filter.");
+            return;
+        }
+
         System.out.println("A report of the list of applicants based on the filter category is as follows:");
         System.out.println("-------------------------------------------------");
         for (Applicant applicant : applicantsAndApplication.keySet()) {
@@ -95,12 +114,12 @@ public class ReportPrintService implements IReportPrintService {
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                     }
                 }
-                default -> System.out.println("Invalid choice. Returning to menu.");
+                default -> System.out.println("Invalid choice! Please choose provided options!");
             }
         }while(filterChoice != 0);
-        if (applicantsAndApplication.isEmpty()) {
-            System.out.println("No applicants found for the selected filter.");
-            return null;
+
+        if (applicantsAndApplication == null || applicantsAndApplication.isEmpty()) {
+            throw new Exception("No applicants found for the selected filter.");
         }
 
         return applicantsAndApplication;
