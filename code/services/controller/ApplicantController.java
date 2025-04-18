@@ -2,10 +2,14 @@ package services.controller;
 
 import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
+
 import java.util.List;
 import java.util.Scanner;
+
 import models.projects.*;
 import models.users.Applicant;
+import models.projects.BTOProject;
+
 import services.interfaces.IEnquiryService;
 import services.interfaces.IProjectApplicationService;
 import services.interfaces.IProjectViewService;
@@ -17,14 +21,17 @@ import view.ApplicantView;
 
 public class ApplicantController extends UserController {
     
-    ApplicantView applicantView = new ApplicantView();
+    private ApplicantView applicantView = new ApplicantView();
 
     IProjectViewService projectViewService = new ProjectViewService();
     IProjectApplicationService projectApplicationService = new ProjectApplicationService();
     IEnquiryService enquiryService = new EnquiryService();
 
+    public ApplicantController(){
+    }
+
     public Applicant retreiveApplicant(){
-        Applicant currentUser = (Applicant) AuthController.getCurrentUser();
+        Applicant currentUser = (Applicant) auth.getCurrentUser();
         currentUser.setCurrentApplication(ProjectAppDB.getApplicationByUser(currentUser.getNric()));
         return currentUser;
     }
@@ -44,25 +51,27 @@ public class ApplicantController extends UserController {
             System.out.println("3. View Application Status");
             System.out.println("4. Withdraw Project");
             System.out.println("5. View My Enquiry");
-            System.out.println("6. Logout");
+            System.out.println("6. Change My Password");
+            System.out.println("0. Logout");
             System.out.println("--------------------------------");
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
             sc.nextLine();
 
             switch (choice) {
+                case 0 -> System.out.println("Logging out...");
                 case 1 -> app.displayProjectProtal(sc);
                 case 2 -> app.adjustFilterSettings(sc);
                 case 3 -> app.viewApplicationStatus();
                 case 4 -> app.withdrawProject();
                 case 5 -> app.viewMyEnquiry(sc);
-                case 6 -> System.out.println("Logging out...");
+                case 6 -> app.changeMyPassword(sc);
                 default -> {
                     System.out.println("Invalid choice. Please try again.");
                     start(sc);
                 }
             }
-        } while (choice != 6);
+        } while (choice != 0 || choice != 6);
     }
 
     public void displayProjectProtal(Scanner sc){
@@ -73,10 +82,10 @@ public class ApplicantController extends UserController {
         if (selectedProject == null) {
             return;
         }
-        displayProjectOption(sc, selectedProject);
+        displayProjectAction(sc, selectedProject);
     }
 
-    public void displayProjectOption(Scanner sc, BTOProject selectedProject) {
+    public void displayProjectAction(Scanner sc, BTOProject selectedProject) {
         System.out.println("You have selected: " + selectedProject.getProjectName());
         System.out.println("1. Apply for this project");
         System.out.println("2. Ask questions about this project");
@@ -137,5 +146,9 @@ public class ApplicantController extends UserController {
             return;
         }
         enquiryService.enquiryOption(sc, selectedEnquiry);
+    }
+
+    public void changeMyPassword(Scanner sc){
+        auth.changePasswordPage(sc);
     }
 }

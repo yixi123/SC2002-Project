@@ -37,7 +37,7 @@ public class MainApp{
         int choice = 0;
 
         System.out.println("=========================================");
-        System.out.println("     BTO Project Management System");
+        System.out.println("     BTO Project Management System       ");
         System.out.println("=========================================");
 
         do{
@@ -74,7 +74,7 @@ public class MainApp{
 
         } while (choice != 3);
         
-        System.out.println("\t\tThank you!");
+        System.out.println("               Thank you!                ");
         System.out.println("=========================================");
     }
         
