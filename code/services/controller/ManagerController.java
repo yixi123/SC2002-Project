@@ -139,12 +139,12 @@ public class ManagerController extends UserController{
   }
 
   public void approveProjectApp(ProjectApplication selectedProjectApp) {
-    projectAppService.updateApplicationStatus(selectedProjectApp, selectedProjectApp.getStatus());
+    projectAppService.updateApplicationStatus(selectedProjectApp, ProjectAppStat.SUCCESSFUL);
     System.out.println("You have successfully approved the project application for " + selectedProjectApp.getProjectName() + ".");
   }
 
   public void rejectProjectApp(ProjectApplication selectedProjectApp) {
-    projectAppService.updateApplicationStatus(selectedProjectApp, selectedProjectApp.getStatus());
+    projectAppService.updateApplicationStatus(selectedProjectApp, ProjectAppStat.UNSUCCESSFUL);
     System.out.println("You have successfully rejected the project application for " + selectedProjectApp.getProjectName() + ".");
   }
 
