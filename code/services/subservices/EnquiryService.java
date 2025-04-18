@@ -22,7 +22,7 @@ public class EnquiryService implements IEnquiryService{
                 System.out.println("---------------------------------------");
                 System.out.println("0. Back to menu");
                 System.out.printf("Please select an enquiry [0 - %d]: ", enquiryList.size());
-                System.out.println("---------------------------------------");
+                System.out.println("\n---------------------------------------");
 
                 int enquiryChoice = sc.nextInt() - 1;
                 sc.nextLine(); // Consume newline
@@ -89,8 +89,14 @@ public class EnquiryService implements IEnquiryService{
             System.out.println("No enquiries found for project: " + projectName);
             return;
         }
+
+        System.out.println("Enquiries for project: " + projectName);
+        System.out.println("-------------------------------------------------");
         enqList.stream()
-            .forEach(enq -> System.out.println(enq.toString()));
+            .forEach(enq -> {
+                System.out.println(enq.toString(false));
+                System.out.println("-------------------------------------------------");
+            });
     }
 
     public void addEnquiry(String userID, String projectID, String content) {
@@ -137,6 +143,7 @@ public class EnquiryService implements IEnquiryService{
         enq.setReplierTimestamp(LocalDateTime.now());
 
         enquiries.set(index, enq);
+        EnquiryDB.updateDB(enquiries);
     }
 
 

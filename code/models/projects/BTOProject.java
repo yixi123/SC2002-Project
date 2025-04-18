@@ -1,6 +1,8 @@
 package models.projects;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -140,6 +142,7 @@ public class BTOProject {
     }
 
     public String shortToString() {
-        return String.format("%-30s [ %s ] %s - %s", projectName, neighborhood, openingDate.toString(), closingDate.toString());
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        return String.format("%-20s [ %s ]\n   %s - %s", projectName, neighborhood, dateFormatter.format(openingDate), dateFormatter.format(closingDate));
     }
 }

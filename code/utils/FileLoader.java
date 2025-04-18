@@ -126,6 +126,7 @@ public class FileLoader implements IFileLoader {
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
             br.readLine(); // Skip header
             String line;
+    
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 enquiries.add(new Enquiry(
@@ -134,9 +135,9 @@ public class FileLoader implements IFileLoader {
                     data[2],                  // Project
                     data[3],                  // Content
                     LocalDateTime.parse(data[4], formatter), // Timestamp
-                    data[5],                  // ReplierUserID
+                    data[5].equals("null") ? null : data[5],                  // ReplierUserID
                     data[6],                  // ReplyContent
-                    LocalDateTime.parse(data[7], formatter)  // ReplierTimestamp
+                    data[7].equals("null") ? null: LocalDateTime.parse(data[7], formatter) // ReplierTimestamp
                 ));
             }
         } catch (IOException e) {

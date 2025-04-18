@@ -36,19 +36,21 @@ public class MainApp{
     public static void entryMenu(Scanner sc, AuthController auth){
         int choice = 0;
 
-        System.out.println("=========================================");
-        System.out.println("     BTO Project Management System       ");
-        System.out.println("=========================================");
+
 
         do{
             try{
+                System.out.println("\n\n=========================================");
+                System.out.println("     BTO Project Management System       ");
+                System.out.println("=========================================");
                 System.out.println("1. Log In");
                 System.out.println("2. Register as Applicant");
                 System.out.println("3. Exit App");
                 System.out.println("-----------------------------------------");
-                System.out.println("Enter your choice (1-3): ");
-                System.out.println("-----------------------------------------");
+                System.out.print("Enter your choice (1-3): ");
                 choice = sc.nextInt(); sc.nextLine();
+                System.out.println("-----------------------------------------");
+                
                 
                 switch(choice){
                     case 1:
@@ -74,6 +76,7 @@ public class MainApp{
 
         } while (choice != 3);
         
+        System.out.println("-----------------------------------------");
         System.out.println("               Thank you!                ");
         System.out.println("=========================================");
     }

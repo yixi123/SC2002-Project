@@ -226,7 +226,7 @@ public class ProjectManagementService implements IProjectManagementService {
       }
 
       while(true){
-        System.out.println("Enter Two-Room Slots: ");
+        System.out.print("Enter Two-Room Slots: ");
         twoRoomUnits = sc.nextInt(); sc.nextLine();
         if (twoRoomUnits <= 0) {
             System.out.println("Invalid number of slots.\nPlease enter a positive value.");
@@ -236,7 +236,7 @@ public class ProjectManagementService implements IProjectManagementService {
       }
 
       while(true){
-        System.out.println("Enter Three-Room Slots: ");
+        System.out.print("Enter Three-Room Slots: ");
         threeRoomUnits = sc.nextInt(); sc.nextLine();
         if (threeRoomUnits <= 0) {
             System.out.println("Invalid number of slots.\nPlease enter a positive value!");

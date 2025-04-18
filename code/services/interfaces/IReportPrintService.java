@@ -2,12 +2,14 @@ package services.interfaces;
 
 import java.util.Map;
 import java.util.Scanner;
+
+import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 
 import models.users.Applicant;
 
 public interface IReportPrintService {
-    public void printReport(Scanner sc, Map<Applicant, ProjectApplication> applicantsAndApplication);
+    public void printReport(Scanner sc, BTOProject project);
 
     public Map<Applicant, ProjectApplication> filterReportContent(Scanner sc, Map<Applicant, ProjectApplication> applicantsAndApplication);
 }

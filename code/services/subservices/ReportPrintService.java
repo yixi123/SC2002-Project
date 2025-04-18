@@ -31,11 +31,11 @@ public class ReportPrintService implements IReportPrintService {
                 .collect(Collectors.toMap(app -> ApplicantDB.getApplicantByID(app.getUser()), app -> app));
 
         applicantsAndApplication = filterReportContent(sc, applicantsAndApplication);
-
-        if (applicantsAndApplication == null || applicantsAndApplication.isEmpty()) {
-            System.out.println("No applicants found for the selected filter.");
+        if (applicantsAndApplication.isEmpty()) {
+            System.out.println("No applicants found for the selected filter criteria.");
             return;
         }
+
 
         System.out.println("A report of the list of applicants based on the filter category is as follows:");
         System.out.println("-------------------------------------------------");
@@ -117,10 +117,6 @@ public class ReportPrintService implements IReportPrintService {
                 default -> System.out.println("Invalid choice! Please choose provided options!");
             }
         }while(filterChoice != 0);
-
-        if (applicantsAndApplication == null || applicantsAndApplication.isEmpty()) {
-            throw new Exception("No applicants found for the selected filter.");
-        }
 
         return applicantsAndApplication;
     }
