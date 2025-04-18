@@ -1,31 +1,40 @@
 package services.controller;
 
-import database.dataclass.projects.EnquiryDB;
-import database.dataclass.projects.ProjectDB;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
+
+import database.dataclass.projects.EnquiryDB;
+import database.dataclass.projects.ProjectDB;
+
 import models.enums.FlatType;
 import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
-import models.users.HDBManager;
-import utils.FilterUtil;
 import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
+import models.users.Applicant;
+import models.users.HDBManager;
+
+
+import utils.FilterUtil;
+
 import services.interfaces.IEnquiryService;
 import services.interfaces.IOfficerApplicationService;
-import services.interfaces.IPrintService;
+import services.interfaces.IReportPrintService;
 import services.interfaces.IProjectApplicationService;
 import services.interfaces.IProjectManagementService;
 import services.interfaces.IProjectViewService;
+
 import services.subservices.EnquiryService;
 import services.subservices.OfficerApplicationService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectManagementService;
 import services.subservices.ProjectViewService;
 import services.subservices.ReportPrintService;
-import utils.FilterUtil;
+
 
 public class ManagerController extends UserController{
   IProjectApplicationService projectAppService = new ProjectApplicationService();;
@@ -33,20 +42,20 @@ public class ManagerController extends UserController{
   IOfficerApplicationService officerApplicationService = new OfficerApplicationService();
   IProjectViewService projectViewService = new ProjectViewService();
   IEnquiryService enquiryService = new EnquiryService();
-  IPrintService printService = new ReportPrintService();
+  IReportPrintService reportPrintService = new ReportPrintService();
 
 
   public ManagerController(){
   }
 
   public ManagerController( IProjectApplicationService projectAppService, IProjectManagementService projectManagementService, 
-    IOfficerApplicationService officerApplicationService, IProjectViewService projectViewService, IEnquiryService enquiryService, IPrintService printService){
+    IOfficerApplicationService officerApplicationService, IProjectViewService projectViewService, IEnquiryService enquiryService, IReportPrintService printService){
       this.projectAppService = projectAppService;
       this.projectManagementService = projectManagementService;
       this.officerApplicationService = officerApplicationService;
       this.projectViewService = projectViewService;
       this.enquiryService = enquiryService;
-      this.printService = printService;
+      this.reportPrintService = printService;
   }
 
   public HDBManager retreiveManager(){
@@ -286,8 +295,8 @@ public class ManagerController extends UserController{
     System.out.println("You have successfully rejected the officer application for " + selectedOfficerApp.getProjectName() + ".");
   }
 
-  public void generateReport() {
-    
+  public void generateReport(Scanner sc) {
+    reportPrintService.printReport(sc, new HashMap<Applicant, ProjectApplication>());
   }
 
   public void viewMyProjectEnquiry(Scanner sc, String projectName) {
