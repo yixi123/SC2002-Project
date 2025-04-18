@@ -74,6 +74,10 @@ public class ReportPrintService {
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 }
             }
+            default -> {
+                System.out.println("Invalid choice. Returning to menu.");
+                return;
+            }
             
         }
 
