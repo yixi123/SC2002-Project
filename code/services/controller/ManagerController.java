@@ -249,11 +249,20 @@ public class ManagerController extends UserController{
 
   public void displayProjectApplicationAction(Scanner sc, ProjectApplication selectedProjectApp, BTOProject selectedProject) {
 
-    if (selectedProjectApp.getStatus() != ProjectAppStat.PENDING) {
-        System.out.println("This application is not pending. Cannot approve or reject.");
+    if (selectedProjectApp.getStatus() != ProjectAppStat.PENDING && selectedProjectApp.getStatus() != ProjectAppStat.WITHDRAW_REQ) {
+        System.out.println("This application is not pending or requesting to withdraw. Cannot approve or reject.");
         return;
     }
     System.out.println("You have selected: " + selectedProjectApp.toString());
+    if (selectedProjectApp.getStatus() == ProjectAppStat.WITHDRAW_REQ) {
+        withdrawingProjectApplicationAction(sc, selectedProjectApp, selectedProject);        
+    } else {
+        pendingProjectApplicationAction(sc, selectedProjectApp, selectedProject);
+    }
+
+  }
+
+  public void pendingProjectApplicationAction(Scanner sc, ProjectApplication selectedProjectApp, BTOProject selectedProject) {
     System.out.println("1. Approve Project Application");
     System.out.println("2. Reject Project Application");
     System.out.print("Enter your choice: ");
@@ -264,6 +273,18 @@ public class ManagerController extends UserController{
       case 2 -> rejectProjectApp(selectedProjectApp);
       default -> { System.out.println("Invalid choice. Return to menu.");}
     }
+  }
+
+  public void withdrawingProjectApplicationAction(Scanner sc, ProjectApplication selectedProjectApp, BTOProject selectedProject) {
+    System.out.println("This application is requesting to withdraw.");
+    System.out.println("Do you want to approve the withdrawal request? (yes/no): ");
+    String actionChoice = sc.next();
+    switch(actionChoice.toLowerCase()){
+      case "yes" -> withdrawProjectApp(selectedProjectApp, selectedProject);
+      case "no" -> { System.out.println("Withdrawal request not approved.");}
+      default -> { System.out.println("Invalid choice. Return to menu.");}
+    }
+
   }
 
 
@@ -342,6 +363,11 @@ public class ManagerController extends UserController{
   public void rejectProjectApp(ProjectApplication selectedProjectApp) {
     projectAppService.updateApplicationStatus(selectedProjectApp, ProjectAppStat.UNSUCCESSFUL);
     System.out.println("You have successfully rejected the project application for " + selectedProjectApp.getProjectName() + ".");
+  }
+
+  public void withdrawProjectApp(ProjectApplication selectedProjectApp, BTOProject selectedProject) {
+    projectAppService.updateApplicationStatus(selectedProjectApp, ProjectAppStat.WITHDRAWN);
+    System.out.println("You have successfully approved the withdrawal request for the project application for " + selectedProjectApp.getProjectName() + ".");
   }
 
   public void approveOfficerApp(OfficerApplication selectedOfficerApp, BTOProject selectedProject) {

@@ -137,7 +137,7 @@ public class FileSaver {
                     enquiry.getTimestamp().format(formatter), // Format timestamp
                     enquiry.getReplierUserID(),
                     enquiry.getReplyContent(),
-                    enquiry.getReplierTimestamp() != null ? enquiry.getReplierTimestamp().format(formatter) : "" // Format replier timestamp
+                    enquiry.getReplierTimestamp() != null ? enquiry.getReplierTimestamp().format(formatter) : "null" // Format replier timestamp
                 ));
             }
         } catch (IOException e) {

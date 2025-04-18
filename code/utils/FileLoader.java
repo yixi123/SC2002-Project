@@ -137,7 +137,7 @@ public class FileLoader implements IFileLoader {
                     LocalDateTime.parse(data[4], formatter), // Timestamp
                     data[5].equals("null") ? null : data[5],                  // ReplierUserID
                     data[6],                  // ReplyContent
-                    data[7].equals("null") ? null: LocalDateTime.parse(data[7], formatter) // ReplierTimestamp
+                    data[7].equals("null") ? null : LocalDateTime.parse(data[7], formatter) // ReplierTimestamp
                 ));
             }
         } catch (IOException e) {
