@@ -2,6 +2,7 @@ package services.controller;
 
 import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import models.enums.ProjectAppStat;
@@ -38,6 +39,7 @@ public class ApplicantController extends UserController {
     public void start(Scanner sc){
         ApplicantController app = new ApplicantController();
         filterSettings.setVisibility(true);
+        filterSettings.setActiveDate(new Date());
         int choice;
 
         do{
