@@ -41,4 +41,13 @@ public class ApplicantDB {
     return null;
   }
 
+  public static Applicant getApplicantByID(String userID){
+    for (Applicant applicant : db) {
+      if (applicant.getNric().equals(userID)) {
+        return applicant;
+      }
+    }
+    return null;
+  }
+
 }
