@@ -125,6 +125,10 @@ public class OfficerController extends ApplicantController {
 		offAppService.applyForOfficer(retrieveOfficer(), project);
 	}
 
+  public void viewOfficerApplicationStatus() {
+     officerView.displayOfficerApplicationStatus();
+  }
+
 
 	// -----------------------------------------------------------------------------------
 	@Override
@@ -137,7 +141,7 @@ public class OfficerController extends ApplicantController {
         HDBOfficer officer = retrieveOfficer();
         List<OfficerApplication> applications = officer.getOfficerApplications();
         
-        if (!officer.getMyApplication().isEmpty()) {
+        if (officer.getActiveApplication() != null) {
             System.out.println("You have already applied for a project.\n Please check your application status.");
 			System.out.println("-----------------------------------------");
             return;
