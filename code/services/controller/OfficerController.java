@@ -134,14 +134,6 @@ public class OfficerController extends ApplicantController {
     officerView.viewEnquiryActionMenuForOfficer(sc, selectedEnquiry);
   }
 
-  public void editReplyOfEnquiry(Scanner sc, Enquiry selectedEnquiry) {
-    if (selectedEnquiry.getReplierUserID() != retreiveOfficer().getNric()) {
-      System.out.println("You are not authorized to edit this reply.");
-      return;
-    }
-    enquiryService.editReplyOfEnquiry(sc, selectedEnquiry);
-  }
-
   public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry) {
     if (selectedEnquiry.getReplierUserID() != null) {
       System.out.println("This enquiry has already been replied to.");

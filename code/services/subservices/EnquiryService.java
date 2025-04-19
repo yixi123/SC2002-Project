@@ -127,12 +127,4 @@ public class EnquiryService implements IEnquiryService{
         EnquiryDB.updateDB(enquiries);
     }
 
-    public void editReplyOfEnquiry(Scanner sc, Enquiry selectedEnquiry) {
-        System.out.print("Enter your new reply content: ");
-        String newContent = sc.nextLine();
-        selectedEnquiry.setReplyContent(newContent);
-        selectedEnquiry.setReplierTimestamp(LocalDateTime.now());
-        EnquiryDB.updateDB(EnquiryDB.getDB());
-        System.out.println("Reply updated successfully.");
-    }
 }
