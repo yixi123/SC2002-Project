@@ -14,7 +14,7 @@ import services.controller.ApplicantController;
 import utils.FilterUtil;
 
 public class ApplicantView {
-	ApplicantController app = new ApplicantController();
+	private static ApplicantController app = new ApplicantController();
 
     public void enterMainMenu(Scanner sc) throws Exception{
         int choice;
@@ -110,7 +110,7 @@ public class ApplicantView {
 	public void displayApplicationStatus(){
 		Applicant applicant = app.retreiveApplicant();
         List<ProjectApplication> applicationList = applicant.getMyApplication();
-		
+
         if (applicationList.isEmpty()) {
             System.out.println("You have not applied for any projects yet.");
             return;

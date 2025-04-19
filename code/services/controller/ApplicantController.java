@@ -24,7 +24,7 @@ import utils.FilterUtil;
 
 public class ApplicantController extends UserController {
     
-    private ApplicantView applicantView = new ApplicantView();
+    private static ApplicantView applicantView = new ApplicantView();
 
     IProjectViewService projectViewService = new ProjectViewService();
     IProjectApplicationService projectApplicationService = new ProjectApplicationService();
