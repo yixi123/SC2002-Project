@@ -1,11 +1,11 @@
 package database.dataclass.projects;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import models.projects.BTOProject;
 import utils.FileLoader;
-import utils.FileSaver ;
+import utils.FileSaver;
 
 public class ProjectDB {
   private static List<BTOProject> db;
@@ -61,15 +61,13 @@ public class ProjectDB {
     FileSaver.saveProjects(db);
   }
 
-  public static BTOProject getProjectByOfficer(String officerId){
+  public static List<BTOProject> getProjectsByOfficer(String officerId){
+    List<BTOProject> projects = new ArrayList<>();
     for (BTOProject project : db) {
         if (project.getOfficers() != null && project.getOfficers().contains(officerId)) {
-            Date currentDate = new Date();
-            if (currentDate.after(project.getOpeningDate()) && currentDate.before(project.getClosingDate())) {
-                return project; 
-            }
+            projects.add(project);
         }
     }
-    return null; 
+    return projects; 
   }
 }

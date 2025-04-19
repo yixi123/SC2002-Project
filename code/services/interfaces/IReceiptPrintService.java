@@ -1,5 +1,5 @@
 package services.interfaces;
 
-public class IReceiptPrintService {
-  
+public interface IReceiptPrintService {
+    String printReceipt(String applicantId);
 }

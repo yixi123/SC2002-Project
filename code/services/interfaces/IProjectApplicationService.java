@@ -15,5 +15,5 @@ public interface IProjectApplicationService {
   public void bookApplication(String projectName, String userID);
   public List<ProjectApplication> getProjectApplications(String projectName);
   public ProjectApplication chooseFromApplicationList(Scanner sc, List<ProjectApplication> applications);
-  
+  public ProjectApplication getApplicationByUserAndProject(String userId, String projectName);
 }

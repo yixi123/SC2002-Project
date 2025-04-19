@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import models.enums.OfficerAppStat;
-import models.projects.Application;
 import models.projects.OfficerApplication;
 import models.users.HDBOfficer;
 import services.interfaces.IOfficerApplicationService;
@@ -43,9 +42,10 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         System.out.println("Application status updated to: " + newStatus);
     }
 
-    public static List<Application> getApplicationsByUser(String nric) {
-        List<Application> result = new ArrayList<>();
-        for (Application application : applications) {
+    @Override
+    public List<OfficerApplication> getApplicationsByUser(String nric) {
+        List<OfficerApplication> result = new ArrayList<>();
+        for (OfficerApplication application : applications) {
             if (application.getUser().equalsIgnoreCase(nric)) {
                 result.add(application);
             }
@@ -53,9 +53,9 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         return result;
     }
 
-    public static List<Application> getApplicationsByProject(String project) {
-        List<Application> result = new ArrayList<>();
-        for (Application application : applications) {
+    public List<OfficerApplication> getApplicationsByProject(String project) {
+        List<OfficerApplication> result = new ArrayList<>();
+        for (OfficerApplication application : applications) {
             if (application.getProjectName().equalsIgnoreCase(project)) {
                 result.add(application);
             }
@@ -63,7 +63,7 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         return result;
     }
 
-    private static void saveApplications() {
+    private void saveApplications() {
         OfficerAppDB.updateDB(applications);
     }
 

@@ -111,6 +111,17 @@ public class ProjectApplicationService implements IProjectApplicationService{
     }
 
     @Override
+    public ProjectApplication getApplicationByUserAndProject(String userId, String projectName) {
+        List<ProjectApplication> applications = ProjectAppDB.getDB();
+        for (ProjectApplication application : applications) {
+            if (application.getUser().equals(userId) && application.getProjectName().equals(projectName)) {
+                return application;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public ProjectApplication chooseFromApplicationList(Scanner sc, List<ProjectApplication> applications) {
         System.out.println("Display only 'pending' applications? (yes/no): ");
         String filterChoice = sc.nextLine().trim().toLowerCase();

@@ -13,4 +13,5 @@ public interface IOfficerApplicationService {
   public void updateApplicationStatus(OfficerApplication application, OfficerAppStat newStatus);
   public List<OfficerApplication> getProjectApplications(String projectName);
   public OfficerApplication chooseFromApplicationList(Scanner sc, List<OfficerApplication> applications);
+  public List<OfficerApplication> getApplicationsByUser(String nric);
 }
