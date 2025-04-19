@@ -3,6 +3,7 @@ package models.users;
 import java.util.Date;
 import java.util.List;
 import models.enums.MaritalStatus;
+import models.enums.OfficerAppStat;
 import models.projects.BTOProject;
 import models.projects.OfficerApplication;
 

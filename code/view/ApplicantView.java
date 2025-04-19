@@ -116,7 +116,7 @@ public class ApplicantView {
         List<ProjectApplication> applicationList = applicant.getMyApplication();
 
         if (applicationList.isEmpty()) {
-            System.out.println("You have not applied\n for any projects yet.");
+            System.out.println("You have not applied for any projects yet.");
             System.out.println("-----------------------------------------");
             return;
         }
