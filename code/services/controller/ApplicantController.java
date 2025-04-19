@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import models.enums.ProjectAppStat;
 import models.projects.*;
-import models.projects.BTOProject;
 import models.users.Applicant;
 
 import services.interfaces.IEnquiryService;

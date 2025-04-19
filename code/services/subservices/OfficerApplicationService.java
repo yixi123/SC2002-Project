@@ -3,7 +3,6 @@ package services.subservices;
 import database.dataclass.projects.OfficerAppDB;
 import database.dataclass.projects.ProjectDB;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;

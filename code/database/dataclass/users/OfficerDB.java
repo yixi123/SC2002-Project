@@ -2,7 +2,6 @@ package database.dataclass.users;
 
 import java.util.List;
 
-import models.projects.BTOProject;
 import models.users.HDBOfficer;
 import utils.FileLoader;
 import utils.FileSaver;

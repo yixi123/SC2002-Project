@@ -1,15 +1,12 @@
 package database.dataclass.projects;
 
 import models.enums.OfficerAppStat;
-import models.enums.ProjectAppStat;
-import models.projects.Application;
 import models.projects.OfficerApplication;
 import utils.FileLoader;
 import utils.FileSaver;
 
 import java.util.ArrayList;
 import java.util.List;
-import utils.FileSaver;
 
 public class OfficerAppDB {
   private static List<OfficerApplication> db;
