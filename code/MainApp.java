@@ -21,15 +21,28 @@ public class MainApp{
         AuthController auth = new AuthController();
         Scanner sc = new Scanner(System.in);
         
-        // try{
+        try{
             entryMenu(sc, auth);
-        // }
+        }
         //Security Measure: Unexpected Error
-        // catch(Exception e){
-        //     System.out.println("System crashed! Please restart!");
-        //     System.out.println("Error: " + e.getMessage());
-        //     saveDB();
-        // }
+        catch(NullPointerException e){
+            System.out.println("System crashed! Please restart!");
+            System.out.println("Null Pointer Error: " + e.getMessage());
+            saveDB();
+        }
+        catch(Error e){
+            System.out.println("System crashed! Please restart!");
+            System.out.println("Error: " + e.getMessage());
+            saveDB();
+        }
+        catch(Exception e){
+            System.out.println("System crashed! Please restart!");
+            System.out.println("Error: " + e.getMessage());
+            saveDB();
+        }
+        finally{
+            sc.close(); 
+        }
 
     }
 

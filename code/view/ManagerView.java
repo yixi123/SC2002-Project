@@ -11,7 +11,7 @@ import utils.FilterUtil;
 
 public class ManagerView {
 
-	ManagerController app = new ManagerController();
+	private static ManagerController app = new ManagerController();
 
 	public void enterMainMenu(Scanner sc) 
 	throws Exception, IllegalArgumentException{
