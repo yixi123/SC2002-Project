@@ -4,19 +4,23 @@ import database.dataclass.projects.ProjectDB;
 
 import java.util.List;
 import java.util.Scanner;
+
 import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.*;
 import models.users.Applicant;
 import models.users.HDBOfficer;
+
 import services.interfaces.IEnquiryService;
 import services.interfaces.IOfficerApplicationService;
 import services.interfaces.IProjectApplicationService;
 import services.interfaces.IReceiptPrintService;
+
 import services.subservices.EnquiryService;
 import services.subservices.OfficerApplicationService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ReceiptPrintService;
+
 import utils.FilterUtil;
 import view.OfficerView;
 
@@ -104,6 +108,7 @@ public class OfficerController extends ApplicantController {
 		}
 		List<Enquiry> enquiryList =  enquiryService.getEnquiriesbyProject(project.getProjectName());
 		Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
+	}
 
   public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry) {
     if (selectedEnquiry.getReplierUserID() != null) {
@@ -113,7 +118,7 @@ public class OfficerController extends ApplicantController {
     System.out.print("Enter your reply content: ");
     String replyContent = sc.nextLine();
     System.out.println("-----------------------------------------");
-    enquiryService.replyEnquiry(selectedEnquiry.getId(), retreiveOfficer().getNric(), replyContent);
+    enquiryService.replyEnquiry(selectedEnquiry.getId(), retrieveOfficer().getNric(), replyContent);
     System.out.println("Reply sent successfully.");
     System.out.println("-----------------------------------------");
   }
