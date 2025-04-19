@@ -80,7 +80,7 @@ public class ApplicantView {
 					displayProjectAction(sc, filteredProjects.get(projectChoice));
 				}
 				else if (projectChoice == -1) {
-					System.out.println("Returning to menu."); break;
+					System.out.println("Returning to menu."); return;
 				} 
 				else {
 					System.out.println("Invalid project choice. Try again!");

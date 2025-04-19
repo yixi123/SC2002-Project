@@ -145,7 +145,7 @@ public class OfficerView extends ApplicantView {
 					  displayOfficerProjectPortal(sc, filteredProjects.get(projectChoice));
 				}
 				else if (projectChoice == -1) {
-					System.out.println("Returning to menu."); break;
+					System.out.println("Returning to menu."); return;
 				} 
 				else {
 					System.out.println("Invalid project choice. Try again!");
@@ -165,7 +165,7 @@ public class OfficerView extends ApplicantView {
 			sc.nextLine(); // Consume newline
 			switch (actionChoice) {
 				case 1 -> app.registerAsOfficer(selectedProject);
-				case 2 -> {System.out.println("Back to project list..."); break;}
+				case 2 -> {System.out.println("Back to project list..."); return;}
 				default -> System.out.println("Invalid choice. Try again!");
 			}
 		}while(true);
@@ -224,7 +224,7 @@ public class OfficerView extends ApplicantView {
 			switch (actionChoice) {
 				case 1 -> app.applyForProject(sc, selectedProject);
 				case 2 -> app.addEnquiry(sc, selectedProject);
-				case 3 -> {System.out.println("Back to project list..."); break;}
+				case 3 -> {System.out.println("Back to project list..."); return;}
 				default -> System.out.println("Invalid choice. Try again!");
 			}
 		}while(true);

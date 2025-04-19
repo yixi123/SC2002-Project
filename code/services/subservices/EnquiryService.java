@@ -21,7 +21,7 @@ public class EnquiryService implements IEnquiryService{
                 }
                 System.out.println("---------------------------------------");
                 System.out.println("0. Back to menu");
-                System.out.printf("Please select an enquiry [0 - %d]: ", enquiryList.size());
+                System.out.printf("Please select an enquiry [1 - %d]: ", enquiryList.size());
                 System.out.println("\n---------------------------------------");
 
                 int enquiryChoice = sc.nextInt() - 1;
