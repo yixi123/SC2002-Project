@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import database.dataclass.projects.ProjectDB;
+
 public class BTOProject {
     private String projectName;
     private String neighborhood;
@@ -93,6 +95,7 @@ public class BTOProject {
     public void addOfficer(String officer) {
         officerSlot--;
         this.officersID.add(officer);
+        ProjectDB.updateDB();
     }
 
     public void setTwoRoomUnits(int twoRoomUnits) {

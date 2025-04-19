@@ -198,6 +198,7 @@ public class ManagerController extends UserController{
         return;
     }
     System.out.println("You have selected: " + selectedOfficerApp.toString());
+    System.out.println("-----------------------------------------");
     System.out.println("1. Approve Officer Application");
     System.out.println("2. Reject Officer Application");
     System.out.print("Enter your choice: ");
