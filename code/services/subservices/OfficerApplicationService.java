@@ -3,6 +3,7 @@ package services.subservices;
 import database.dataclass.projects.OfficerAppDB;
 import database.dataclass.projects.ProjectDB;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -11,6 +12,7 @@ import models.projects.BTOProject;
 import models.projects.OfficerApplication;
 import models.users.HDBOfficer;
 import services.interfaces.IOfficerApplicationService;
+import view.ViewFormatter;
 
 
 public class OfficerApplicationService implements IOfficerApplicationService {
@@ -93,13 +95,13 @@ public class OfficerApplicationService implements IOfficerApplicationService {
 			if (p != null && (!p.getOpeningDate().after(project.getClosingDate()) || !p.getClosingDate().before(project.getOpeningDate()))) {
 				System.out.println("This project overlaps with\n your current application.");
 				System.out.println("Current application: " + app.getProjectName() + "\n| Status: " + app.getStatus());
-                System.out.println("----------------------------------------");
+                System.out.println(ViewFormatter.breakLine());
 				return;
 			}
 		}
 		addApplication(project.getProjectName(), officer.getNric());
 		System.out.println("Registration PENDING approval.");
-        System.out.println("----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
     }
 
 

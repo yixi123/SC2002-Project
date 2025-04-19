@@ -4,6 +4,8 @@ import java.util.Scanner;
 import models.enums.FlatType;
 import models.projects.FilterSettings;
 
+import view.ViewFormatter;
+
 public abstract class UserController {
     protected FilterSettings filterSettings = new FilterSettings();
     protected AuthController auth = new AuthController();
@@ -18,6 +20,7 @@ public abstract class UserController {
     int filterChoice;
     do {
         System.out.println("Current Filter Settings:");
+        System.out.println(ViewFormatter.breakLine());
         System.out.println("1. Project Name: " + (filterSettings.getProjectName() == null ? "None" : filterSettings.getProjectName()));
         System.out.println("2. Neighborhood: " + (filterSettings.getNeighborhood() == null ? "None" : filterSettings.getNeighborhood()));
         System.out.println("3. Flat Type: " + (filterSettings.getFlatType() == null ? "None" : filterSettings.getFlatType()));
@@ -26,6 +29,7 @@ public abstract class UserController {
         System.out.println("6. Sorting Option: " + (filterSettings.getSortBy() == null ? "None" : filterSettings.getSortBy()));
         System.out.println("7. Sort Ascending: " + filterSettings.isSortAscending());
         System.out.println("8. Back to Menu");
+        System.out.println(ViewFormatter.breakLine());
         System.out.print("Choose a filter to edit (1-8): ");
         filterChoice = sc.nextInt();
         sc.nextLine(); // Consume newline
@@ -65,15 +69,19 @@ public abstract class UserController {
             }
             case 6 -> {
                 System.out.println("Sorting Options:");
+                System.out.println(ViewFormatter.breakLine());
                 System.out.println("1. Project Name");
                 System.out.println("2. Neighborhood");
                 System.out.println("3. Two-Room Units");
                 System.out.println("4. Three-Room Units");
                 System.out.println("5. Selling Price for Type 1");
                 System.out.println("6. Selling Price for Type 2");
+                System.out.println("7. Manager");
+                System.out.println(ViewFormatter.breakLine());
                 System.out.print("Choose sorting option (1-6): ");
                 int sortOption = sc.nextInt();
                 sc.nextLine(); // Consume newline
+                System.out.println(ViewFormatter.breakLine());
                 switch (sortOption) {
                     case 1 -> filterSettings.setSortBy(FilterSettings.SortBy.PROJECT_NAME);
                     case 2 -> filterSettings.setSortBy(FilterSettings.SortBy.NEIGHBORHOOD);
@@ -86,6 +94,7 @@ public abstract class UserController {
             }
             case 7 -> {
                 System.out.print("Sort ascending? (true/false): ");
+                System.out.println(ViewFormatter.breakLine());
                 boolean sortAscending = sc.nextBoolean();
                 sc.nextLine(); // Consume newline
                 filterSettings.setSortAscending(sortAscending);
