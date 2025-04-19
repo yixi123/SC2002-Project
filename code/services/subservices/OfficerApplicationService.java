@@ -68,18 +68,6 @@ public class OfficerApplicationService implements IOfficerApplicationService {
     }
 
     @Override
-    public void applyForOfficer(Scanner sc, HDBOfficer user, String selectedProjectName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'applyForOfficer'");
-    }
-
-    @Override
-    public OfficerAppStat viewApplicationStatus(String userID) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewApplicationStatus'");
-    }
-
-    @Override
     public List<OfficerApplication> getProjectApplications(String projectName) {
         return OfficerAppDB.getApplicationsByProject(projectName);
     }
