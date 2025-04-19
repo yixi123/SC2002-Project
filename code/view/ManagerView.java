@@ -76,7 +76,7 @@ public class ManagerView {
 
 			if(choice == 0){
 				System.out.println("Returning to Main Menu...");
-				break;
+				return;
 			}
 			app.readOnlyProjectAction(sc, filteredProjects.get(choice - 1).getProjectName());
 		}while(choice != 0);
@@ -96,8 +96,7 @@ public class ManagerView {
 			System.out.println("\n-----------------------------------------");
 			switch(actionChoice){
 			case 1 -> { app.viewPublicEnquiry(projectName);}
-			case 0 -> { System.out.println("Returning to Project List View."); 
-						return;}
+			case 0 -> { System.out.println("Returning to Project List View."); return;}
 			default -> { System.out.println("Invalid choice. Return to menu.");}
 			}
       	}while(actionChoice != 0);
@@ -169,7 +168,7 @@ public class ManagerView {
 			
 			if(choice == 0){
 				System.out.println("Returning to Main Menu...");
-				break;
+				return;
 			}
 
 			app.manageChosenProject(sc, filteredProjects.get(choice - 1));

@@ -108,9 +108,7 @@ public class OfficerView extends ApplicantView {
        
 		System.out.println("-------------------------------------------");
         System.out.println("1. Reply to this enquiry");
-        // System.out.println("2. Edit reply of this enquiry");
-		System.out.println("0. Back to Main Menu.");
-		System.out.println("-------------------------------------------");
+        System.out.println("2. Back to menu");
         System.out.print("Enter your choice: ");
 
         int actionChoice = sc.nextInt();
@@ -118,7 +116,7 @@ public class OfficerView extends ApplicantView {
 		System.out.println("-------------------------------------------");
         switch (actionChoice) {
             case 1 -> app.replyEnquiry(sc, selectedEnquiry);
-            // case 2 -> app.editReplyOfEnquiry(sc, selectedEnquiry);
+            case 2 -> System.out.println("Returning to menu.");
             default -> System.out.println("Invalid choice. Returning to menu.");
         }
     }
@@ -147,7 +145,7 @@ public class OfficerView extends ApplicantView {
 					  displayOfficerProjectPortal(sc, filteredProjects.get(projectChoice));
 				}
 				else if (projectChoice == -1) {
-					System.out.println("Returning to menu."); break;
+					System.out.println("Returning to menu."); return;
 				} 
 				else {
 					System.out.println("Invalid project choice. Try again!");

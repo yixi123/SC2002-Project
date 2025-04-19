@@ -105,33 +105,18 @@ public class OfficerController extends ApplicantController {
 		List<Enquiry> enquiryList =  enquiryService.getEnquiriesbyProject(project.getProjectName());
 		Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
 
-		try{
-			officerView.viewEnquiryActionMenuForOfficer(sc, selectedEnquiry);
-		} catch (Exception e) {
-			System.out.println("An error occurred: " + e.getMessage());
-		}
-	}
-
-	// public void editReplyOfEnquiry(Scanner sc, Enquiry selectedEnquiry) {
-	// 	if (selectedEnquiry.getReplierUserID() != retrieveOfficer().getNric()) {
-	// 		System.out.println("You are not authorized to edit this reply.");
-	// 		return;
-	// 	}
-	// 	enquiryService.editReplyOfEnquiry(sc, selectedEnquiry);
-	// }
-
-	public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry) {
-		if (selectedEnquiry.getReplierUserID() != null) {
-			System.out.println("This enquiry has already been replied to.");
-			return;
-		}
-		System.out.print("Enter your reply content: ");
-		String replyContent = sc.nextLine();
-		System.out.println("-----------------------------------------");
-		enquiryService.replyEnquiry(selectedEnquiry.getId(), retrieveOfficer().getNric(), replyContent);
-		System.out.println("Reply sent successfully.");
-		System.out.println("-----------------------------------------");
-	}
+  public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry) {
+    if (selectedEnquiry.getReplierUserID() != null) {
+      System.out.println("This enquiry has already been replied to.");
+      return;
+    }
+    System.out.print("Enter your reply content: ");
+    String replyContent = sc.nextLine();
+    System.out.println("-----------------------------------------");
+    enquiryService.replyEnquiry(selectedEnquiry.getId(), retreiveOfficer().getNric(), replyContent);
+    System.out.println("Reply sent successfully.");
+    System.out.println("-----------------------------------------");
+  }
 
 
 	public void registerAsOfficer(BTOProject project) {
