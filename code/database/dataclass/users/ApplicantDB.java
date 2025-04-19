@@ -50,4 +50,9 @@ public class ApplicantDB {
     return null;
   }
 
+  public static void addUser(Applicant applicant) {
+    db.add(applicant);
+    FileSaver.saveApplicants(db);
+  }
+
 }

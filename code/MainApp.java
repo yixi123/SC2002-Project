@@ -50,8 +50,6 @@ public class MainApp{
     public static void entryMenu(Scanner sc, AuthController auth){
         int choice = 0;
 
-
-
         do{
             try{
                 System.out.println("\n\n" + ViewFormatter.thickBreakLine());
@@ -72,7 +70,7 @@ public class MainApp{
                         navigateMenu(user, sc);
                         break;
                     case 2:
-                        //yet to be done
+                        auth.addApplicant(sc);
                         break;
                     case 3:
                         System.out.println("Exiting...");
