@@ -27,8 +27,6 @@ public interface IEnquiryService {
 
     public List<Enquiry> getEnquiriesbyProject(String projectName);
 
-    public void editReplyOfEnquiry(Scanner sc, Enquiry selectedEnquiry);
-
 
 }
     

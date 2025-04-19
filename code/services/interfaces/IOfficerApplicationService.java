@@ -8,7 +8,6 @@ import models.projects.OfficerApplication;
 import models.users.HDBOfficer;
 
 public interface IOfficerApplicationService {
-  public void applyForOfficer(HDBOfficer user, BTOProject project);
   public void addApplication(String projectName, String userID);
   public void updateApplicationStatus(OfficerApplication application, OfficerAppStat newStatus);
   public List<OfficerApplication> getProjectApplications(String projectName);
