@@ -3,8 +3,10 @@ package view;
 import java.util.List;
 import java.util.Scanner;
 
+import database.dataclass.projects.EnquiryDB;
 import database.dataclass.projects.ProjectDB;
 import models.projects.BTOProject;
+import models.projects.Enquiry;
 import models.projects.FilterSettings;
 import services.controller.ManagerController;
 import utils.FilterUtil;
@@ -94,8 +96,7 @@ public class ManagerView {
 			System.out.println("\n-----------------------------------------");
 			switch(actionChoice){
 			case 1 -> { app.viewPublicEnquiry(projectName);}
-			case 0 -> { System.out.println("Returning to Project List View."); 
-			return;}
+			case 0 -> { System.out.println("Returning to Project List View."); return;}
 			default -> { System.out.println("Invalid choice. Return to menu.");}
 			}
       	}while(actionChoice != 0);
