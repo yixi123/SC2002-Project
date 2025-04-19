@@ -1,11 +1,13 @@
 package services.controller;
 
 import database.dataclass.projects.ProjectDB;
+
 import java.util.List;
 import java.util.Scanner;
 import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.*;
+import models.users.Applicant;
 import models.users.HDBOfficer;
 import services.interfaces.IEnquiryService;
 import services.interfaces.IOfficerApplicationService;
@@ -45,6 +47,7 @@ public class OfficerController extends ApplicantController {
   @Override
   public void start(Scanner sc) throws Error{
       try{
+          System.out.println("Welcome to the HDB Officer Portal!");
           officerView.enterMainMenu(sc);
       } catch (Exception e) {
           System.out.println("An error occurred: " + e.getMessage());
@@ -59,16 +62,11 @@ public class OfficerController extends ApplicantController {
     else           System.out.println(p);
   }
 
-  public void viewProjectList(){
-    List<BTOProject> projects =  ProjectDB.getDB();
-    List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
-
-    if (filteredProjects.isEmpty()) {
-      System.out.println("No projects match your filters.");
-    } else {
-      filteredProjects.forEach(System.out::println);
-    }
+  public void enterOfficerProjectPortal(Scanner sc) throws Exception {
+      officerView.displayOfficerProjectPortal(sc, filterSettings);
   }
+    
+  
 
   public void viewSuccessfulApplicantsList() {
     BTOProject project = retreiveOfficer().getActiveProject();
@@ -92,6 +90,19 @@ public class OfficerController extends ApplicantController {
       System.out.println("No project assigned.");
       return;
     }
+    ProjectApplication app = proAppService.getApplicationByUserAndProject(applicantId, project.getProjectName());
+    if (app == null) {
+      System.out.println("No application found for applicant " + applicantId);
+      return;
+    }
+    if (app.getStatus() == ProjectAppStat.BOOKED) {
+      System.out.println("Application is already booked.");
+      return;
+    }
+    if (app.getStatus() != ProjectAppStat.SUCCESSFUL) {
+      System.out.println("Application is not successful cannot proceed to booking.");
+      return;
+    }
     proAppService.bookApplication(project.getProjectName(), applicantId);
     
   }
@@ -105,42 +116,55 @@ public class OfficerController extends ApplicantController {
     }
   }
 
-  public void viewEnquiries() {
+  public void viewEnquiries(Scanner sc){
     BTOProject project = retreiveOfficer().getActiveProject();
     if (project == null) {
       System.out.println("No project assigned.");
       return;
     }
-    enquiryService.viewEnquiriesByProject(project.getProjectName());
-  }
-
-  public void replyEnquiries(Scanner sc) {
-    System.out.print("Enter Enquiry ID to reply: ");
-    int id = sc.nextInt(); sc.nextLine();
-    System.out.print("Reply: ");
-    String r = sc.nextLine();
-    enquiryService.replyEnquiry(id, retreiveOfficer().getNric(), r);
-  }
-
-  public void updateApplicantAppStat(String applicantId, String newStatus) {
-    BTOProject project = retreiveOfficer().getActiveProject();
-    if (project == null) {
-      System.out.println("No project assigned.");
+    List<Enquiry> enquiryList =  enquiryService.getEnquiriesbyProject(project.getProjectName());
+    if (enquiryList.isEmpty()) {
+      System.out.println("No enquiries found for project: " + project.getProjectName());
       return;
     }
-    ProjectApplication app = proAppService.getApplicationByUserAndProject(applicantId, project.getProjectName());
-    if (app == null) {
-      System.out.println("No application found for applicant " + applicantId);
+    Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
+    if (selectedEnquiry == null) {
+        return;
+    }
+    officerView.viewEnquiryActionMenuForOfficer(sc, selectedEnquiry);
+  }
+
+  public void editReplyOfEnquiry(Scanner sc, Enquiry selectedEnquiry) {
+    if (selectedEnquiry.getReplierUserID() != retreiveOfficer().getNric()) {
+      System.out.println("You are not authorized to edit this reply.");
       return;
     }
-    proAppService.updateApplicationStatus(
-            app,
-            models.enums.ProjectAppStat.valueOf(newStatus)
-    );
-    System.out.printf("Set %s → %s%n", applicantId, newStatus);
+    enquiryService.editReplyOfEnquiry(sc, selectedEnquiry);
   }
+
+  public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry) {
+    if (selectedEnquiry.getReplierUserID() != null) {
+      System.out.println("This enquiry has already been replied to.");
+      return;
+    }
+    System.out.print("Enter your reply content: ");
+    String replyContent = sc.nextLine();
+    System.out.println("-----------------------------------------");
+    enquiryService.replyEnquiry(selectedEnquiry.getId(), retreiveOfficer().getNric(), replyContent);
+    System.out.println("Reply sent successfully.");
+    System.out.println("-----------------------------------------");
+  }
+
 
   public void registerAsOfficer(BTOProject project) {
+    if (project == null) {
+      System.out.println("Project not found.");
+      return;
+    }
+    if (project.getOfficerSlot() <= 0) {
+      System.out.println("No officer slots available for this project.");
+      return;
+    }
     HDBOfficer officer = retreiveOfficer();
     List<OfficerApplication> apps = officer.getOfficerApplications();
     apps.removeIf(app -> app.getStatus() == OfficerAppStat.REJECTED);

@@ -77,7 +77,7 @@ public class MainApp{
                         System.out.println("Exiting...");
                         break;
                     default:
-                        throw new IllegalArgumentException("Invalid choice. Please try again.");
+                        System.out.println("Invalid choice. Please try again.");
                 }
             }
             catch(AuthException e){
@@ -95,14 +95,15 @@ public class MainApp{
     }
         
     public static void navigateMenu(User user, Scanner sc){
-        if(user instanceof Applicant){
-            ApplicantController app = new ApplicantController();
-            app.start(sc);
-        }
-        else if(user instanceof HDBOfficer){
+        if(user instanceof HDBOfficer){
             OfficerController app = new OfficerController();
             app.start(sc);
         }
+        else if(user instanceof Applicant){
+            ApplicantController app = new ApplicantController();
+            app.start(sc);
+        }
+
         else if(user instanceof HDBManager){
             ManagerController app = new ManagerController();
             app.start(sc);

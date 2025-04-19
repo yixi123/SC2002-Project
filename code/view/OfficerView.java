@@ -1,24 +1,29 @@
 package view;
 
+import java.util.List;
 import java.util.Scanner;
 
 import database.dataclass.projects.ProjectDB;
 import models.projects.BTOProject;
+import models.projects.Enquiry;
+import models.projects.FilterSettings;
 import services.controller.OfficerController;
+import utils.FilterUtil;
 
 public class OfficerView extends ApplicantView {
 
     private static OfficerController app = new OfficerController();
 
 	@Override
-	public void enterMainMenu(Scanner sc) {
+	public void enterMainMenu(Scanner sc) throws Exception {
 		while (true) {
 			System.out.println("\n-------------------------------------------");
 			System.out.println("                HDB Officer                ");
 			System.out.println("-------------------------------------------");
 			System.out.println("1) Officer functions");
 			System.out.println("2) Applicant functions");
-			System.out.println("3) Logout");
+			System.out.println("3) Change My Password");
+			System.out.println("4) Logout");
 			System.out.println("-------------------------------------------");
 			System.out.print("Select an option: ");
 			int choice = sc.nextInt(); sc.nextLine();
@@ -32,7 +37,8 @@ public class OfficerView extends ApplicantView {
 						System.out.println("An error occurred: " + e.getMessage());
 					}
 				}
-				case 3 -> {
+				case 3 -> app.changeMyPassword(sc);
+				case 4 -> {
 					System.out.println("Logging out...");
 					return;    // exit start()
 					}
@@ -41,27 +47,24 @@ public class OfficerView extends ApplicantView {
 		}
 	}
 
-	private void officerMenu(Scanner sc) {
+	private void officerMenu(Scanner sc) throws Exception {
 		while (true) {
 			System.out.println("\n-------------------------------------------");
 			System.out.println("             Officer Portal                ");
 			System.out.println("-------------------------------------------");
-			System.out.println("1. View Project List");
+			System.out.println("1. Enter Project Portal for Officer");
 			System.out.println("2. View Handled Project");
 			System.out.println("3. View Successful Applicants");
 			System.out.println("4. Book Applicant Flat");
 			System.out.println("5. Generate Receipt");
-			System.out.println("6. Register as Officer");
-			System.out.println("7. View Enquiries");
-			System.out.println("8. Reply to Enquiry");
-			System.out.println("9. Update Applicant Status");
+			System.out.println("6. Managed Enquiries");
 			System.out.println("0. Back");
 			System.out.println("-------------------------------------------");
 			System.out.print("Enter your Choice: ");
 			int opt = sc.nextInt(); sc.nextLine();
 
 			switch (opt) {
-				case 1 -> app.viewProjectList();
+				case 1 -> app.enterOfficerProjectPortal(sc);
 				case 2 -> app.viewHandledProject();
 				case 3 -> app.viewSuccessfulApplicantsList();
 				case 4 -> {
@@ -74,21 +77,7 @@ public class OfficerView extends ApplicantView {
 					String id5 = sc.nextLine();
 					app.generateReceipt(id5);
 				}
-				case 6 -> {
-					System.out.print("Project Name to register: ");
-					String pid6 = sc.nextLine();
-					BTOProject project = ProjectDB.getProjectByName(pid6);
-					app.registerAsOfficer(project);
-				}
-				case 7 -> app.viewEnquiries();
-				case 8 -> app.replyEnquiries(sc);
-				case 9 -> {
-					System.out.print("Applicant ID: ");
-					String applicantId9 = sc.nextLine();
-					System.out.print("Confirm Accept Booking (Y/N): ");
-					String newStatus9 = sc.nextLine().toUpperCase();
-					app.updateApplicantAppStat(applicantId9, newStatus9);
-				}
+				case 6 -> app.viewEnquiries(sc);
 				case 0 -> {
 						return;  // back to start()
 				}
@@ -96,6 +85,80 @@ public class OfficerView extends ApplicantView {
 			}
 		}
   	}
+
+	public void viewEnquiryActionMenuForOfficer(Scanner sc, Enquiry selectedEnquiry) {
+        Boolean isReplied = selectedEnquiry.getReplierUserID() != null;
+        if (isReplied) {
+            System.out.println("This enquiry has already been replied to.");
+            System.out.println("Reply Content: " + selectedEnquiry.getReplyContent());
+            System.out.println("Replied by: " + selectedEnquiry.getReplierUserID() + " on " + selectedEnquiry.getReplierTimestamp());
+            return;
+        } else {
+            System.out.println("This enquiry has not been replied to yet.");
+        }
+        System.out.println("You can: ");
+        System.out.println("1. Reply to this enquiry");
+        System.out.println("2. Edit reply of this enquiry");
+        System.out.print("Enter your choice: ");
+
+        int actionChoice = sc.nextInt();
+        sc.nextLine(); // Consume newline
+        switch (actionChoice) {
+            case 1 -> app.replyEnquiry(sc, selectedEnquiry);
+            case 2 -> app.editReplyOfEnquiry(sc, selectedEnquiry);
+            default -> System.out.println("Invalid choice. Returning to menu.");
+        }
+    }
+
+	public void displayOfficerProjectPortal(Scanner sc, FilterSettings filterSettings) throws Exception  {
+    List<BTOProject> projects =  ProjectDB.getDB();
+    List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
+
+    if (filteredProjects.isEmpty()) {
+			System.out.println("No projects available based on\n the current filter settings.");
+			System.out.println("-----------------------------------------");
+		} else {
+			do{
+				System.out.println("Available Projects:");
+				System.out.println("Choose a project to register as officer for\n or enquire about:");
+				System.out.println("-----------------------------------------");
+				for (int i = 0; i < filteredProjects.size(); i++) {
+					System.out.println((i + 1) + ". " + filteredProjects.get(i).toString());
+				}
+				System.out.println("0. Return to menu");
+				System.out.println("-----------------------------------------");
+				System.out.println("Enter your choice: ");
+				int projectChoice = sc.nextInt() - 1;
+				sc.nextLine(); // Consume newline
+				if (projectChoice >= 0 && projectChoice < filteredProjects.size()) {
+					  displayOfficerProjectPortal(sc, filteredProjects.get(projectChoice));
+				}
+				else if (projectChoice == -1) {
+					System.out.println("Returning to menu."); break;
+				} 
+				else {
+					System.out.println("Invalid project choice. Try again!");
+				}
+			}while(true);
+		}
+  }
+
+  public void displayOfficerProjectPortal(Scanner sc, BTOProject selectedProject) throws Exception {
+		do{
+			System.out.println("You have selected: " + selectedProject.getProjectName());
+			System.out.println("1. Register as officer for this project");
+			System.out.println("2. Back to project list");
+			System.out.print("Enter your choice: ");
+
+			int actionChoice = sc.nextInt();
+			sc.nextLine(); // Consume newline
+			switch (actionChoice) {
+				case 1 -> app.registerAsOfficer(selectedProject);
+				case 2 -> {System.out.println("Back to project list..."); break;}
+				default -> System.out.println("Invalid choice. Try again!");
+			}
+		}while(true);
+  }
 
   	private void applicantMenu(Scanner sc) throws Exception {
 		int choice;
@@ -109,7 +172,6 @@ public class OfficerView extends ApplicantView {
 			System.out.println("3. View Application Status");
 			System.out.println("4. Withdraw Current Application");
 			System.out.println("5. View My Enquiry");
-			System.out.println("6. Change My Password");
 			System.out.println("0. Back");
 			System.out.println("-------------------------------------------");
 			System.out.print("Enter your choice: ");
@@ -127,7 +189,6 @@ public class OfficerView extends ApplicantView {
 				case 3 -> app.viewApplicationStatus();
 				case 4 -> app.withdrawProject(sc);
 				case 5 -> app.viewMyEnquiry(sc);
-				case 6 -> app.changeMyPassword(sc);
 				default -> {
 					System.out.println("Invalid choice. Please try again.");
 				}

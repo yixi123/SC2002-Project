@@ -91,7 +91,7 @@ public class ProjectApplicationService implements IProjectApplicationService{
 
     @Override
     public void bookApplication(String userId, String project){
-        updateApplicationStatus(userId, project, ProjectAppStat.BOOK_REQ);
+        updateApplicationStatus(userId, project, ProjectAppStat.BOOKED);
     }
 
     private boolean checkApplicationEligibility(int age, MaritalStatus status, FlatType flatType){

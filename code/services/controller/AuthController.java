@@ -21,6 +21,11 @@ public class AuthController {
         System.out.println("-----------------------------------------");
         System.out.print("Enter NRIC: ");
         String nric = sc.nextLine();
+        // Check if NRIC is valid
+        if (!nric.matches("[STFG]\\d{7}[A-Z]")) {
+            System.out.println("Invalid NRIC format. Please try again.");
+            return login(sc);
+        }
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
         System.out.println("-----------------------------------------");

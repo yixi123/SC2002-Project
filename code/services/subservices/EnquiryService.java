@@ -43,33 +43,14 @@ public class EnquiryService implements IEnquiryService{
 
     }
 
-    public void viewEnquiryActionMenu(Scanner sc, Enquiry selectedEnquiry) {
-        Boolean isReplied = selectedEnquiry.getReplierUserID() != null;
-        if (isReplied) {
-            System.out.println("This enquiry has already been replied to.");
-            System.out.println("Reply Content: " + selectedEnquiry.getReplyContent());
-            System.out.println("Replied by: " + selectedEnquiry.getReplierUserID() + " on " + selectedEnquiry.getReplierTimestamp());
-            return;
-        } else {
-            System.out.println("This enquiry has not been replied to yet.");
-        }
-        System.out.println("You can: ");
-        System.out.println("1. Edit this enquiry");
-        System.out.println("2. Delete this enquiry");
-        System.out.print("Enter your choice: ");
-
-        int actionChoice = sc.nextInt();
-        sc.nextLine(); // Consume newline
-        switch (actionChoice) {
-            case 1 -> editEnquiry(sc, selectedEnquiry);
-            case 2 -> deleteEnquiry(selectedEnquiry.getId());
-            default -> System.out.println("Invalid choice. Returning to menu.");
-        }
-    }
-
     public List<Enquiry> getMyEnquiries(String userID) {
         List<Enquiry> myEnquiries = EnquiryDB.getEnquiriesByUserID(userID);
         return myEnquiries;
+    }
+
+    public List<Enquiry> getEnquiriesbyProject(String projectName) {
+        List<Enquiry> enqList = EnquiryDB.getEnquiriesByProject(projectName);
+        return enqList;
     }
 
     public int getNewId() {
@@ -146,7 +127,12 @@ public class EnquiryService implements IEnquiryService{
         EnquiryDB.updateDB(enquiries);
     }
 
-
-
-    
+    public void editReplyOfEnquiry(Scanner sc, Enquiry selectedEnquiry) {
+        System.out.print("Enter your new reply content: ");
+        String newContent = sc.nextLine();
+        selectedEnquiry.setReplyContent(newContent);
+        selectedEnquiry.setReplierTimestamp(LocalDateTime.now());
+        EnquiryDB.updateDB(EnquiryDB.getDB());
+        System.out.println("Reply updated successfully.");
+    }
 }

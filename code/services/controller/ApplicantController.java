@@ -41,9 +41,6 @@ public class ApplicantController extends UserController {
 
     @Override
     public void start(Scanner sc){     
-        filterSettings.setVisibility(true);
-        filterSettings.setActiveDate(new Date());
-
         try{
             applicantView.enterMainMenu(sc);
         } catch (Exception e) {
@@ -54,6 +51,8 @@ public class ApplicantController extends UserController {
     }
 
     public void enterProjectPortal(Scanner sc) throws Exception{
+        filterSettings.setVisibility(true);
+        filterSettings.setActiveDate(new Date());
         applicantView.displayProjectPortal(sc, filterSettings);
     }
 
@@ -127,7 +126,15 @@ public class ApplicantController extends UserController {
         if (selectedEnquiry == null) {
             return;
         }
-        enquiryService.viewEnquiryActionMenu(sc, selectedEnquiry);
+        applicantView.viewEnquiryActionMenu(sc, selectedEnquiry);
+    }
+
+    public void editEnquiry(Scanner sc, Enquiry selectedEnquiry) {
+        enquiryService.editEnquiry(sc, selectedEnquiry);
+    }
+
+    public void deleteEnquiry(int enquiryId) {
+        enquiryService.deleteEnquiry(enquiryId);
     }
 
     public void changeMyPassword(Scanner sc){

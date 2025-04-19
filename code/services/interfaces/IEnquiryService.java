@@ -11,8 +11,6 @@ public interface IEnquiryService {
 
     public Enquiry chooseFromEnquiryList(Scanner sc, List<Enquiry> enquiryList);
 
-    public void viewEnquiryActionMenu(Scanner sc, Enquiry selectedEnquiry);
-
     public void addEnquiry(String nric, String projectName, String content);
 
     public void replyEnquiry(int id, String replierID, String reply); 
@@ -26,6 +24,10 @@ public interface IEnquiryService {
     public void viewAllEnquiries();
 
     public void viewEnquiriesByProject(String projectName);
+
+    public List<Enquiry> getEnquiriesbyProject(String projectName);
+
+    public void editReplyOfEnquiry(Scanner sc, Enquiry selectedEnquiry);
 
 
 }
