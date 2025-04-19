@@ -116,8 +116,6 @@ public class ProjectManagementService implements IProjectManagementService {
           System.out.println("Invalid input. Please enter Y or N.");
           return;
       }
-
-      System.out.println("Project deleted successfully.");
   }
 
   @Override
