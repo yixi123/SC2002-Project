@@ -142,10 +142,10 @@ public class OfficerController extends ApplicantController {
 	ProjectApplication existingApp = proAppService.getApplicationByUserAndProject(retrieveOfficer().getNric(), project.getProjectName());
 	if (existingApp != null){
 		System.out.println(
-				"Cannot register as an officer for \""
-						+ project.getProjectName()
-						+ "\" because you’ve already applied for it as an applicant.\n" +
-						"Please check your application status."
+			"Cannot register as an officer for \""
+			+ project.getProjectName()
+			+ "\" because you’ve already applied for it as an applicant.\n"
+			+ "Please check your application status."
 		);
 		System.out.println(ViewFormatter.breakLine());
 		return;
