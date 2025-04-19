@@ -67,7 +67,7 @@ public class ApplicantView {
 		} else {
 			do{
 				System.out.println("Available Projects:");
-				System.out.println("Choose a project to apply for\n or enquire about:");
+				System.out.println("Choose a project to apply for or enquire about:");
 				System.out.println(ViewFormatter.breakLine());
 				for (int i = 0; i < filteredProjects.size(); i++) {
 					System.out.println((i + 1) + ". " + filteredProjects.get(i).shortToString());
@@ -121,7 +121,7 @@ public class ApplicantView {
         List<ProjectApplication> applicationList = applicant.getMyApplication();
 
         if (applicationList.isEmpty()) {
-            System.out.println("You have not applied\n for any projects yet.");
+            System.out.println("You have not applied for any projects yet.");
             System.out.println(ViewFormatter.breakLine());
             return;
         }
