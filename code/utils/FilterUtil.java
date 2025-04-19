@@ -38,13 +38,10 @@ public class FilterUtil {
         return filterBy(projects, project -> project.getSellingPriceForType2() <= maxPrice);
     }
 
-    public static List<BTOProject> filterByOpeningDate(List<BTOProject> projects, java.util.Date startDate) {
-        return filterBy(projects, project -> !project.getOpeningDate().before(startDate));
+    public static List<BTOProject> filterByActiveDate(List<BTOProject> projects, java.util.Date activeDate) {
+        return filterBy(projects, project -> !project.getOpeningDate().after(activeDate) && !project.getClosingDate().before(activeDate));
     }
 
-    public static List<BTOProject> filterByClosingDate(List<BTOProject> projects, java.util.Date endDate) {
-        return filterBy(projects, project -> !project.getClosingDate().after(endDate));
-    }
 
     public static List<BTOProject> filterByManager(List<BTOProject> projects, String managerName) {
         return filterBy(projects, project -> project.getManagerID().equalsIgnoreCase(managerName));
@@ -79,11 +76,8 @@ public class FilterUtil {
         if (settings.getMaxPriceForType2() != null && settings.getMaxPriceForType2() > 0) {
             filteredProjects = filterBySellingPriceForType2(filteredProjects, settings.getMaxPriceForType2());
         }
-        if (settings.getOpeningDate() != null) {
-            filteredProjects = filterByOpeningDate(filteredProjects, settings.getOpeningDate());
-        }
-        if (settings.getClosingDate() != null) {
-            filteredProjects = filterByClosingDate(filteredProjects, settings.getClosingDate());
+        if (settings.getActiveDate() != null) {
+            filteredProjects = filterByActiveDate(filteredProjects, settings.getActiveDate());
         }
         if (settings.getManager() != null) {
             filteredProjects = filterByManager(filteredProjects, settings.getManager());
@@ -91,7 +85,7 @@ public class FilterUtil {
         if (settings.getOfficerSlot() != null && settings.getOfficerSlot() > 0) {
             filteredProjects = filterByOfficerSlot(filteredProjects, settings.getOfficerSlot());
         }
-        if (settings.getVisibility()) {
+        if (settings.getVisibility() != null && settings.getVisibility()) {
             filteredProjects = filterByVisibility(filteredProjects);
         }
 

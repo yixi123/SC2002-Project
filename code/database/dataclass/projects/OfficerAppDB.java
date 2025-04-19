@@ -1,5 +1,6 @@
 package database.dataclass.projects;
 
+import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.Application;
 import models.projects.OfficerApplication;
@@ -26,7 +27,7 @@ public class OfficerAppDB {
   public static List<OfficerApplication> getApplicationsByUser(String nric) {
       List<OfficerApplication> result = new ArrayList<>();
       for (OfficerApplication application : db) {
-          if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equals(ProjectAppStat.WITHDRAWN)) {
+          if (application.getUser().equalsIgnoreCase(nric) && !application.getStatus().equals(OfficerAppStat.REJECTED)) {
               result.add(application);
           }
       }
@@ -41,6 +42,33 @@ public class OfficerAppDB {
           }
       }
       return result;
+  }
+
+  public static void addApplication(OfficerApplication application) {
+      db.add(application);
+      FileSaver.saveOfficerApplications(db);
+  }
+
+  public static void removeApplication(OfficerApplication application) {
+      db.remove(application);
+      FileSaver.saveOfficerApplications(db);
+  }
+
+  public static void removeApplicationByProject(String projectName) {
+      db.removeIf(application -> application.getProjectName().equalsIgnoreCase(projectName));
+      FileSaver.saveOfficerApplications(db);
+  }
+
+  public static void updateApplication(OfficerApplication application) {
+      for (int i = 0; i < db.size(); i++) {
+
+          if (db.get(i).getUser().equals(application.getUser()) &&
+              db.get(i).getProjectName().equals(application.getProjectName())) {
+                  db.set(i, application);
+                  break;
+          }
+      }
+      FileSaver.saveOfficerApplications(db);
   }
 
   public static List<OfficerApplication> getDB(){

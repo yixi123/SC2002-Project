@@ -13,30 +13,36 @@ import models.users.User;
 public class AuthController {
     private static int attempt = 1;
     private static final int MAX_ATTEMPTS = 3;
+    
     private static User currentUser = null;
 
     public User login(Scanner sc) throws AuthException{
-        System.out.println("\t\t Login Page \t\t");
-        System.out.println("--------------------------------");
+        System.out.println("                Login Page               ");
+        System.out.println("-----------------------------------------");
         System.out.print("Enter NRIC: ");
         String nric = sc.nextLine();
+        // Check if NRIC is valid
+        if (!nric.matches("[STFG]\\d{7}[A-Z]")) {
+            System.out.println("Invalid NRIC format. Please try again.");
+            return login(sc);
+        }
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
-        System.out.println("--------------------------------");
+        System.out.println("-----------------------------------------");
 
         try{
-            currentUser = authenticate(nric, password);
+            authenticate(nric, password);
             System.out.println("Login successful! Welcome " + currentUser.getName() + ".");
-            System.out.println("--------------------------------");
+            System.out.println("-----------------------------------------");
             return currentUser;
         }
         catch(AuthException e){
             System.out.println(e.getMessage() + "\nPlease try again.");
-            System.out.println("--------------------------------");
+            System.out.println("-----------------------------------------");
             attempt += 1;
             if(attempt <= MAX_ATTEMPTS){
                 System.out.printf("Attempt (%d / 3)", attempt);
-                System.out.println("--------------------------------");
+                System.out.println("\n-----------------------------------------");
                 return login(sc);
             }
             else{
@@ -44,56 +50,78 @@ public class AuthController {
                 System.out.println("You have reached your attempt limits!");
                 throw new AuthException("Please try again later");
             }
-        }
-        
-        
+        }  
     }
 
-    public User authenticate(String nric, String password) throws AuthException {
+    public void logout(){
+        currentUser = null;
+        System.out.println("You have logged out successfully.");
+        System.out.println("-----------------------------------------");
+    }
+
+    public void changePasswordPage(Scanner sc){
+        String oldPassword;
+        String newPassword; 
+
+        System.out.println("-----------------------------------------");
+        System.out.println("           Change Your Password          ");
+        System.out.println("-----------------------------------------");
+        System.out.println("Enter Your Old Password:");
+        oldPassword = sc.nextLine();
+        System.out.println("Enter Your New Password:");
+        newPassword = sc.nextLine();
+        try{
+            changePassword(oldPassword, newPassword);
+        }
+        catch(AuthException e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println("-----------------------------------------");
+    }
+
+    public void authenticate(String nric, String password) throws AuthException {
         List<? extends User> users= ApplicantDB.getDB();
         for (User applicant: users) {
             if (applicant.getNric().equals(nric) && applicant.getPassword().equals(password)) {
-                return applicant;
+                currentUser = applicant; 
+                return;
             }
         }
 
         users = OfficerDB.getDB();
         for (User officer : users) {
             if (officer.getNric().equals(nric) && officer.getPassword().equals(password)) {
-                return officer;
+                currentUser = officer; 
+                return;
             }
         }
 
         users = ManagerDB.getDB();
         for (User manager : users) {
             if (manager.getNric().equals(nric) && manager.getPassword().equals(password)) {
-                return manager;
+                currentUser = manager;
+                return;
             }
         }
         throw new AuthException("Invalid NRIC or password.");
     }
 
-    public void updatePassword(User user, String oldPassword, String newPassword) {
-        try{
-            if (user.getPassword().equals(oldPassword)) {
-                user.setPassword(newPassword);
-                if (user instanceof Applicant) {
-
-                } else if (user instanceof HDBOfficer) {
-
-                } else if (user instanceof HDBManager) {
-
-                }
-            } else {
-                throw new IllegalArgumentException("Invalid password.");
+    public void changePassword(String oldPassword, String newPassword) throws AuthException{
+        if (currentUser.getPassword().equals(oldPassword)) {
+            currentUser.setPassword(newPassword);
+            if (currentUser instanceof Applicant) {
+                ApplicantDB.updateUser((Applicant) currentUser);
+            } else if (currentUser instanceof HDBOfficer) {
+                OfficerDB.updateUser((HDBOfficer) currentUser);
+            } else if (currentUser instanceof HDBManager) {
+                ManagerDB.updateUser((HDBManager) currentUser);
             }
-        }
-        catch(IllegalArgumentException e){
-            System.out.println(e);
+        } else {
+            throw new AuthException("Invalid Password. Please Try Again!");
         }
     }
 
-    public static User getCurrentUser(){
+    public User getCurrentUser(){
         return currentUser;
     }
 

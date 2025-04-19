@@ -2,7 +2,6 @@ package database.dataclass.projects;
 
 import java.util.ArrayList;
 import java.util.List;
-import models.enums.ProjectAppStat;
 import models.projects.ProjectApplication;
 import utils.FileLoader;
 import utils.FileSaver;
@@ -24,13 +23,14 @@ public class ProjectAppDB {
   }
 
 
-  public static ProjectApplication getApplicationByUser(String nric) {
+  public static List<ProjectApplication> getApplicationByUser(String nric) {
+      List<ProjectApplication> result = new ArrayList<>();
       for (ProjectApplication application : db) {
-          if (application.getUser().equalsIgnoreCase(nric) && !(application.getStatus() == ProjectAppStat.UNSUCCESSFUL)) {
-              return application;
+          if (application.getUser().equalsIgnoreCase(nric)) {
+              result.add(application);
           }
       }
-      return null; // No application found for the user
+      return result; 
   }
     
   public static List<ProjectApplication> getApplicationsByProject(String project) {
@@ -41,6 +41,32 @@ public class ProjectAppDB {
           }
       }
       return result;
+  }
+
+  public static void addApplication(ProjectApplication application) {
+      db.add(application);
+      FileSaver.saveProjectApplications(db);
+  }
+
+  public static void removeApplication(ProjectApplication application) {
+      db.remove(application);
+      FileSaver.saveProjectApplications(db);
+  }
+
+  public static void removeApplicationByProject(String projectName) {
+      db.removeIf(application -> application.getProjectName().equalsIgnoreCase(projectName));
+      FileSaver.saveProjectApplications(db);
+  }
+
+  public static void updateApplication(ProjectApplication application) {
+      for (int i = 0; i < db.size(); i++) {
+          if (db.get(i).getUser().equals(application.getUser()) &&
+              db.get(i).getProjectName().equals(application.getProjectName())) {
+              db.set(i, application);
+              break;
+          }
+      }
+      FileSaver.saveProjectApplications(db);
   }
 
 

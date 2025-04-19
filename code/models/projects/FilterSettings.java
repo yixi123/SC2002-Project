@@ -4,8 +4,7 @@ import models.enums.FlatType;
 
 public class FilterSettings {
     private String projectName;
-    private Date openingDate;
-    private Date closingDate;
+    private Date activeDate;
     private String neighborhood;
     private FlatType flatType;
     private Double maxPriceForType1;
@@ -31,20 +30,12 @@ public class FilterSettings {
         this.projectName = projectName;
     }
 
-    public Date getOpeningDate() {
-        return openingDate;
+    public Date getActiveDate() {
+        return activeDate;
     }
 
-    public void setOpeningDate(Date openingDate) {
-        this.openingDate = openingDate;
-    }
-
-    public Date getClosingDate() {
-        return closingDate;
-    }
-
-    public void setClosingDate(Date closingDate) {
-        this.closingDate = closingDate;
+    public void setActiveDate(Date activeDate) {
+        this.activeDate = activeDate;
     }
 
     public String getNeighborhood() {

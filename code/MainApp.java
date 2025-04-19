@@ -21,34 +21,49 @@ public class MainApp{
         AuthController auth = new AuthController();
         Scanner sc = new Scanner(System.in);
         
-        // try{
+        try{
             entryMenu(sc, auth);
-        // }
+        }
         //Security Measure: Unexpected Error
-        // catch(Exception e){
-        //     System.out.println("System crashed! Please restart!");
-        //     System.out.println("Error: " + e.getMessage());
-        //     saveDB();
-        // }
+        catch(NullPointerException e){
+            System.out.println("System crashed! Please restart!");
+            System.out.println("Null Pointer Error: " + e.getMessage());
+            saveDB();
+        }
+        catch(Error e){
+            System.out.println("System crashed! Please restart!");
+            System.out.println("Error: " + e.getMessage());
+            saveDB();
+        }
+        catch(Exception e){
+            System.out.println("System crashed! Please restart!");
+            System.out.println("Error: " + e.getMessage());
+            saveDB();
+        }
+        finally{
+            sc.close(); 
+        }
 
     }
 
     public static void entryMenu(Scanner sc, AuthController auth){
         int choice = 0;
 
-        System.out.println("=========================================");
-        System.out.println("\tBTO Project Management System");
-        System.out.println("=========================================");
+
 
         do{
             try{
+                System.out.println("\n\n=========================================");
+                System.out.println("     BTO Project Management System       ");
+                System.out.println("=========================================");
                 System.out.println("1. Log In");
                 System.out.println("2. Register as Applicant");
                 System.out.println("3. Exit App");
                 System.out.println("-----------------------------------------");
-                System.out.println("Enter your choice (1-3): ");
-                System.out.println("-----------------------------------------");
+                System.out.print("Enter your choice (1-3): ");
                 choice = sc.nextInt(); sc.nextLine();
+                System.out.println("-----------------------------------------");
+                
                 
                 switch(choice){
                     case 1:
@@ -62,7 +77,7 @@ public class MainApp{
                         System.out.println("Exiting...");
                         break;
                     default:
-                        throw new IllegalArgumentException("Invalid choice. Please try again.");
+                        System.out.println("Invalid choice. Please try again.");
                 }
             }
             catch(AuthException e){
@@ -74,19 +89,21 @@ public class MainApp{
 
         } while (choice != 3);
         
-        System.out.println("\t\tThank you!");
+        System.out.println("-----------------------------------------");
+        System.out.println("               Thank you!                ");
         System.out.println("=========================================");
     }
         
     public static void navigateMenu(User user, Scanner sc){
-        if(user instanceof Applicant){
-            ApplicantController app = new ApplicantController();
-            app.start(sc);
-        }
-        else if(user instanceof HDBOfficer){
+        if(user instanceof HDBOfficer){
             OfficerController app = new OfficerController();
             app.start(sc);
         }
+        else if(user instanceof Applicant){
+            ApplicantController app = new ApplicantController();
+            app.start(sc);
+        }
+
         else if(user instanceof HDBManager){
             ManagerController app = new ManagerController();
             app.start(sc);

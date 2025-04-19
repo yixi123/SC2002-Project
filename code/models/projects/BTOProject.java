@@ -1,5 +1,8 @@
 package models.projects;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +22,7 @@ public class BTOProject {
 
     public BTOProject(String projectName, String neighborhood, int twoRoomUnits, int threeRoomUnits, 
                       double sellingPriceForType1, double sellingPriceForType2, 
-                      Date openingDate, Date closingDate, boolean visibility) {
+                      Date openingDate, Date closingDate, String managerID, int officerSlots, boolean visibility) {
         this.projectName = projectName;
         this.neighborhood = neighborhood;
         this.twoRoomUnits = twoRoomUnits;
@@ -28,7 +31,10 @@ public class BTOProject {
         this.sellingPriceForType2 = sellingPriceForType2;
         this.openingDate = openingDate;
         this.closingDate = closingDate;
+        this.managerID = managerID;
+        this.officerSlot = officerSlots;
         this.visibility = visibility;
+        this.officerSlot = officerSlots;
     }
 
     public String getManagerID() {
@@ -87,6 +93,11 @@ public class BTOProject {
         this.officersID = officers;
     }
 
+    public void addOfficer(String officer) {
+        officerSlot--;
+        this.officersID.add(officer);
+    }
+
     public void setTwoRoomUnits(int twoRoomUnits) {
         this.twoRoomUnits = twoRoomUnits;
     }
@@ -99,8 +110,21 @@ public class BTOProject {
         this.visibility = visibility;
     }
 
+    public void setOpeningDate(Date openingDate) {
+        this.openingDate = openingDate;
+    }
+    
+    public void setClosingDate(Date closingDate) {
+        this.closingDate = closingDate;
+    }
+
     public boolean isVisible() {
         return visibility;
+    }
+
+    public boolean isActive() {
+        Date today = new Date();
+        return isVisible() &&  today.before(closingDate) && today.after(openingDate);
     }
 
     @Override
@@ -118,6 +142,7 @@ public class BTOProject {
     }
 
     public String shortToString() {
-        return String.format("%-30s [ %s ] %s - %s", projectName, neighborhood, openingDate.toString(), closingDate.toString());
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+        return String.format("%-20s [ %s ]\n   %s - %s", projectName, neighborhood, dateFormatter.format(openingDate), dateFormatter.format(closingDate));
     }
 }

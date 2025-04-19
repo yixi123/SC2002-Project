@@ -20,7 +20,6 @@ public class EnquiryDB {
     FileSaver.saveEnquiries(db);
   }
 
-  //remove
   public static List<Enquiry> getDB(){
     return db;
   }
@@ -43,5 +42,30 @@ public class EnquiryDB {
           }
       }
       return result;
+  }
+
+  public static void addEnquiry(Enquiry enquiry) {
+      db.add(enquiry);
+      FileSaver.saveEnquiries(db);
+  }
+
+  public static void removeEnquiry(Enquiry enquiry) {
+      db.remove(enquiry);
+      FileSaver.saveEnquiries(db);
+  }
+
+  public static void removeEnquiryByID(int enquiryID) {
+      db.removeIf(enquiry -> enquiry.getId() == enquiryID);
+      FileSaver.saveEnquiries(db);
+  }
+
+  public static void updateEnquiry(Enquiry enquiry) {
+      for (int i = 0; i < db.size(); i++) {
+          if (db.get(i).getId() == enquiry.getId()) {
+              db.set(i, enquiry);
+              break;
+          }
+      }
+      FileSaver.saveEnquiries(db);
   }
 }

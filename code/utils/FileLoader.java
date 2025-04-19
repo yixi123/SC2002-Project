@@ -14,7 +14,6 @@ import models.projects.ProjectApplication;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
-import models.enums.OfficerAppStat;
 
 public class FileLoader implements IFileLoader {
 
@@ -110,10 +109,8 @@ public class FileLoader implements IFileLoader {
                 BTOProject project = new BTOProject(
                     data[0], data[1], Integer.parseInt(data[2]), Integer.parseInt(data[4]),
                     Double.parseDouble(data[3]), Double.parseDouble(data[5]),
-                    dateFormat.parse(data[6]), dateFormat.parse(data[7]), Boolean.parseBoolean(data[11])
+                    dateFormat.parse(data[6]), dateFormat.parse(data[7]), data[8], Integer.parseInt(data[9]) , Boolean.parseBoolean(data[11])
                 );
-                project.setManagerID(data[8]);
-                project.setOfficerSlot(Integer.parseInt(data[9]));
                 project.setOfficers(Arrays.asList(data[10].split(";")));
                 projects.add(project);
             }
@@ -129,6 +126,7 @@ public class FileLoader implements IFileLoader {
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
             br.readLine(); // Skip header
             String line;
+    
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 enquiries.add(new Enquiry(
@@ -137,9 +135,9 @@ public class FileLoader implements IFileLoader {
                     data[2],                  // Project
                     data[3],                  // Content
                     LocalDateTime.parse(data[4], formatter), // Timestamp
-                    data[5],                  // ReplierUserID
+                    data[5].equals("null") ? null : data[5],                  // ReplierUserID
                     data[6],                  // ReplyContent
-                    LocalDateTime.parse(data[7], formatter)  // ReplierTimestamp
+                    data[7].equals("null") ? null : LocalDateTime.parse(data[7], formatter) // ReplierTimestamp
                 ));
             }
         } catch (IOException e) {

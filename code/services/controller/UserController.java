@@ -5,8 +5,14 @@ import models.enums.FlatType;
 import models.projects.FilterSettings;
 
 public abstract class UserController {
-  FilterSettings filterSettings = new FilterSettings();
-  public abstract void start(Scanner sc);
+    protected FilterSettings filterSettings = new FilterSettings();
+    protected AuthController auth = new AuthController();
+
+    public abstract void start(Scanner sc);
+
+    public void changeMyPassword(Scanner sc){
+        auth.changePasswordPage(sc);
+    }
 
   public void adjustFilterSettings(Scanner sc) {
     int filterChoice;

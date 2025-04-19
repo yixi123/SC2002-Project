@@ -1,6 +1,7 @@
 package models.projects;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Enquiry {
     private int id;
@@ -94,9 +95,27 @@ public class Enquiry {
 
     @Override
     public String toString() {
-        String enq = String.format("User=%s [%s]\nProject=%s\n%s\n", userID, timestamp, projectID, content);
-        String rep = (replierUserID == null)? "No Reply" : String.format("Replier=%s [%s]\n %s", replierUserID, replierTimestamp, replyContent);
-        return enq + rep;
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedTimestamp = timestamp.format(dateFormatter);
+        String formattedReplierTimestamp = (replierTimestamp == null) ? "" : replierTimestamp.format(dateFormatter);
+
+        String enq = String.format("User   =%-10s  [%s]\nProject=%s\n%s\n", userID, formattedTimestamp, projectID, content);
+        String rep = (replierUserID == null)? "No Reply" : String.format("Replier =%-10s  [%s]\n%s", replierUserID, formattedReplierTimestamp, replyContent);
+        return enq + "\n" + rep;
+    }
+
+    public String toString(boolean displayProjectName) {
+        if (displayProjectName) {
+            return toString();
+        }
+
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String formattedTimestamp = timestamp.format(dateFormatter);
+        String formattedReplierTimestamp = (replierTimestamp == null) ? "" : replierTimestamp.format(dateFormatter);
+
+        String enq = String.format("User    =%-10s  [%s]\n", userID, formattedTimestamp, content);
+        String rep = (replierUserID == null)? "No Reply" : String.format("Replier = %-10s  [%s]\n%s", replierUserID, formattedReplierTimestamp, replyContent);
+        return enq + "\n" + rep;
     }
 
 }
