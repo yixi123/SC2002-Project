@@ -3,10 +3,13 @@ package view;
 import java.util.List;
 import java.util.Scanner;
 
+import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
+import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.FilterSettings;
+import models.projects.ProjectApplication;
 import services.controller.OfficerController;
 import utils.FilterUtil;
 
@@ -58,6 +61,7 @@ public class OfficerView extends ApplicantView {
 			System.out.println("4. Book Applicant Flat");
 			System.out.println("5. Generate Receipt");
 			System.out.println("6. Managed Enquiries");
+			System.out.println("7. View My Officer Application Status");
 			System.out.println("0. Back");
 			System.out.println("-------------------------------------------");
 			System.out.print("Enter your Choice: ");
@@ -87,6 +91,11 @@ public class OfficerView extends ApplicantView {
   	}
 
 	public void viewEnquiryActionMenuForOfficer(Scanner sc, Enquiry selectedEnquiry) {
+		if (selectedEnquiry == null) {
+			System.out.println("No enquiry selected.");
+			return;
+		}
+
         Boolean isReplied = selectedEnquiry.getReplierUserID() != null;
         if (isReplied) {
             System.out.println("This enquiry has already been replied to.");
@@ -96,13 +105,15 @@ public class OfficerView extends ApplicantView {
         } else {
             System.out.println("This enquiry has not been replied to yet.");
         }
-        System.out.println("You can: ");
+       
+		System.out.println("-------------------------------------------");
         System.out.println("1. Reply to this enquiry");
         System.out.println("2. Back to menu");
         System.out.print("Enter your choice: ");
 
         int actionChoice = sc.nextInt();
         sc.nextLine(); // Consume newline
+		System.out.println("-------------------------------------------");
         switch (actionChoice) {
             case 1 -> app.replyEnquiry(sc, selectedEnquiry);
             case 2 -> System.out.println("Returning to menu.");
@@ -143,7 +154,7 @@ public class OfficerView extends ApplicantView {
 		}
   }
 
-  public void displayOfficerProjectPortal(Scanner sc, BTOProject selectedProject) throws Exception {
+  	public void displayOfficerProjectPortal(Scanner sc, BTOProject selectedProject) throws Exception {
 		do{
 			System.out.println("You have selected: " + selectedProject.getProjectName());
 			System.out.println("1. Register as officer for this project");
@@ -158,7 +169,7 @@ public class OfficerView extends ApplicantView {
 				default -> System.out.println("Invalid choice. Try again!");
 			}
 		}while(true);
-  }
+  	}
 
   	private void applicantMenu(Scanner sc) throws Exception {
 		int choice;
@@ -218,4 +229,31 @@ public class OfficerView extends ApplicantView {
 			}
 		}while(true);
     }
+
+	public void displayHandledProject(){
+		BTOProject project = app.retrieveOfficer().getActiveProject();
+
+		if (project == null) {
+			System.out.println("No project assigned.");
+		} else {
+			System.out.println(project);
+		}
+	}
+
+	public void displayHandledProjectSuccessfulApplicants(){
+		BTOProject project = app.retrieveOfficer().getActiveProject();
+		if (project == null) {
+			System.out.println("No Project Assigned!");
+			return;
+		}
+		List<ProjectApplication> apps = ProjectAppDB.getApplicationsByProject(project.getProjectName());
+		if (apps == null || apps.isEmpty()) {
+			System.out.println("No applications found\n for project " + project.getProjectName());
+			return;
+		}
+
+		apps.stream()
+			.filter(a -> a.getStatus() == ProjectAppStat.SUCCESSFUL)
+			.forEach(System.out::println);
+	}
 }

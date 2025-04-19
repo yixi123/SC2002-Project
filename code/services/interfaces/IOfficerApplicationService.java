@@ -3,6 +3,7 @@ package services.interfaces;
 import java.util.List;
 import java.util.Scanner;
 import models.enums.OfficerAppStat;
+import models.projects.BTOProject;
 import models.projects.OfficerApplication;
 import models.users.HDBOfficer;
 
