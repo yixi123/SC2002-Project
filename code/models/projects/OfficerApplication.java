@@ -3,7 +3,7 @@ package models.projects;
 import java.util.Date;
 import models.enums.OfficerAppStat;
 
-public class OfficerApplication extends Application {
+public class OfficerApplication extends Application<OfficerAppStat> {
 
     public OfficerApplication(String userID, String projectName, OfficerAppStat status, Date applicationDate) {
         super(userID, projectName, status, applicationDate);
