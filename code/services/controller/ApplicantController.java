@@ -1,12 +1,10 @@
 package services.controller;
 
 import database.dataclass.projects.ProjectAppDB;
-import database.dataclass.projects.ProjectDB;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import models.enums.ProjectAppStat;
 import models.projects.*;
 import models.users.Applicant;
 
@@ -18,9 +16,6 @@ import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectViewService;
 
 import view.ApplicantView;
-import view.ViewFormatter;
-
-import utils.FilterUtil;
 
 public class ApplicantController extends UserController {
     

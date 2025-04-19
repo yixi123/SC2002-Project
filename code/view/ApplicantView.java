@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import database.dataclass.projects.ProjectDB;
-import models.enums.FlatType;
 import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
@@ -12,10 +11,6 @@ import models.projects.FilterSettings;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import services.controller.ApplicantController;
-import services.subservices.EnquiryService;
-
-import view.ViewFormatter;
-
 import utils.FilterUtil;
 
 public class ApplicantView {

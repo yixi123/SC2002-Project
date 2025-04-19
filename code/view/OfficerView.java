@@ -5,19 +5,15 @@ import java.util.Scanner;
 
 import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
-import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.FilterSettings;
 import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
-import models.users.Applicant;
 import models.users.HDBOfficer;
 import services.controller.OfficerController;
 import utils.FilterUtil;
-
-import view.ViewFormatter;
 
 public class OfficerView extends ApplicantView {
 
