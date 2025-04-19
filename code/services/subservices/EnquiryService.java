@@ -21,7 +21,7 @@ public class EnquiryService implements IEnquiryService{
                 }
                 System.out.println("---------------------------------------");
                 System.out.println("0. Back to menu");
-                System.out.printf("Please select an enquiry [0 - %d]: ", enquiryList.size());
+                System.out.printf("Please select an enquiry [1 - %d]: ", enquiryList.size());
                 System.out.println("\n---------------------------------------");
 
                 int enquiryChoice = sc.nextInt() - 1;
@@ -127,12 +127,4 @@ public class EnquiryService implements IEnquiryService{
         EnquiryDB.updateDB(enquiries);
     }
 
-    public void editReplyOfEnquiry(Scanner sc, Enquiry selectedEnquiry) {
-        System.out.print("Enter your new reply content: ");
-        String newContent = sc.nextLine();
-        selectedEnquiry.setReplyContent(newContent);
-        selectedEnquiry.setReplierTimestamp(LocalDateTime.now());
-        EnquiryDB.updateDB(EnquiryDB.getDB());
-        System.out.println("Reply updated successfully.");
-    }
 }
