@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import models.enums.FlatType;
 import models.projects.*;
 import models.users.HDBOfficer;
 
@@ -90,7 +91,16 @@ public class OfficerController extends ApplicantController {
 			System.out.println("No project assigned.");
 			return;
 		}
-		proAppService.bookApplication(project.getProjectName(), applicantId);
+		int bookSuccess = proAppService.bookApplication(project.getProjectName(), applicantId);
+    if (bookSuccess == 1){
+      ProjectApplication app = proAppService.getApplicationByUserAndProject(applicantId, project.getProjectName());
+      FlatType flatType = app.getFlatType();
+      if (flatType == FlatType.TWO_ROOM) {
+        project.setTwoRoomUnits(project.getTwoRoomUnits() - 1);
+      } else if (flatType == FlatType.THREE_ROOM) {
+        project.setThreeRoomUnits(project.getThreeRoomUnits() - 1);
+      }
+    }
 		
 	}
 

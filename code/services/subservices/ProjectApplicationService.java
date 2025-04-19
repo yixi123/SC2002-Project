@@ -90,26 +90,29 @@ public class ProjectApplicationService implements IProjectApplicationService{
     }
 
     @Override
-    public void bookApplication(String projectName, String userId){
+    public int bookApplication(String projectName, String userId){
         if (projectName == null) {
 			System.out.println("No project assigned.");
-			return;
+			return 0;
 		}
 		ProjectApplication app = getApplicationByUserAndProject(userId, projectName);
 		if (app == null) {
 			System.out.println("No application found for applicant: " + userId);
-			return;
+			return 0;
 		}
 		if (app.getStatus() == ProjectAppStat.BOOKED) {
 			System.out.println("Application is already booked.");
-			return;
+			return 0;
 		}
 		if (app.getStatus() != ProjectAppStat.SUCCESSFUL) {
 			System.out.println("Application is not successful/approved yet\n cannot proceed to booking.");
-			return;
+			return 0;
 		}
 
         updateApplicationStatus(userId, projectName, ProjectAppStat.BOOKED);
+        System.out.println("Application booked successfully.");
+        return 1;
+
     }
 
     private boolean checkApplicationEligibility(int age, MaritalStatus status, FlatType flatType){

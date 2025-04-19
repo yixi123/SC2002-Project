@@ -55,7 +55,7 @@ public class ReportPrintService implements IReportPrintService {
     public Map<Applicant, ProjectApplication> filterReportContent(Scanner sc, Map<Applicant, ProjectApplication> applicantsAndApplication) {
         int filterChoice = 0;
         do{
-            System.out.print("Choose a filter category: ");
+            System.out.println("Choose a filter category: ");
             System.out.println("1. Project Name");
             System.out.println("2. Flat Type");
             System.out.println("3. Marital Status");
@@ -113,6 +113,7 @@ public class ReportPrintService implements IReportPrintService {
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                     }
                 }
+                case 0 -> System.out.println("Done filtering. Generating report...");
                 default -> System.out.println("Invalid choice! Please choose provided options!");
             }
         }while(filterChoice != 0);
