@@ -53,7 +53,7 @@ public class ApplicantController extends UserController {
         }
     }
 
-    public void enterProjectProtal(Scanner sc) throws Exception{
+    public void enterProjectPortal(Scanner sc) throws Exception{
         applicantView.displayProjectPortal(sc, filterSettings);
     }
 

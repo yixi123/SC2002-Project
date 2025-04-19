@@ -54,6 +54,11 @@ public class OfficerAppDB {
       FileSaver.saveOfficerApplications(db);
   }
 
+  public static void removeApplicationByProject(String projectName) {
+      db.removeIf(application -> application.getProjectName().equalsIgnoreCase(projectName));
+      FileSaver.saveOfficerApplications(db);
+  }
+
   public static void updateApplication(OfficerApplication application) {
       for (int i = 0; i < db.size(); i++) {
 
