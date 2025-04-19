@@ -18,6 +18,7 @@ import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectViewService;
 
 import view.ApplicantView;
+import view.ViewFormatter;
 
 import utils.FilterUtil;
 

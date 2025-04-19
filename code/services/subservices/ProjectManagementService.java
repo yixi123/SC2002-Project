@@ -3,13 +3,16 @@ package services.subservices;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import database.dataclass.projects.ProjectDB;
 import models.projects.BTOProject;
+
 import services.interfaces.IProjectManagementService;
+import view.ViewFormatter;
 
 public class ProjectManagementService implements IProjectManagementService {
 
@@ -20,9 +23,9 @@ public class ProjectManagementService implements IProjectManagementService {
       try{
         do{
           System.out.println("Project Editor");
-          System.out.println("-----------------------------------");
+          System.out.println(ViewFormatter.breakLine());
           System.out.println("Project: " + project.getProjectName());
-          System.out.println("-----------------------------------");
+          System.out.println(ViewFormatter.breakLine());
           System.out.println("1. Edit Opening Date");
           System.out.println("2. Edit Closing Date");
           System.out.println("3. Edit Two-Room Slots");
@@ -30,7 +33,7 @@ public class ProjectManagementService implements IProjectManagementService {
           System.out.println("5. Edit Officer Slots");
           System.out.println("6. Toggle Project Visibility");
           System.out.println("0. Back to Main Menu");
-          System.out.println("-----------------------------------");
+          System.out.println(ViewFormatter.breakLine());
           System.out.print("Enter your selection:");
           
           choice = sc.nextInt(); sc.nextLine();
@@ -88,7 +91,7 @@ public class ProjectManagementService implements IProjectManagementService {
       }
       finally{
         ProjectDB.updateProject(project);
-        System.out.println("\n-----------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         System.out.println("Project details updated successfully.");
         System.out.println("Exiting edit project menu.");
       }
@@ -116,12 +119,14 @@ public class ProjectManagementService implements IProjectManagementService {
           System.out.println("Invalid input. Please enter Y or N.");
           return;
       }
+
+      System.out.println("Project deleted successfully.");
   }
 
   @Override
   public void createProject(Scanner sc, String managerID, List<BTOProject> projectList) {
       System.out.println("Create New Project");
-      System.out.println("-----------------------------------");
+      System.out.println(ViewFormatter.breakLine());
 
       String projectName = "";
       String neighborhood = "";
