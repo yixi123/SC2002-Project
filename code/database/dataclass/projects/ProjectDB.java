@@ -56,6 +56,8 @@ public class ProjectDB {
       temp = it.next();
       if(temp.getProjectName().equals(project.getProjectName())){
         it.remove();
+        ProjectAppDB.removeApplicationByProject(project.getProjectName());
+        OfficerAppDB.removeApplicationByProject(project.getProjectName());
       }
     }
     FileSaver.saveProjects(db);

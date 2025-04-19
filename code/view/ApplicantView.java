@@ -41,7 +41,7 @@ public class ApplicantView {
 					System.out.println("--------------------------------");
                     return;
                 }
-                case 1 -> app.enterProjectProtal(sc);
+                case 1 -> app.enterProjectPortal(sc);
                 case 2 -> app.adjustFilterSettings(sc);
                 case 3 -> app.viewApplicationStatus();
                 case 4 -> app.withdrawProject(sc);

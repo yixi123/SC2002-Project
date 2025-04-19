@@ -53,6 +53,11 @@ public class ProjectAppDB {
       FileSaver.saveProjectApplications(db);
   }
 
+  public static void removeApplicationByProject(String projectName) {
+      db.removeIf(application -> application.getProjectName().equalsIgnoreCase(projectName));
+      FileSaver.saveProjectApplications(db);
+  }
+
   public static void updateApplication(ProjectApplication application) {
       for (int i = 0; i < db.size(); i++) {
           if (db.get(i).getUser().equals(application.getUser()) &&

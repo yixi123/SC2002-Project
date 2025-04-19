@@ -31,13 +31,13 @@ public class ReceiptPrintService implements IReceiptPrintService {
 
         // receipt text
         StringBuilder sb = new StringBuilder();
-        sb.append("\n===== BOOKING RECEIPT =====\n")
+        sb.append("\n==============BOOKING RECEIPT============\n")
                 .append("Applicant ID: ").append(applicantId).append("\n")
                 .append("Project:      ").append(proj.getProjectName()).append("\n")
                 .append("Flat Type:    ").append(flatType).append("\n")
                 .append("Booking Date: ").append(date).append("\n")
                 .append("Status:       ").append(app.getStatus()).append("\n")
-                .append("===========================\n");
+                .append("=========================================\n");
 
         return sb.toString();
     }
