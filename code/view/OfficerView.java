@@ -137,7 +137,7 @@ public class OfficerView extends ApplicantView {
 			do{
 				System.out.println("Available Projects:");
 				System.out.println(ViewFormatter.breakLine());
-				System.out.println("Choose a project to register as officer for\n or enquire about:");
+				System.out.println("Choose a project to register as officer for or enquire about:");
 				System.out.println(ViewFormatter.breakLine());
 				for (int i = 0; i < filteredProjects.size(); i++) {
 					System.out.println((i + 1) + ". " + filteredProjects.get(i).toString());
@@ -278,7 +278,7 @@ public class OfficerView extends ApplicantView {
 		}
 		List<ProjectApplication> apps = ProjectAppDB.getApplicationsByProject(project.getProjectName());
 		if (apps == null || apps.isEmpty()) {
-			System.out.println("No applications found\n for project " + project.getProjectName());
+			System.out.println("No applications found for project " + project.getProjectName());
 			System.out.println(ViewFormatter.breakLine());
 			return;
 		}
