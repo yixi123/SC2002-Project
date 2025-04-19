@@ -116,7 +116,7 @@ public class FileSaver {
                         project.getManagerID(),
                         project.getOfficerSlot(),
                         String.join(";", project.getOfficers()),
-                        project.isVisible() // Include visibility
+                        project.isVisible()
                 ));
             }
         } catch (IOException e) {

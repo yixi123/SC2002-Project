@@ -76,7 +76,6 @@ public abstract class UserController {
                 System.out.println("4. Three-Room Units");
                 System.out.println("5. Selling Price for Type 1");
                 System.out.println("6. Selling Price for Type 2");
-                System.out.println("7. Manager");
                 System.out.println(ViewFormatter.breakLine());
                 System.out.print("Choose sorting option (1-6): ");
                 int sortOption = sc.nextInt();

@@ -3,24 +3,21 @@ package models.users;
 import java.util.ArrayList;
 import java.util.List;
 import models.enums.MaritalStatus;
+import models.projects.BTOProject;
 
 public class HDBManager extends User {
-    private List<String> managedProjectsID;
+    private List<BTOProject> managedProjects;
 
     public HDBManager(String name, String nric, String password, int age, MaritalStatus maritalStatus) {
         super(name, nric, password, age, maritalStatus);
-        managedProjectsID = new ArrayList<>();
+        managedProjects = new ArrayList<>();
     }
 
-    public List<String> getManagedProjectsID(){
-        return managedProjectsID;
+    public List<BTOProject> getManagedProjectsList(){
+        return managedProjects;
     }
 
-    public void addManagedProjectsID(String newProjectID){
-        managedProjectsID.add(newProjectID);
-    }
-
-    public void setManagedProjectsList(List<String> ProjectIDList){
-        managedProjectsID = ProjectIDList;
+    public void setManagedProjectsList(List<BTOProject> ProjectList){
+        managedProjects = ProjectList;
     }
 }

@@ -72,4 +72,14 @@ public class ProjectDB {
     }
     return projects; 
   }
+
+  public static List<BTOProject> getProjectsByManager(String managerId){
+    List<BTOProject> projects = new ArrayList<>();
+    for (BTOProject project : db) {
+        if (project.getManagerID() != null && project.getManagerID().equals(managerId)) {
+            projects.add(project);
+        }
+    }
+    return projects; 
+  }
 }

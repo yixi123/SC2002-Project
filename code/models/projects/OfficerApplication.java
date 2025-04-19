@@ -1,5 +1,7 @@
 package models.projects;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import models.enums.OfficerAppStat;
 
@@ -11,7 +13,12 @@ public class OfficerApplication extends Application<OfficerAppStat> {
 
     @Override
     public String toString() {
-        return String.format("OfficerApplication[User=%s, Project=%s, Status=%s, ApplicationDate=%s]",
-                userID, projectName, status, applicationDate);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy"); 
+        StringBuilder sb = new StringBuilder();
+        sb.append("userID='").append(userID).append('\'')
+          .append("\nprojectName='").append(projectName).append('\'')
+          .append("\nstatus=").append(status)
+          .append("\napplicationDate=").append(dateFormatter.format(applicationDate));
+        return sb.toString();
     }
 }
