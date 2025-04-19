@@ -10,6 +10,7 @@ import models.enums.ProjectAppStat;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import services.interfaces.IProjectApplicationService;
+import view.ViewFormatter;
 
 
 
@@ -23,12 +24,12 @@ public class ProjectApplicationService implements IProjectApplicationService{
         do{
             try{
                 System.out.printf("Selected Project: %s\n", selectedProjectName);
-                System.out.println("------------------------------");
+                System.out.println(ViewFormatter.breakLine());
                 System.out.println("Choose room type:");
                 System.out.printf("1. 2-Room %s\n", twoRoomEligibility? "": "[UNELIGIBLE]");
                 System.out.printf("2. 3-Room %s\n", threeRoomEligibility? "": "[UNELIGIBLE]");
                 System.out.println("3. Cancel");
-                System.out.println("------------------------------");
+                System.out.println(ViewFormatter.breakLine());
                 System.out.print("Enter your choice: ");
                 roomTypeChoice = sc.nextInt();
                 sc.nextLine();

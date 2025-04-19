@@ -300,19 +300,19 @@ public class OfficerView extends ApplicantView {
 
         if (applicationList.isEmpty()) {
             System.out.println("You have not registerd for any projects yet.");
-            System.out.println("-----------------------------------------");
+            System.out.println(ViewFormatter.breakLine());
             return;
         }
 		OfficerApplication lastApplication = applicationList.removeLast();
         System.out.println("Your Applications:");
         for (OfficerApplication application : applicationList) {
             System.out.println(application.toString());
-            System.out.println("-----------------------------------------");
+            System.out.println(ViewFormatter.breakLine());
         }
 		if (lastApplication != null) {
 			System.out.println("<Current Application>");
 			System.out.println(lastApplication.toString());
-			System.out.println("-----------------------------------------");
+			System.out.println(ViewFormatter.breakLine());
 		}
 	}
 }
