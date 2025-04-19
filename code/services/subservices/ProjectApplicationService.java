@@ -1,6 +1,8 @@
 package services.subservices;
 
 import database.dataclass.projects.ProjectAppDB;
+import database.dataclass.users.ApplicantDB;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -138,10 +140,15 @@ public class ProjectApplicationService implements IProjectApplicationService{
         if (filterChoice.equals("yes")) {
             applications.removeIf(app -> !app.getStatus().equals(ProjectAppStat.PENDING));
         }
+        if (applications.isEmpty()) {
+            System.out.println("No applications available.");
+            return null;
+        }
         
         System.out.println("Choose an application to view details:");
         for (int i = 0; i < applications.size(); i++) {
-            System.out.println((i + 1) + ". " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
+            String applicantName = ApplicantDB.getUsernameByID(applications.get(i).getUser());
+            System.out.println((i + 1) + ". " + applicantName + " - " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
         }
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();

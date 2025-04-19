@@ -111,7 +111,7 @@ public class FileLoader implements IFileLoader {
                     Double.parseDouble(data[3]), Double.parseDouble(data[5]),
                     dateFormat.parse(data[6]), dateFormat.parse(data[7]), data[8], Integer.parseInt(data[9]) , Boolean.parseBoolean(data[11])
                 );
-                project.setOfficers(Arrays.asList(data[10].split(";")));
+                project.setOfficers(new ArrayList<>(Arrays.asList(data[10].split(";"))));
                 projects.add(project);
             }
         } catch (IOException | ParseException e) {
