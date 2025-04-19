@@ -288,19 +288,21 @@ public class ManagerController extends UserController{
 
   public void viewMyProjectEnquiry(Scanner sc, String projectName) {
     do{
-      System.out.println("Viewing enquiry for project: " + projectName);
-      List<Enquiry> enquiryList = EnquiryDB.getEnquiriesByProject(projectName);
-      Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
-      if(selectedEnquiry != null && selectedEnquiry.getReplierUserID() == null){ 
-        replyMyProjectEnquiry(sc, selectedEnquiry.getId());
-      }
-      else if(selectedEnquiry != null && selectedEnquiry.getReplierUserID() != null){
-        System.out.println("This enquiry has been replied.");
-      }
-      else{
-        System.out.println("No enquiry is selected. Returning to main menu.");
-        break;
-      }
+				System.out.println("Viewing enquiry for project: " + projectName);
+				List<Enquiry> enquiryList = EnquiryDB.getEnquiriesByProject(projectName);
+
+				Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
+				
+				if(selectedEnquiry != null && selectedEnquiry.getReplierUserID() == null){ 
+					replyMyProjectEnquiry(sc, selectedEnquiry.getId());
+				}
+				else if(selectedEnquiry != null && selectedEnquiry.getReplierUserID() != null){
+					System.out.println("This enquiry has been replied.");
+				}
+				else{
+					System.out.println("No enquiry is selected. Returning to main menu.");
+					break;
+				}
     }while(true);
   }
 
