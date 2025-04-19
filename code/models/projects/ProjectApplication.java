@@ -1,5 +1,6 @@
 package models.projects;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import models.enums.FlatType;
 import models.enums.ProjectAppStat;
@@ -18,7 +19,13 @@ public class ProjectApplication extends Application<ProjectAppStat> {
 
     @Override
     public String toString() {
-        return String.format("ProjectApplication[User=%s, Project=%s, Status=%s, flatType=%s, ApplicationDate=%s]",
-                userID, projectName, status, flatType, applicationDate);
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy"); 
+        StringBuilder sb = new StringBuilder();
+        sb.append("userID='").append(userID).append('\'')
+          .append("\nprojectName='").append(projectName).append('\'')
+          .append("\nflatType=").append(flatType)
+          .append("\nstatus=").append(status)
+          .append("\napplicationDate=").append(dateFormatter.format(applicationDate));
+        return sb.toString();
     }
 }

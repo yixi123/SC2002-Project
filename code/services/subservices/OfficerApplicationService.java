@@ -2,6 +2,7 @@ package services.subservices;
 
 import database.dataclass.projects.OfficerAppDB;
 import database.dataclass.projects.ProjectDB;
+import database.dataclass.users.OfficerDB;
 
 import java.util.Date;
 import java.util.List;
@@ -27,10 +28,14 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         if (filterChoice.equals("yes")) {
             applications.removeIf(app -> !app.getStatus().equals(OfficerAppStat.PENDING));
         }
-        
+        if (applications.isEmpty()) {
+            System.out.println("No applications available.");
+            return null;
+        }
         System.out.println("Choose an application to view details:");
         for (int i = 0; i < applications.size(); i++) {
-            System.out.println((i + 1) + ". " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
+            String applicantName = OfficerDB.getUsernameByID(applications.get(i).getUser());
+            System.out.println((i + 1) + ". " + applicantName + " - " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
         }
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
