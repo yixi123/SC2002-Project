@@ -74,7 +74,7 @@ public class OfficerController extends ApplicantController {
 	public void enterOfficerProjectPortal(Scanner sc) throws Error {
 		try{
       filterSettings.setVisibility(true);
-      filterSettings.setActiveDate(new Date());
+      filterSettings.setActiveDate(null);
 			officerView.displayOfficerProjectPortal(sc, filterSettings);
 		}catch(Exception e){
 			System.out.println("An error occurred: " + e.getMessage());
