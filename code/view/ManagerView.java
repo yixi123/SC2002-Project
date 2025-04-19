@@ -117,7 +117,7 @@ public class ManagerView {
 			System.out.println("4. View/Manage Project Applications");
 			System.out.println("5. View/Manage Officer Applications");
 			System.out.println("6. View/Reply Enquiry");
-			System.out.println("0. Back to Main Menu");
+			System.out.println("0. Back to Project List");
 			System.out.println("-----------------------------------------");
 			System.out.print("Please select an option: ");
 			option = sc.nextInt(); sc.nextLine();
@@ -129,7 +129,7 @@ public class ManagerView {
 				case 4 -> app.viewProjectApplicationList(sc, chosenProject);
 				case 5 -> app.viewOfficerApplicationList(sc, chosenProject);
 				case 6 -> app.viewMyProjectEnquiry(sc, chosenProject.getProjectName());
-				case 0 -> { System.out.println("Returning to Main Menu..."); return;}
+				case 0 -> { System.out.println("Returning to Project List..."); return;}
 				default -> throw new IllegalArgumentException("Invalid choice. Returning to menu.");
 			}
 		}
@@ -139,7 +139,7 @@ public class ManagerView {
 	public void displayMyProjects(Scanner sc, FilterSettings filterSettings) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{
 		List<BTOProject> projects = ProjectDB.getDB();
-		filterSettings.setManager(app.retreiveManager().getName());
+		filterSettings.setManager(app.retreiveManager().getNric());
 		List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
 		int choice = 0;
 
