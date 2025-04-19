@@ -1,11 +1,14 @@
 package services.subservices;
 
 import database.dataclass.projects.OfficerAppDB;
+import database.dataclass.projects.ProjectDB;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import models.enums.OfficerAppStat;
+import models.projects.BTOProject;
 import models.projects.OfficerApplication;
 import models.users.HDBOfficer;
 import services.interfaces.IOfficerApplicationService;
@@ -18,73 +21,6 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         return applications;
     }
 
-    public void addApplication(String projectName, String userID){
-        applications.add(new OfficerApplication(userID, projectName, OfficerAppStat.PENDING, new Date()));
-        saveApplications();
-    }
-
-    public void updateApplicationStatus(String user, String project, OfficerAppStat newStatus) {
-        for (OfficerApplication application : applications) {
-            if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
-                updateApplicationStatus(application, newStatus);
-            }
-        }
-        System.out.println("Application not found.");
-    }
-
-    public void updateApplicationStatus(OfficerApplication application, OfficerAppStat newStatus) {
-        if (newStatus == application.getStatus()) {
-            System.out.println("Application status is already " + newStatus);
-            return;
-        }
-        application.setStatus(newStatus);
-        saveApplications();
-        System.out.println("Application status updated to: " + newStatus);
-    }
-
-    @Override
-    public List<OfficerApplication> getApplicationsByUser(String nric) {
-        List<OfficerApplication> result = new ArrayList<>();
-        for (OfficerApplication application : applications) {
-            if (application.getUser().equalsIgnoreCase(nric)) {
-                result.add(application);
-            }
-        }
-        return result;
-    }
-
-    public List<OfficerApplication> getApplicationsByProject(String project) {
-        List<OfficerApplication> result = new ArrayList<>();
-        for (OfficerApplication application : applications) {
-            if (application.getProjectName().equalsIgnoreCase(project)) {
-                result.add(application);
-            }
-        }
-        return result;
-    }
-
-    private void saveApplications() {
-        OfficerAppDB.updateDB(applications);
-    }
-
-    @Override
-    public void applyForOfficer(Scanner sc, HDBOfficer user, String selectedProjectName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'applyForOfficer'");
-    }
-
-    @Override
-    public OfficerAppStat viewApplicationStatus(String userID) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'viewApplicationStatus'");
-    }
-
-    @Override
-    public List<OfficerApplication> getProjectApplications(String projectName) {
-        return OfficerAppDB.getApplicationsByProject(projectName);
-    }
-
-    @Override
     public OfficerApplication chooseFromApplicationList(Scanner sc, List<OfficerApplication> applications) {
         System.out.println("Display only 'pending' applications? (yes/no): ");
         String filterChoice = sc.nextLine().trim().toLowerCase();
@@ -106,4 +42,66 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         OfficerApplication selectedApplication = applications.get(choice - 1);
         return selectedApplication;
     }
+
+    public void addApplication(String projectName, String userID){
+        OfficerAppDB.addApplication(new OfficerApplication(userID, projectName, OfficerAppStat.PENDING, new Date()));
+    }
+
+    public void updateApplicationStatus(String user, String project, OfficerAppStat newStatus) {
+        for (OfficerApplication application : applications) {
+            if (application.getUser().equals(user) && application.getProjectName().equals(project)) {
+                updateApplicationStatus(application, newStatus);
+                return;
+            }
+        }
+        System.out.println("Application not found.");
+    }
+
+    public void updateApplicationStatus(OfficerApplication application, OfficerAppStat newStatus) {
+        if (newStatus == application.getStatus()) {
+            System.out.println("Application status is already " + newStatus);
+            return;
+        }
+        application.setStatus(newStatus);
+        OfficerAppDB.updateApplication(application);
+        System.out.println("Application status updated to: " + newStatus);
+    }
+
+    public List<OfficerApplication> getApplicationsByUser(String userId) {
+        return OfficerAppDB.getApplicationsByUser(userId);
+    }
+
+    public List<OfficerApplication> getProjectApplications(String projectName) {
+        return OfficerAppDB.getApplicationsByProject(projectName);
+    }
+
+    public void applyForOfficer(HDBOfficer officer, BTOProject project) {
+        if (project == null) {
+			System.out.println("Project not found.");
+			return;
+		}
+		if (project.getOfficerSlot() <= 0) {
+			System.out.println("No officer slots available for this project.");
+			return;
+		}
+
+		List<OfficerApplication> apps = officer.getOfficerApplications();
+
+		apps.removeIf(app -> app.getStatus() == OfficerAppStat.REJECTED);
+
+		for (OfficerApplication app: apps) {
+			BTOProject p = ProjectDB.getProjectByName(app.getProjectName());
+			if (p != null && (!p.getOpeningDate().after(project.getClosingDate()) || !p.getClosingDate().before(project.getOpeningDate()))) {
+				System.out.println("This project overlaps with\n your current application.");
+				System.out.println("Current application: " + app.getProjectName() + "\n| Status: " + app.getStatus());
+                System.out.println("----------------------------------------");
+				return;
+			}
+		}
+		addApplication(project.getProjectName(), officer.getNric());
+		System.out.println("Registration PENDING approval.");
+        System.out.println("----------------------------------------");
+    }
+
+
 }

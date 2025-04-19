@@ -52,10 +52,7 @@ public class ProjectApplicationService implements IProjectApplicationService{
     }
 
     public void addApplication(String projectName, String userID, FlatType flatType) {
-        List<ProjectApplication> applications = ProjectAppDB.getDB();
-        applications.add(new ProjectApplication(userID, projectName, ProjectAppStat.PENDING, new Date(), flatType));
-        
-        ProjectAppDB.updateDB(applications);
+        ProjectAppDB.addApplication(new ProjectApplication(userID, projectName, ProjectAppStat.PENDING, new Date(), flatType));
     }
 
     public void updateApplicationStatus(String user, String project, ProjectAppStat newStatus) {
@@ -91,6 +88,24 @@ public class ProjectApplicationService implements IProjectApplicationService{
 
     @Override
     public void bookApplication(String userId, String project){
+        if (project == null) {
+			System.out.println("No project assigned.");
+			return;
+		}
+		ProjectApplication app = getApplicationByUserAndProject(userId, project);
+		if (app == null) {
+			System.out.println("No application found for applicant: " + userId);
+			return;
+		}
+		if (app.getStatus() == ProjectAppStat.BOOKED) {
+			System.out.println("Application is already booked.");
+			return;
+		}
+		if (app.getStatus() != ProjectAppStat.SUCCESSFUL) {
+			System.out.println("Application is not successful/approved yet\n cannot proceed to booking.");
+			return;
+		}
+
         updateApplicationStatus(userId, project, ProjectAppStat.BOOKED);
     }
 
@@ -112,13 +127,7 @@ public class ProjectApplicationService implements IProjectApplicationService{
 
     @Override
     public ProjectApplication getApplicationByUserAndProject(String userId, String projectName) {
-        List<ProjectApplication> applications = ProjectAppDB.getDB();
-        for (ProjectApplication application : applications) {
-            if (application.getUser().equals(userId) && application.getProjectName().equals(projectName)) {
-                return application;
-            }
-        }
-        return null;
+       return ProjectAppDB.getApplicationsByUserAndProject(userId, projectName);
     }
 
     @Override
@@ -143,4 +152,5 @@ public class ProjectApplicationService implements IProjectApplicationService{
         ProjectApplication selectedApplication = applications.get(choice - 1);
         return selectedApplication;
     }
+
 }

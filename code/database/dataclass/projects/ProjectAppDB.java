@@ -23,7 +23,7 @@ public class ProjectAppDB {
   }
 
 
-  public static List<ProjectApplication> getApplicationByUser(String nric) {
+    public static List<ProjectApplication> getApplicationByUser(String nric) {
       List<ProjectApplication> result = new ArrayList<>();
       for (ProjectApplication application : db) {
           if (application.getUser().equalsIgnoreCase(nric)) {
@@ -31,9 +31,9 @@ public class ProjectAppDB {
           }
       }
       return result; 
-  }
+    }
     
-  public static List<ProjectApplication> getApplicationsByProject(String project) {
+    public static List<ProjectApplication> getApplicationsByProject(String project) {
       List<ProjectApplication> result = new ArrayList<>();
       for (ProjectApplication application : db) {
           if (application.getProjectName().equalsIgnoreCase(project)) {
@@ -41,7 +41,16 @@ public class ProjectAppDB {
           }
       }
       return result;
-  }
+    }
+
+    public static ProjectApplication getApplicationsByUserAndProject(String userID, String projectName) {
+        for (ProjectApplication application : db) {
+            if (application.getUser().equals(userID) && application.getProjectName().equals(projectName)) {
+                return application;
+            }
+        }
+        return null;
+    }
 
   public static void addApplication(ProjectApplication application) {
       db.add(application);
