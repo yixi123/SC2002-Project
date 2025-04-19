@@ -110,7 +110,8 @@ public class OfficerController extends ApplicantController {
 		}
 		List<Enquiry> enquiryList =  enquiryService.getEnquiriesbyProject(project.getProjectName());
 		Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
-	}
+    officerView.viewEnquiryActionMenuForOfficer(sc, selectedEnquiry);
+  }
 
   public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry) {
     if (selectedEnquiry.getReplierUserID() != null) {
@@ -130,6 +131,10 @@ public class OfficerController extends ApplicantController {
 		offAppService.applyForOfficer(retrieveOfficer(), project);
 	}
 
+  public void viewOfficerApplicationStatus() {
+     officerView.displayOfficerApplicationStatus();
+  }
+
 
 	// -----------------------------------------------------------------------------------
 	@Override
@@ -142,7 +147,7 @@ public class OfficerController extends ApplicantController {
         HDBOfficer officer = retrieveOfficer();
         List<OfficerApplication> applications = officer.getOfficerApplications();
         
-        if (!officer.getMyApplication().isEmpty()) {
+        if (officer.getActiveApplication() != null) {
             System.out.println("You have already applied for a project.\n Please check your application status.");
 			System.out.println(ViewFormatter.breakLine());
             return;

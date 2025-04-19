@@ -26,12 +26,11 @@ public abstract class UserController {
         System.out.println("3. Flat Type: " + (filterSettings.getFlatType() == null ? "None" : filterSettings.getFlatType()));
         System.out.println("4. Max Price for 2-room flat: " + (filterSettings.getMaxPriceForType1() == null ? "None" : filterSettings.getMaxPriceForType1()));
         System.out.println("5. Max Price for 3-room flat: " + (filterSettings.getMaxPriceForType2() == null ? "None" : filterSettings.getMaxPriceForType2()));
-        System.out.println("6. Manager: " + (filterSettings.getManager() == null ? "None" : filterSettings.getManager()));
-        System.out.println("7. Sorting Option: " + (filterSettings.getSortBy() == null ? "None" : filterSettings.getSortBy()));
-        System.out.println("8. Sort Ascending: " + filterSettings.isSortAscending());
-        System.out.println("9. Back to Menu");
+        System.out.println("6. Sorting Option: " + (filterSettings.getSortBy() == null ? "None" : filterSettings.getSortBy()));
+        System.out.println("7. Sort Ascending: " + filterSettings.isSortAscending());
+        System.out.println("8. Back to Menu");
         System.out.println(ViewFormatter.breakLine());
-        System.out.print("Choose a filter to edit (1-9): ");
+        System.out.print("Choose a filter to edit (1-8): ");
         filterChoice = sc.nextInt();
         sc.nextLine(); // Consume newline
 
@@ -69,11 +68,6 @@ public abstract class UserController {
                 filterSettings.setMaxPriceForType2(maxPriceType2);
             }
             case 6 -> {
-                System.out.print("Enter manager name (or leave blank): ");
-                String manager = sc.nextLine();
-                filterSettings.setManager(manager.isEmpty() ? null : manager);
-            }
-            case 7 -> {
                 System.out.println("Sorting Options:");
                 System.out.println(ViewFormatter.breakLine());
                 System.out.println("1. Project Name");
@@ -84,9 +78,10 @@ public abstract class UserController {
                 System.out.println("6. Selling Price for Type 2");
                 System.out.println("7. Manager");
                 System.out.println(ViewFormatter.breakLine());
-                System.out.print("Choose sorting option (1-7): ");
+                System.out.print("Choose sorting option (1-6): ");
                 int sortOption = sc.nextInt();
                 sc.nextLine(); // Consume newline
+                System.out.println(ViewFormatter.breakLine());
                 switch (sortOption) {
                     case 1 -> filterSettings.setSortBy(FilterSettings.SortBy.PROJECT_NAME);
                     case 2 -> filterSettings.setSortBy(FilterSettings.SortBy.NEIGHBORHOOD);
@@ -94,18 +89,17 @@ public abstract class UserController {
                     case 4 -> filterSettings.setSortBy(FilterSettings.SortBy.THREE_ROOM_UNITS);
                     case 5 -> filterSettings.setSortBy(FilterSettings.SortBy.SELLING_PRICE_TYPE1);
                     case 6 -> filterSettings.setSortBy(FilterSettings.SortBy.SELLING_PRICE_TYPE2);
-                    case 7 -> filterSettings.setSortBy(FilterSettings.SortBy.MANAGER);
                     default -> System.out.println("Invalid sorting option. No sorting applied.");
                 }
             }
-            case 8 -> {
+            case 7 -> {
                 System.out.print("Sort ascending? (true/false): ");
                 System.out.println(ViewFormatter.breakLine());
                 boolean sortAscending = sc.nextBoolean();
                 sc.nextLine(); // Consume newline
                 filterSettings.setSortAscending(sortAscending);
             }
-            case 9 -> System.out.println("Returning to menu...");
+            case 8 -> System.out.println("Returning to menu...");
             default -> System.out.println("Invalid choice. Please try again.");
         }
     } while (filterChoice != 9);

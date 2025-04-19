@@ -2,6 +2,7 @@ package models.users;
 
 import java.util.List;
 import models.enums.MaritalStatus;
+import models.enums.ProjectAppStat;
 import models.projects.ProjectApplication;
 
 public class Applicant extends User {
@@ -17,5 +18,14 @@ public class Applicant extends User {
 
     public void setMyApplication(List<ProjectApplication> project){
         myApplications = project;
+    }
+
+    public ProjectApplication getActiveApplication(){
+        for (ProjectApplication application : myApplications) {
+            if (application.getStatus() != ProjectAppStat.WITHDRAWN && application.getStatus() != ProjectAppStat.UNSUCCESSFUL) {
+                return application;
+            }
+        }
+        return null;
     }
 }

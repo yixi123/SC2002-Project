@@ -5,11 +5,15 @@ import java.util.Scanner;
 
 import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
+import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.FilterSettings;
+import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
+import models.users.Applicant;
+import models.users.HDBOfficer;
 import services.controller.OfficerController;
 import utils.FilterUtil;
 
@@ -86,6 +90,7 @@ public class OfficerView extends ApplicantView {
 					app.generateReceipt(id5);
 				}
 				case 6 -> app.viewEnquiries(sc);
+				case 7 -> app.viewOfficerApplicationStatus();
 				case 0 -> {
 						return;  // back to start()
 				}
@@ -287,5 +292,27 @@ public class OfficerView extends ApplicantView {
 			.forEach(System.out::println);
 		
 		System.out.println(ViewFormatter.breakLine());
+	}
+
+	public void displayOfficerApplicationStatus(){
+		HDBOfficer officer = app.retrieveOfficer();
+        List<OfficerApplication> applicationList = officer.getOfficerApplications();
+
+        if (applicationList.isEmpty()) {
+            System.out.println("You have not registerd for any projects yet.");
+            System.out.println("-----------------------------------------");
+            return;
+        }
+		OfficerApplication lastApplication = applicationList.removeLast();
+        System.out.println("Your Applications:");
+        for (OfficerApplication application : applicationList) {
+            System.out.println(application.toString());
+            System.out.println("-----------------------------------------");
+        }
+		if (lastApplication != null) {
+			System.out.println("<Current Application>");
+			System.out.println(lastApplication.toString());
+			System.out.println("-----------------------------------------");
+		}
 	}
 }

@@ -3,9 +3,6 @@ package models.projects;
 import java.util.Date;
 
 
-import models.enums.ProjectAppStat;
-
-
 public class Application<StatType>{
     protected String userID;
     protected String projectName;
