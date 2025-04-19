@@ -98,7 +98,7 @@ public abstract class UserController {
                 sc.nextLine(); // Consume newline
                 filterSettings.setSortAscending(sortAscending);
             }
-            case 8 -> System.out.println("Returning to menu...");
+            case 8 -> {System.out.println("Returning to menu..."); return;}
             default -> System.out.println("Invalid choice. Please try again.");
         }
     } while (filterChoice != 9);

@@ -31,7 +31,7 @@ public class ProjectManagementService implements IProjectManagementService {
           System.out.println("4. Edit Three-Room Slots");
           System.out.println("5. Edit Officer Slots");
           System.out.println("6. Toggle Project Visibility");
-          System.out.println("0. Back to Main Menu");
+          System.out.println("0. Save edit and back to Main Menu");
           System.out.println(ViewFormatter.breakLine());
           System.out.print("Enter your selection:");
           
@@ -74,14 +74,21 @@ public class ProjectManagementService implements IProjectManagementService {
 
             case(6):
               project.setVisibility(!project.isVisible());
+              if (project.isVisible()) {
+                System.out.println("Project is now visible to the public.");
+              } else {
+                System.out.println("Project is now hidden from the public.");
+              }
               break;
 
             case(0):
+
               System.out.println("Back to Main Menu");
-              break;
+              return;
             default:
               System.out.println("Invalid choice. Please try again.");
-              break;}
+              break;
+            }
         }
         while(choice != 0);
       }
@@ -110,6 +117,7 @@ public class ProjectManagementService implements IProjectManagementService {
           if (confirmation.equals("Y")) {
               ProjectDB.removeProject(project);
               System.out.println("Project deleted successfully.");
+              return;
           } else if (confirmation.equals("N")) {
               System.out.println("Project deletion cancelled.");
               return;
@@ -118,8 +126,6 @@ public class ProjectManagementService implements IProjectManagementService {
           System.out.println("Invalid input. Please enter Y or N.");
           return;
       }
-
-      System.out.println("Project deleted successfully.");
   }
 
   @Override
