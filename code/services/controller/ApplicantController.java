@@ -5,18 +5,22 @@ import database.dataclass.projects.ProjectDB;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+
 import models.enums.ProjectAppStat;
 import models.projects.*;
 import models.projects.BTOProject;
 import models.users.Applicant;
+
 import services.interfaces.IEnquiryService;
 import services.interfaces.IProjectApplicationService;
 import services.interfaces.IProjectViewService;
 import services.subservices.EnquiryService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectViewService;
-import utils.FilterUtil;
+
 import view.ApplicantView;
+
+import utils.FilterUtil;
 
 public class ApplicantController extends UserController {
     
@@ -36,81 +40,29 @@ public class ApplicantController extends UserController {
     }
 
     @Override
-    public void start(Scanner sc){
-        ApplicantController app = new ApplicantController();
+    public void start(Scanner sc){     
         filterSettings.setVisibility(true);
         filterSettings.setActiveDate(new Date());
-        int choice;
 
-        do{
-            System.out.println("--------------------------------");
-            System.out.println("\tApplicant Portal");
-            System.out.println("--------------------------------");
-            System.out.println("1. Enter Project Protal");
-            System.out.println("2. Adjust Filter Settings");
-            System.out.println("3. View Application Status");
-            System.out.println("4. Withdraw Current Application");
-            System.out.println("5. View My Enquiry");
-            System.out.println("6. Change My Password");
-            System.out.println("0. Logout");
-            System.out.println("--------------------------------");
-            System.out.print("Enter your choice: ");
-            choice = sc.nextInt();
-            sc.nextLine();
-
-            switch (choice) {
-                case 0 -> {
-                    System.out.println("Logging out...");
-                    auth.logout();
-                    return;
-                }
-                case 1 -> app.displayProjectProtal(sc);
-                case 2 -> app.adjustFilterSettings(sc);
-                case 3 -> app.viewApplicationStatus();
-                case 4 -> app.withdrawProject();
-                case 5 -> app.viewMyEnquiry(sc);
-                case 6 -> app.changeMyPassword(sc);
-                default -> {
-                    System.out.println("Invalid choice. Please try again.");
-                    start(sc);
-                }
-            }
-        } while (choice != 0 || choice != 6);
-    }
-
-    public void displayProjectProtal(Scanner sc){
-        List<BTOProject> projects =  ProjectDB.getDB();
-        List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
-
-        BTOProject selectedProject = projectViewService.chooseFromProjectList(sc, filteredProjects);
-        if (selectedProject == null) {
-            return;
-        }
-        displayProjectAction(sc, selectedProject);
-    }
-
-    public void displayProjectAction(Scanner sc, BTOProject selectedProject) {
-        System.out.println("You have selected: " + selectedProject.getProjectName());
-        System.out.println("1. Apply for this project");
-        System.out.println("2. Ask questions about this project");
-        System.out.println("3. Back to project list");
-        System.out.print("Enter your choice: ");
-
-        int actionChoice = sc.nextInt();
-        sc.nextLine(); // Consume newline
-        switch (actionChoice) {
-            case 1 -> applyForProject(sc, selectedProject);
-            case 2 -> addEnquiry(sc, selectedProject);
-            case 3 -> System.out.println("Back to project list.");
-            default -> System.out.println("Invalid choice. Returning to menu.");
+        try{
+            applicantView.enterMainMenu(sc);
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        } finally {
+            auth.logout();
         }
     }
+
+    public void enterProjectProtal(Scanner sc) throws Exception{
+        applicantView.displayProjectPortal(sc, filterSettings);
+    }
+
 
     public void applyForProject(Scanner sc, BTOProject selectedProject) {
         Applicant applicant = retreiveApplicant();
 
         if (ProjectAppDB.getApplicationByUser(applicant.getNric()) != null) {
-            System.out.println("You have already applied for a project. Please check your application status.");
+            System.out.println("You have already applied for a project.\n Please check your application status.");
         }
         else{
             projectApplicationService.applyForProject(sc, applicant, selectedProject.getProjectName());
@@ -119,30 +71,28 @@ public class ApplicantController extends UserController {
     }
 
     public void viewApplicationStatus() {
-        Applicant applicant = retreiveApplicant();
-        List<ProjectApplication> applicationList = applicant.getMyApplication();
-        if (applicationList.isEmpty()) {
-            System.out.println("You have not applied for any projects yet.");
-            return;
-        }
-        System.out.println("Your Applications:");
-        for (ProjectApplication application : applicationList) {
-            if (application.getStatus() != ProjectAppStat.UNSUCCESSFUL && application.getStatus() != ProjectAppStat.WITHDRAWN) {
-                System.out.println("<Current Application>");
-            } 
-            System.out.println(application.toString());
-            System.out.println("-----------------------------------------");
-        }
+        applicantView.displayApplicationStatus();
     }
 
-    public void withdrawProject() {
+    public void withdrawProject(Scanner sc) {
         Applicant applicant = retreiveApplicant();
         List<ProjectApplication> applicationList = applicant.getMyApplication();
         if (applicationList.isEmpty()) {
             System.out.println("You have not applied for any projects yet.");
             return;
         }
-        ProjectApplication currentApplication;
+
+        ProjectApplication currentApplication = null;
+
+        for(ProjectApplication application : applicationList){
+            if (application.getStatus() == ProjectAppStat.UNSUCCESSFUL || application.getStatus() == ProjectAppStat.WITHDRAWN) {
+                currentApplication = application;
+            }
+        }
+        if (currentApplication == null) {
+            System.out.println("You have no active applications yet.");
+            return;
+        }
         for (ProjectApplication application : applicationList) {
             if (application.getStatus() != ProjectAppStat.UNSUCCESSFUL && application.getStatus() != ProjectAppStat.WITHDRAWN) {
                 System.out.println("<Current Application>");
@@ -150,7 +100,7 @@ public class ApplicantController extends UserController {
                 System.out.println("-----------------------------------------");
                 currentApplication = application;
                 System.out.println("Are you sure you want to withdraw this application? (yes/no)");
-                String response = new Scanner(System.in).nextLine();
+                String response = sc.nextLine();
                 if (response.equalsIgnoreCase("yes")) {
                     projectApplicationService.withdrawApplication(currentApplication);
                     System.out.println("Application withdrawn successfully.");

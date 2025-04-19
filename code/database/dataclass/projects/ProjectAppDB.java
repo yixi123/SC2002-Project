@@ -43,6 +43,27 @@ public class ProjectAppDB {
       return result;
   }
 
+  public static void addApplication(ProjectApplication application) {
+      db.add(application);
+      FileSaver.saveProjectApplications(db);
+  }
+
+  public static void removeApplication(ProjectApplication application) {
+      db.remove(application);
+      FileSaver.saveProjectApplications(db);
+  }
+
+  public static void updateApplication(ProjectApplication application) {
+      for (int i = 0; i < db.size(); i++) {
+          if (db.get(i).getUser().equals(application.getUser()) &&
+              db.get(i).getProjectName().equals(application.getProjectName())) {
+              db.set(i, application);
+              break;
+          }
+      }
+      FileSaver.saveProjectApplications(db);
+  }
+
 
   public static List<ProjectApplication> getDB(){
     return db;

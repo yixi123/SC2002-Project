@@ -1,5 +1,6 @@
 package database.dataclass.projects;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import models.projects.BTOProject;
@@ -58,5 +59,17 @@ public class ProjectDB {
       }
     }
     FileSaver.saveProjects(db);
+  }
+
+  public static BTOProject getProjectByOfficer(String officerId){
+    for (BTOProject project : db) {
+        if (project.getOfficers() != null && project.getOfficers().contains(officerId)) {
+            Date currentDate = new Date();
+            if (currentDate.after(project.getOpeningDate()) && currentDate.before(project.getClosingDate())) {
+                return project; 
+            }
+        }
+    }
+    return null; 
   }
 }

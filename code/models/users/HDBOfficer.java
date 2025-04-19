@@ -1,6 +1,7 @@
 package models.users;
 
-import archive.ProjectController;
+import database.dataclass.projects.ProjectDB;
+
 import models.enums.MaritalStatus;
 import models.projects.BTOProject;
 
@@ -9,7 +10,7 @@ public class HDBOfficer extends Applicant {
 
     public HDBOfficer(String name, String nric, String password, int age, MaritalStatus maritalStatus) {
         super(name, nric, password, age, maritalStatus);
-        this.assignedProject = ProjectController.getAssignedProjectByOfficer(name);
+        this.assignedProject = ProjectDB.getProjectByOfficer(nric);
     }
 
     public BTOProject getAssignedProject(){

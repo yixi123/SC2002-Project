@@ -1,6 +1,8 @@
 package database.dataclass.users;
 
 import java.util.List;
+
+import models.projects.BTOProject;
 import models.users.HDBOfficer;
 import utils.FileLoader;
 import utils.FileSaver;
@@ -31,6 +33,9 @@ public class OfficerDB {
     return null;
   }
 
+
+  //SINGLE USER DATABASE OPERATIONS
+
   public static void updateUser(HDBOfficer user) {
     for(int i = 0; i < db.size(); i++){
       if(db.get(i).getNric().equals(user.getNric())){
@@ -38,4 +43,9 @@ public class OfficerDB {
       }
     }
   }
+
+  public static void addUser(HDBOfficer user) {
+    db.add(user);
+  }
+
 }

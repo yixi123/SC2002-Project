@@ -21,6 +21,8 @@ import models.users.HDBManager;
 
 import utils.FilterUtil;
 
+import view.ManagerView;
+
 import services.interfaces.IEnquiryService;
 import services.interfaces.IOfficerApplicationService;
 import services.interfaces.IReportPrintService;
@@ -44,6 +46,8 @@ public class ManagerController extends UserController{
   IEnquiryService enquiryService = new EnquiryService();
   IReportPrintService reportPrintService = new ReportPrintService();
 
+  ManagerView managerView = new ManagerView();
+
 
   public ManagerController(){
   }
@@ -66,171 +70,59 @@ public class ManagerController extends UserController{
   public void start(Scanner sc){
     int option = 0;
       try{
-        do{
-          System.out.println("\n             Manager Portal              ");
-          System.out.println("-----------------------------------------");
-          System.out.println("1. Project Management Portal");
-          System.out.println("2. View All Projects");
-          System.out.println("3. Create A New Project");
-          System.out.println("4. Adjust Filter Settings");
-          System.out.println("0. Logout");
-          System.out.println("-----------------------------------------");
-          System.out.print("Please select an option: ");
-          option = sc.nextInt(); sc.nextLine();
-          System.out.println("\n-----------------------------------------");
-
-          switch(option){
-            case 1 -> manageMyProjects(sc);
-            case 2 -> viewAllProjectList(sc);
-            case 3 -> createBTOProjects(sc, null);
-            case 4 -> adjustFilterSettings(sc);
-            case 0 -> System.out.println("Logging out...");
-            default -> System.out.println("Invalid choice. Returning to menu.");
-          }
-        }while(option != 0);
+          managerView.enterMainMenu(sc);
       }catch(IllegalArgumentException e){
           System.out.println(e.getMessage());
       }catch(Exception e){
           System.out.println("Unexpected Error has occured: " + e.getMessage());
-          System.out.println("Returning to Main Menu...");
+          System.out.println("Returning to Homepage...");
       }
-    
-
   }
 
   public void manageChosenProject(Scanner sc, BTOProject chosenProject) throws Exception{
-    int option = 0;
-    do{
+      int option = 0;
       try{
-          System.out.println("       Project Management Portal         ");
-          System.out.println("-----------------------------------------");
-          System.out.printf("Project: %s\n", chosenProject.getProjectName());
-          System.out.println("-----------------------------------------");
-          System.out.println("1. Edit Project Detail");
-          System.out.println("2. Delete Project");
-          System.out.println("3. Generate Report");
-          System.out.println("4. View/Manage Project Applications");
-          System.out.println("5. View/Manage Officer Applications");
-          System.out.println("6. View/Reply Enquiry");
-          System.out.println("0. Back to Main Menu");
-          System.out.println("-----------------------------------------");
-          System.out.print("Please select an option: ");
-          option = sc.nextInt(); sc.nextLine();
-          System.out.println("\n-----------------------------------------");
-          switch(option){
-            case 1 -> editBTOProjects(sc, chosenProject);
-            case 2 -> deleteBTOProjects(sc, chosenProject);
-            case 3 -> generateReport(sc, chosenProject);
-            case 4 -> viewProjectApplicantionList(sc, chosenProject);
-            case 5 -> viewOfficerApplicantionList(sc, chosenProject);
-            case 6 -> viewMyProjectEnquiry(sc, chosenProject.getProjectName());
-            case 0 -> { System.out.println("Returning to Main Menu..."); break;}
-            default -> throw new IllegalArgumentException("Invalid choice. Returning to menu.");
-          }
-        }catch(IllegalArgumentException e){
-            System.out.println(e.getMessage());
-        }
-    }while(option != 0);
-
+          managerView.enterManagementPortal(sc, chosenProject);
+      }catch(IllegalArgumentException e){
+          System.out.println(e.getMessage());
+      }catch(IndexOutOfBoundsException e){
+          System.out.println("No projects available for the chosen project.");
+      }
   }
 
   public void viewAllProjectList(Scanner sc) throws Exception{
-    List<BTOProject> projects =  ProjectDB.getDB();
-    List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
-
-    int choice = 0;
-
-    do{
-      System.out.println("Project List View [View Only]");
-      System.out.println("-----------------------------------------");
-      System.out.println("Enter 'MyProject Portal' for\nProject and Enquiry Management");
-      System.out.println("-----------------------------------------");
-      
-      int index = 1;
-      for(BTOProject project: filteredProjects){
-        System.out.printf("[%d] %s\n\n", index, project.shortToString());
-        index++;
-      }
-      System.out.println("[0] Back to Main Menu");
-      System.out.println("-----------------------------------------");
-      System.out.print("Select the project: ");
-      choice = sc.nextInt(); sc.nextLine();
-
-      if(choice == 0){
-        System.out.println("Returning to Main Menu...");
-        break;
-      }
-
       try{
-        readOnlyProjectAction(sc, filteredProjects.get(choice - 1).getProjectName());
+          managerView.displayReadOnlyAllProject(sc, filterSettings);
+      }catch(IllegalArgumentException e){
+          System.out.println(e.getMessage());
+      }catch(IndexOutOfBoundsException e){
+          System.out.println("No projects available");
       }
-      catch(IndexOutOfBoundsException e){
-        System.out.println("Invalid choice. Please try again.");
-      }
-    }while(choice != 0);
   }
 
   public void readOnlyProjectAction(Scanner sc, String projectName) throws Exception {
-    int actionChoice = 0;
     try{
-      do{
-        System.out.println("You have selected: " + projectName);
-        System.out.println("-----------------------------------------");
-        System.out.println("1. View Project Enquiry List");
-        System.out.println("0. Back to Project List View");
-        System.out.println("-----------------------------------------");
-        System.out.print("Enter your choice: ");
-        actionChoice = sc.nextInt(); sc.nextLine();
-        System.out.println("\n-----------------------------------------");
-        switch(actionChoice){
-          case 1 -> { enquiryService.viewEnquiriesByProject(projectName);}
-          case 2 -> { System.out.println("Returning to Project List View."); 
-                      break;}
-          default -> { System.out.println("Invalid choice. Return to menu.");}
-        }
-      }while(actionChoice != 0);
-    }catch(Exception e){
-      System.out.println("Error has occured: " + e.getMessage());
+      managerView.displayReadOnlyProjectPortal(sc, projectName);
+    }catch(IllegalArgumentException e){
+      System.out.println(e.getMessage());
       return;
+    }catch(IndexOutOfBoundsException e){
+      System.out.println("No projects available for the chosen project.");
     }
   }
 
   public void manageMyProjects(Scanner sc) throws Exception{
-    List<BTOProject> projects = ProjectDB.getDB();
-    filterSettings.setManager(auth.getCurrentUser().getName());
-    List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
-    int choice = 0;
-
-    System.out.println("\n-----------------------------------------");
-    System.out.println("      Project Management Portal");
-    System.out.println("-----------------------------------------");
-    System.out.println("Select your project to manage:");
-    System.out.println("-----------------------------------------");
-    do{
-      int index = 1; 
-      for(BTOProject project: filteredProjects){
-        System.out.printf("[%d] %s\n\n", index, project.shortToString());
-        index += 1;
-      }
-      System.out.println("[0] Back to Main Menu");
-      System.out.println("-----------------------------------------");
-      System.out.print("Enter your choice: ");
-      choice = sc.nextInt(); sc.nextLine();
-      System.out.println("-----------------------------------------");
-      
-      if(choice == 0){
-        System.out.println("Returning to Main Menu...");
-        break;
-      }
-
-      manageChosenProject(sc, filteredProjects.get(choice - 1));
-    } while(true); 
-    
-    
+    try{
+      managerView.displayMyProjects(sc, filterSettings);
+    }catch(IllegalArgumentException e){
+      System.out.println(e.getMessage());
+    }catch(IndexOutOfBoundsException e){
+      System.out.println("No projects available on chosen project.");
+    }
   }
 
 
-  public void viewProjectApplicantionList(Scanner sc, BTOProject selectedProject) {
+  public void viewProjectApplicationList(Scanner sc, BTOProject selectedProject) {
     System.out.println("You have selected: " + selectedProject.getProjectName());
 
     List<ProjectApplication> projectApps = projectAppService.getProjectApplications(selectedProject.getProjectName());
@@ -288,7 +180,7 @@ public class ManagerController extends UserController{
   }
 
 
-  public void viewOfficerApplicantionList(Scanner sc, BTOProject selectedProject) {
+  public void viewOfficerApplicationList(Scanner sc, BTOProject selectedProject) {
     System.out.println("You have selected: " + selectedProject.getProjectName());
 
     List<OfficerApplication> projectApps = officerApplicationService.getProjectApplications(selectedProject.getProjectName());
@@ -324,7 +216,7 @@ public class ManagerController extends UserController{
     }
   }
 
-  public void createBTOProjects(Scanner sc, BTOProject chosenProject) {
+  public void createBTOProjects(Scanner sc) {
     HDBManager manager = retreiveManager();
     try{
       projectManagementService.createProject(sc, manager.getNric(), manager.getManagedProjectsID());
@@ -388,6 +280,10 @@ public class ManagerController extends UserController{
 
   public void generateReport(Scanner sc, BTOProject project) {
     reportPrintService.printReport(sc, project);
+  }
+
+  public void viewPublicEnquiry(String projectName){
+    enquiryService.viewEnquiriesByProject(projectName);
   }
 
   public void viewMyProjectEnquiry(Scanner sc, String projectName) {
