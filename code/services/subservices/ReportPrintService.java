@@ -4,7 +4,6 @@ import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.users.ApplicantDB;
 import java.util.List;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 

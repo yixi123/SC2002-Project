@@ -2,10 +2,8 @@ package services.controller;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.Map;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
 
 import database.dataclass.projects.EnquiryDB;
 import database.dataclass.projects.ProjectDB;
@@ -17,12 +15,7 @@ import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
-import models.users.Applicant;
 import models.users.HDBManager;
-
-
-import utils.FilterUtil;
-import view.ViewFormatter;
 
 import view.ManagerView;
 
@@ -39,9 +32,6 @@ import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectManagementService;
 import services.subservices.ProjectViewService;
 import services.subservices.ReportPrintService;
-
-import java.io.StringWriter;
-import java.io.PrintWriter;
 
 public class ManagerController extends UserController{
   IProjectApplicationService projectAppService = new ProjectApplicationService();;
