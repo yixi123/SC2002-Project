@@ -22,9 +22,9 @@ public class ApplicantView {
         int choice;
 		
 	 	do{
-            System.out.println("--------------------------------");
-            System.out.println("\tApplicant Portal");
-            System.out.println("--------------------------------");
+            System.out.println("-----------------------------------------");
+            System.out.println("           Applicant Portal");
+            System.out.println("-----------------------------------------");
             System.out.println("1. Enter Project Protal");
             System.out.println("2. Adjust Filter Settings");
             System.out.println("3. View Application Status");
@@ -32,7 +32,7 @@ public class ApplicantView {
             System.out.println("5. View My Enquiry");
             System.out.println("6. Change My Password");
             System.out.println("0. Logout");
-            System.out.println("--------------------------------");
+            System.out.println("-----------------------------------------");
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
             sc.nextLine();
@@ -40,7 +40,7 @@ public class ApplicantView {
             switch (choice) {
                 case 0 -> {
                     System.out.println("Logging out...");
-					System.out.println("--------------------------------");
+					System.out.println("-----------------------------------------");
                     return;
                 }
                 case 1 -> app.enterProjectPortal(sc);
@@ -93,17 +93,19 @@ public class ApplicantView {
     public void displayProjectAction(Scanner sc, BTOProject selectedProject) throws Exception {
 		do{
 			System.out.println("You have selected: " + selectedProject.getProjectName());
+            System.out.println("-----------------------------------------");
 			System.out.println("1. Apply for this project");
 			System.out.println("2. Ask questions about this project");
-			System.out.println("3. Back to project list");
+			System.out.println("0. Back to project list");
+            System.out.println("-----------------------------------------");
 			System.out.print("Enter your choice: ");
-
-			int actionChoice = sc.nextInt();
-			sc.nextLine(); // Consume newline
+			int actionChoice = sc.nextInt(); sc.nextLine();
+            System.out.println("-----------------------------------------");
+			
 			switch (actionChoice) {
 				case 1 -> app.applyForProject(sc, selectedProject);
 				case 2 -> app.addEnquiry(sc, selectedProject);
-				case 3 -> {System.out.println("Back to project list..."); break;}
+				case 0 -> {System.out.println("Back to project list..."); return;}
 				default -> System.out.println("Invalid choice. Try again!");
 			}
 		}while(true);
@@ -114,7 +116,8 @@ public class ApplicantView {
         List<ProjectApplication> applicationList = applicant.getMyApplication();
 
         if (applicationList.isEmpty()) {
-            System.out.println("You have not applied for any projects yet.");
+            System.out.println("You have not applied\n for any projects yet.");
+            System.out.println("-----------------------------------------");
             return;
         }
         System.out.println("Your Applications:");
@@ -133,17 +136,20 @@ public class ApplicantView {
             System.out.println("This enquiry has already been replied to.");
             System.out.println("Reply Content: " + selectedEnquiry.getReplyContent());
             System.out.println("Replied by: " + selectedEnquiry.getReplierUserID() + " on " + selectedEnquiry.getReplierTimestamp());
+            System.out.println("-----------------------------------------");
             return;
         } else {
             System.out.println("This enquiry has not been replied to yet.");
+            System.out.println("-----------------------------------------");
         }
         System.out.println("You can: ");
         System.out.println("1. Edit this enquiry");
         System.out.println("2. Delete this enquiry");
+        System.out.println("-----------------------------------------");
         System.out.print("Enter your choice: ");
-
         int actionChoice = sc.nextInt();
-        sc.nextLine(); // Consume newline
+        sc.nextLine();
+        System.out.println("-----------------------------------------");
         switch (actionChoice) {
             case 1 -> app.editEnquiry(sc, selectedEnquiry);
             case 2 -> app.deleteEnquiry(selectedEnquiry.getId());

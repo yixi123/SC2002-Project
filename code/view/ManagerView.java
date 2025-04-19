@@ -3,8 +3,10 @@ package view;
 import java.util.List;
 import java.util.Scanner;
 
+import database.dataclass.projects.EnquiryDB;
 import database.dataclass.projects.ProjectDB;
 import models.projects.BTOProject;
+import models.projects.Enquiry;
 import models.projects.FilterSettings;
 import services.controller.ManagerController;
 import utils.FilterUtil;
@@ -95,7 +97,7 @@ public class ManagerView {
 			switch(actionChoice){
 			case 1 -> { app.viewPublicEnquiry(projectName);}
 			case 0 -> { System.out.println("Returning to Project List View."); 
-						break;}
+						return;}
 			default -> { System.out.println("Invalid choice. Return to menu.");}
 			}
       	}while(actionChoice != 0);
@@ -128,7 +130,7 @@ public class ManagerView {
 				case 4 -> app.viewProjectApplicationList(sc, chosenProject);
 				case 5 -> app.viewOfficerApplicationList(sc, chosenProject);
 				case 6 -> app.viewMyProjectEnquiry(sc, chosenProject.getProjectName());
-				case 0 -> { System.out.println("Returning to Main Menu..."); break;}
+				case 0 -> { System.out.println("Returning to Main Menu..."); return;}
 				default -> throw new IllegalArgumentException("Invalid choice. Returning to menu.");
 			}
 		}
