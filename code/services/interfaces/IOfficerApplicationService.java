@@ -13,4 +13,5 @@ public interface IOfficerApplicationService {
   public List<OfficerApplication> getProjectApplications(String projectName);
   public OfficerApplication chooseFromApplicationList(Scanner sc, List<OfficerApplication> applications);
   public List<OfficerApplication> getApplicationsByUser(String nric);
+  public void applyForOfficer(HDBOfficer officer, BTOProject project);
 }

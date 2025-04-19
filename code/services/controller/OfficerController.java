@@ -104,6 +104,8 @@ public class OfficerController extends ApplicantController {
 		}
 		List<Enquiry> enquiryList =  enquiryService.getEnquiriesbyProject(project.getProjectName());
 		Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
+    officerView.viewEnquiryActionMenuForOfficer(sc, selectedEnquiry);
+  }
 
   public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry) {
     if (selectedEnquiry.getReplierUserID() != null) {
@@ -113,7 +115,7 @@ public class OfficerController extends ApplicantController {
     System.out.print("Enter your reply content: ");
     String replyContent = sc.nextLine();
     System.out.println("-----------------------------------------");
-    enquiryService.replyEnquiry(selectedEnquiry.getId(), retreiveOfficer().getNric(), replyContent);
+    enquiryService.replyEnquiry(selectedEnquiry.getId(), retrieveOfficer().getNric(), replyContent);
     System.out.println("Reply sent successfully.");
     System.out.println("-----------------------------------------");
   }

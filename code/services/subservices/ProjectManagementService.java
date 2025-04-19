@@ -3,15 +3,12 @@ package services.subservices;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import database.dataclass.projects.ProjectDB;
-import database.dataclass.users.ManagerDB;
 import models.projects.BTOProject;
-import models.users.HDBManager;
 import services.interfaces.IProjectManagementService;
 
 public class ProjectManagementService implements IProjectManagementService {
