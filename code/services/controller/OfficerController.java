@@ -22,7 +22,9 @@ import services.subservices.ProjectApplicationService;
 import services.subservices.ReceiptPrintService;
 
 import utils.FilterUtil;
+
 import view.OfficerView;
+import view.ViewFormatter;
 
 
 public class OfficerController extends ApplicantController {
@@ -42,11 +44,11 @@ public class OfficerController extends ApplicantController {
  	}	
 
 	public HDBOfficer retrieveOfficer(){
-			HDBOfficer currentUser = (HDBOfficer) auth.getCurrentUser();
-			currentUser.setAssignedProject(ProjectDB.getProjectsByOfficer(currentUser.getNric()));
-			currentUser.setOfficerApplications(offAppService.getApplicationsByUser(currentUser.getNric()));
-			return currentUser;
-		}
+		HDBOfficer currentUser = (HDBOfficer) auth.getCurrentUser();
+		currentUser.setAssignedProject(ProjectDB.getProjectsByOfficer(currentUser.getNric()));
+		currentUser.setOfficerApplications(offAppService.getApplicationsByUser(currentUser.getNric()));
+		return currentUser;
+	}
 
 	@Override
 	public void start(Scanner sc) throws Error{
@@ -117,10 +119,10 @@ public class OfficerController extends ApplicantController {
     }
     System.out.print("Enter your reply content: ");
     String replyContent = sc.nextLine();
-    System.out.println("-----------------------------------------");
+    System.out.println(ViewFormatter.breakLine());
     enquiryService.replyEnquiry(selectedEnquiry.getId(), retrieveOfficer().getNric(), replyContent);
     System.out.println("Reply sent successfully.");
-    System.out.println("-----------------------------------------");
+    System.out.println(ViewFormatter.breakLine());
   }
 
 
@@ -142,13 +144,13 @@ public class OfficerController extends ApplicantController {
         
         if (!officer.getMyApplication().isEmpty()) {
             System.out.println("You have already applied for a project.\n Please check your application status.");
-			System.out.println("-----------------------------------------");
+			System.out.println(ViewFormatter.breakLine());
             return;
         }
         for (OfficerApplication application : applications) {
             if (application.getProjectName().equals(selectedProject.getProjectName())) {
                 System.out.println("You have already applied as an\n officer for this project.\n Please check your application status.");
-				System.out.println("-----------------------------------------");
+				System.out.println(ViewFormatter.breakLine());
                 return;
             }
         }

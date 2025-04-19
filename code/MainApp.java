@@ -11,6 +11,7 @@ import services.controller.ApplicantController;
 import services.controller.AuthController;
 import services.controller.ManagerController;
 import services.controller.OfficerController;
+import view.ViewFormatter;
 
 public class MainApp{
     static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
@@ -53,16 +54,16 @@ public class MainApp{
 
         do{
             try{
-                System.out.println("\n\n=========================================");
+                System.out.println("\n\n" + ViewFormatter.thickBreakLine());
                 System.out.println("     BTO Project Management System       ");
-                System.out.println("=========================================");
+                System.out.println(ViewFormatter.thickBreakLine());
                 System.out.println("1. Log In");
                 System.out.println("2. Register as Applicant");
                 System.out.println("3. Exit App");
-                System.out.println("-----------------------------------------");
+                System.out.println(ViewFormatter.breakLine());
                 System.out.print("Enter your choice (1-3): ");
                 choice = sc.nextInt(); sc.nextLine();
-                System.out.println("-----------------------------------------");
+                System.out.println(ViewFormatter.breakLine());
                 
                 
                 switch(choice){
@@ -89,9 +90,9 @@ public class MainApp{
 
         } while (choice != 3);
         
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         System.out.println("               Thank you!                ");
-        System.out.println("=========================================");
+        System.out.println(ViewFormatter.thickBreakLine());
     }
         
     public static void navigateMenu(User user, Scanner sc){

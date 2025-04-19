@@ -20,6 +20,7 @@ import models.users.HDBManager;
 
 
 import utils.FilterUtil;
+import view.ViewFormatter;
 
 import view.ManagerView;
 

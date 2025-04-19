@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 import models.projects.Enquiry;
 import services.interfaces.IEnquiryService;
+import view.ViewFormatter;
 
 public class EnquiryService implements IEnquiryService{
 
@@ -15,15 +16,15 @@ public class EnquiryService implements IEnquiryService{
                 System.out.println("You have no enquiries to view.");
             } else {
                 System.out.println("Enquiries:");
-                System.out.println("---------------------------------------");
+                System.out.println(ViewFormatter.breakLine());
                 for (int i = 0; i < enquiryList.size(); i++) {
                     System.out.println((i + 1) + ". " + enquiryList.get(i).toString());
                 }
-                System.out.println("---------------------------------------");
+                System.out.println(ViewFormatter.breakLine());
                 System.out.println("0. Back to menu");
                 System.out.printf("Please select an enquiry [1 - %d]: ", enquiryList.size());
-                System.out.println("\n---------------------------------------");
-
+                System.out.println();
+                System.out.println(ViewFormatter.breakLine());
                 int enquiryChoice = sc.nextInt() - 1;
                 sc.nextLine(); // Consume newline
                 if (enquiryChoice >= 0 && enquiryChoice < enquiryList.size()) {
@@ -72,11 +73,11 @@ public class EnquiryService implements IEnquiryService{
         }
 
         System.out.println("Enquiries for project: " + projectName);
-        System.out.println("-------------------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         enqList.stream()
             .forEach(enq -> {
                 System.out.println(enq.toString(false));
-                System.out.println("-------------------------------------------------");
+                System.out.println(ViewFormatter.breakLine());;
             });
     }
 
