@@ -64,7 +64,7 @@ public class OfficerView extends ApplicantView {
 			System.out.println("3. View Successful Applicants");
 			System.out.println("4. Book Applicant Flat");
 			System.out.println("5. Generate Receipt");
-			System.out.println("6. Managed Enquiries");
+			System.out.println("6. Manage Enquiries");
 			System.out.println("7. View My Officer Application Status");
 			System.out.println("0. Back");
 			System.out.println("-------------------------------------------");

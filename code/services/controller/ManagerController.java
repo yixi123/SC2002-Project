@@ -3,6 +3,8 @@ package services.controller;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Map;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 
 import database.dataclass.projects.EnquiryDB;
@@ -37,6 +39,8 @@ import services.subservices.ProjectManagementService;
 import services.subservices.ProjectViewService;
 import services.subservices.ReportPrintService;
 
+import java.io.StringWriter;
+import java.io.PrintWriter;
 
 public class ManagerController extends UserController{
   IProjectApplicationService projectAppService = new ProjectApplicationService();;
@@ -64,23 +68,29 @@ public class ManagerController extends UserController{
 
   public HDBManager retreiveManager(){
     HDBManager currentUser = (HDBManager) auth.getCurrentUser();
+    currentUser.setManagedProjectsList(ProjectDB.getProjectsByManager(currentUser.getNric()));
     return currentUser;
   }
 
   public void start(Scanner sc){
-    int option = 0;
       try{
           managerView.enterMainMenu(sc);
       }catch(IllegalArgumentException e){
           System.out.println(e.getMessage());
-      }catch(Exception e){
+      }
+      catch(Exception e){
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw)); // Write stack trace to StringWriter
+            String fullErrorMessage = sw.toString(); // Get the full error message as a string
+            System.out.println(fullErrorMessage);   // Print the error message
+
           System.out.println("Unexpected Error has occured: " + e.getMessage());
           System.out.println("Returning to Homepage...");
-      }
+        }
+  
   }
 
   public void manageChosenProject(Scanner sc, BTOProject chosenProject) throws Exception{
-      int option = 0;
       try{
           managerView.enterManagementPortal(sc, chosenProject);
       }catch(IllegalArgumentException e){
@@ -218,11 +228,11 @@ public class ManagerController extends UserController{
 
   public void createBTOProjects(Scanner sc) {
     HDBManager manager = retreiveManager();
-    try{
-      projectManagementService.createProject(sc, manager.getNric(), manager.getManagedProjectsID());
-    }catch(Exception e){
-      System.out.println("Error creating project: " + e.getMessage());
-    }
+    // try{
+      projectManagementService.createProject(sc, manager.getNric(), manager.getManagedProjectsList());
+    // }catch(Exception e){
+    //   System.out.println("Error creating project: " + e.getMessage());
+    // }
   }
 
   public void editBTOProjects(Scanner sc, BTOProject chosenProject) {

@@ -25,7 +25,7 @@ public class ApplicantView {
             System.out.println("-----------------------------------------");
             System.out.println("           Applicant Portal");
             System.out.println("-----------------------------------------");
-            System.out.println("1. Enter Project Protal");
+            System.out.println("1. Enter Project Portal");
             System.out.println("2. Adjust Filter Settings");
             System.out.println("3. View Application Status");
             System.out.println("4. Withdraw Current Application");

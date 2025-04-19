@@ -1,13 +1,12 @@
 package services.controller;
 
+import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import models.enums.OfficerAppStat;
-import models.enums.ProjectAppStat;
 import models.projects.*;
-import models.users.Applicant;
 import models.users.HDBOfficer;
 import services.interfaces.IEnquiryService;
 import services.interfaces.IOfficerApplicationService;
@@ -17,7 +16,6 @@ import services.subservices.EnquiryService;
 import services.subservices.OfficerApplicationService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ReceiptPrintService;
-import utils.FilterUtil;
 import view.OfficerView;
 
 
@@ -30,7 +28,7 @@ public class OfficerController extends ApplicantController {
   private static OfficerView officerView = new OfficerView();
 
 
-  	public OfficerController() {
+  public OfficerController() {
 		this.offAppService  = new OfficerApplicationService();
 		this.proAppService  = new ProjectApplicationService();
 		this.enquiryService = new EnquiryService();
@@ -41,6 +39,7 @@ public class OfficerController extends ApplicantController {
 			HDBOfficer currentUser = (HDBOfficer) auth.getCurrentUser();
 			currentUser.setAssignedProject(ProjectDB.getProjectsByOfficer(currentUser.getNric()));
 			currentUser.setOfficerApplications(offAppService.getApplicationsByUser(currentUser.getNric()));
+      currentUser.setMyApplication(ProjectAppDB.getApplicationByUser(currentUser.getNric()));
 			return currentUser;
 		}
 
@@ -67,10 +66,12 @@ public class OfficerController extends ApplicantController {
 
 	public void enterOfficerProjectPortal(Scanner sc) throws Error {
 		try{
+      filterSettings.setVisibility(true);
+      filterSettings.setActiveDate(new Date());
 			officerView.displayOfficerProjectPortal(sc, filterSettings);
 		}catch(Exception e){
 			System.out.println("An error occurred: " + e.getMessage());
-		}
+		} 
 	}
 
 	public void viewSuccessfulApplicantsList() {
