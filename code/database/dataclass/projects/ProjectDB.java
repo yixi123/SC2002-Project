@@ -19,6 +19,11 @@ public class ProjectDB {
     FileSaver.saveProjects(dataList);
     initiateDB();
   }
+  public static void updateDB(){
+    FileSaver.saveProjects(db);
+    initiateDB();
+  }
+
   public static List<BTOProject> getDB(){
     return db;
   }

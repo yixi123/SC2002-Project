@@ -10,6 +10,7 @@ import java.util.Scanner;
 import models.enums.OfficerAppStat;
 import models.projects.BTOProject;
 import models.projects.OfficerApplication;
+import models.projects.ProjectApplication;
 import models.users.HDBOfficer;
 import services.interfaces.IOfficerApplicationService;
 import view.ViewFormatter;
@@ -89,6 +90,11 @@ public class OfficerApplicationService implements IOfficerApplicationService {
 			System.out.println("No officer slots available for this project.");
 			return;
 		}
+        List<ProjectApplication> applications = officer.getMyApplication();
+        if (applications.stream().anyMatch(app -> app.getProjectName().equals(project.getProjectName()))) {
+            System.out.println("You have already applied for this project.");
+            return;
+        }
 
 		List<OfficerApplication> apps = officer.getOfficerApplications();
 
