@@ -90,12 +90,12 @@ public class ProjectApplicationService implements IProjectApplicationService{
     }
 
     @Override
-    public void bookApplication(String userId, String project){
-        if (project == null) {
+    public void bookApplication(String projectName, String userId){
+        if (projectName == null) {
 			System.out.println("No project assigned.");
 			return;
 		}
-		ProjectApplication app = getApplicationByUserAndProject(userId, project);
+		ProjectApplication app = getApplicationByUserAndProject(userId, projectName);
 		if (app == null) {
 			System.out.println("No application found for applicant: " + userId);
 			return;
@@ -109,7 +109,7 @@ public class ProjectApplicationService implements IProjectApplicationService{
 			return;
 		}
 
-        updateApplicationStatus(userId, project, ProjectAppStat.BOOKED);
+        updateApplicationStatus(userId, projectName, ProjectAppStat.BOOKED);
     }
 
     private boolean checkApplicationEligibility(int age, MaritalStatus status, FlatType flatType){

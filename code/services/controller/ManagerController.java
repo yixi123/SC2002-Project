@@ -2,8 +2,6 @@ package services.controller;
 
 import java.util.List;
 import java.util.Scanner;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import database.dataclass.projects.EnquiryDB;
 import database.dataclass.projects.ProjectDB;
@@ -70,11 +68,6 @@ public class ManagerController extends UserController{
           System.out.println(e.getMessage());
       }
       catch(Exception e){
-            StringWriter sw = new StringWriter();
-            e.printStackTrace(new PrintWriter(sw)); // Write stack trace to StringWriter
-            String fullErrorMessage = sw.toString(); // Get the full error message as a string
-            System.out.println(fullErrorMessage);   // Print the error message
-
           System.out.println("Unexpected Error has occured: " + e.getMessage());
           System.out.println("Returning to Homepage...");
         }
@@ -219,11 +212,11 @@ public class ManagerController extends UserController{
 
   public void createBTOProjects(Scanner sc) {
     HDBManager manager = retreiveManager();
-    // try{
+    try{
       projectManagementService.createProject(sc, manager.getNric(), manager.getManagedProjectsList());
-    // }catch(Exception e){
-    //   System.out.println("Error creating project: " + e.getMessage());
-    // }
+    }catch(Exception e){
+      System.out.println("Error creating project: " + e.getMessage());
+    }
   }
 
   public void editBTOProjects(Scanner sc, BTOProject chosenProject) {
