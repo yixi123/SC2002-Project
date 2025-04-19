@@ -58,8 +58,9 @@ public class ApplicantController extends UserController {
 
     public void applyForProject(Scanner sc, BTOProject selectedProject) {
         Applicant applicant = retreiveApplicant();
-
-        if (ProjectAppDB.getApplicationByUser(applicant.getNric()) != null) {
+        ProjectApplication currentApplication = applicant.getActiveApplication();
+        
+        if (currentApplication != null) {
             System.out.println("You have already applied for a project.\n Please check your application status.");
         }
         else{
@@ -80,34 +81,24 @@ public class ApplicantController extends UserController {
             return;
         }
 
-        ProjectApplication currentApplication = null;
+        ProjectApplication currentApplication = applicant.getActiveApplication();
 
-        for(ProjectApplication application : applicationList){
-            if (application.getStatus() == ProjectAppStat.UNSUCCESSFUL || application.getStatus() == ProjectAppStat.WITHDRAWN) {
-                currentApplication = application;
-            }
-        }
         if (currentApplication == null) {
             System.out.println("You have no active applications yet.");
             return;
         }
-        for (ProjectApplication application : applicationList) {
-            if (application.getStatus() != ProjectAppStat.UNSUCCESSFUL && application.getStatus() != ProjectAppStat.WITHDRAWN) {
-                System.out.println("<Current Application>");
-                System.out.println(application.toString());
-                System.out.println("-----------------------------------------");
-                currentApplication = application;
-                System.out.println("Are you sure you want to withdraw this application? (yes/no)");
-                String response = sc.nextLine();
-                if (response.equalsIgnoreCase("yes")) {
-                    projectApplicationService.withdrawApplication(currentApplication);
-                    System.out.println("Application withdrawn successfully.");
-                } else {
-                    System.out.println("Withdrawal cancelled.");
-                }
-                break;
-            } 
-        }        
+        
+        System.out.println("<Current Application>");
+        System.out.println(currentApplication.toString());
+        System.out.println("-----------------------------------------");
+        System.out.println("Are you sure you want to withdraw this application? (yes/no)");
+        String response = sc.nextLine();
+        if (response.equalsIgnoreCase("yes")) {
+            projectApplicationService.withdrawApplication(currentApplication);
+            System.out.println("Application withdrawn successfully.");
+        } else {
+            System.out.println("Withdrawal cancelled.");
+        }
 
     }
 
