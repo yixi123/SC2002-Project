@@ -92,7 +92,12 @@ public class OfficerApplicationService implements IOfficerApplicationService {
 		}
         List<ProjectApplication> applications = officer.getMyApplication();
         if (applications.stream().anyMatch(app -> app.getProjectName().equals(project.getProjectName()))) {
-            System.out.println("You have already applied for this project.");
+            System.out.println(
+            "Cannot register as an officer for \"" + project.getProjectName() 
+            + "\"\n because you’ve already applied for it as an applicant.\n" 
+            + "Please check your application status."
+            );
+            System.out.println(ViewFormatter.breakLine());
             return;
         }
 
