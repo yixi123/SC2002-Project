@@ -161,6 +161,6 @@ public class AuthService implements IAuthService {
         Applicant newApplicant = new Applicant(name, nric, password, age, maritalStatus);
         ApplicantDB.addUser(newApplicant);
         System.out.println("Applicant added successfully!");
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
     }
 }
