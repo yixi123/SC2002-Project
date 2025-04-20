@@ -13,7 +13,7 @@ import models.users.Applicant;
 import services.controller.ApplicantController;
 import utils.FilterUtil;
 
-public class ApplicantView {
+public class ApplicantView extends UserView {
 	private static ApplicantController app = new ApplicantController();
 
     public void enterMainMenu(Scanner sc) throws Exception{

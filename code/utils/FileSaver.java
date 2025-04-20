@@ -12,7 +12,7 @@ import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 
-public class FileSaver {
+public class FileSaver implements IFileSaver {
 
     private static final String APPLICANTS_FILE = "code/database/csv/ApplicantList.csv";
     private static final String OFFICERS_FILE = "code/database/csv/OfficerList.csv";
@@ -22,35 +22,35 @@ public class FileSaver {
     private static final String PROJECT_APPLICATIONS_FILE = "code/database/csv/ProjectApplicationList.csv";
     private static final String OFFICER_APPLICATIONS_FILE = "code/database/csv/OfficerApplicationList.csv";
 
-    public static void saveApplicants(List<Applicant> applicants) {
+    public void saveApplicants(List<Applicant> applicants) {
         saveApplicants(APPLICANTS_FILE, applicants);
     }
 
-    public static void saveOfficers(List<HDBOfficer> officers) {
+    public void saveOfficers(List<HDBOfficer> officers) {
         saveOfficers(OFFICERS_FILE, officers);
     }
 
-    public static void saveManagers(List<HDBManager> managers) {
+    public void saveManagers(List<HDBManager> managers) {
         saveManagers(MANAGERS_FILE, managers);
     }
 
-    public static void saveProjects(List<BTOProject> projects) {
+    public void saveProjects(List<BTOProject> projects) {
         saveProjects(PROJECTS_FILE, projects);
     }
 
-    public static void saveEnquiries(List<Enquiry> enquiries) {
+    public void saveEnquiries(List<Enquiry> enquiries) {
         saveEnquiries(ENQUIRIES_FILE, enquiries);
     }
 
-    public static void saveProjectApplications(List<ProjectApplication> applications) {
+    public void saveProjectApplications(List<ProjectApplication> applications) {
         saveProjectApplications(PROJECT_APPLICATIONS_FILE, applications);
     }
 
-    public static void saveOfficerApplications(List<OfficerApplication> applications) {
+    public void saveOfficerApplications(List<OfficerApplication> applications) {
         saveOfficerApplications(OFFICER_APPLICATIONS_FILE, applications);
     }
 
-    public static void saveApplicants(String filePath, List<Applicant> applicants) {
+    public void saveApplicants(String filePath, List<Applicant> applicants) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Name,NRIC,Age,Marital Status,Password\n"); // Header
             for (Applicant applicant : applicants) {
@@ -66,7 +66,7 @@ public class FileSaver {
         }
     }
 
-    public static void saveOfficers(String filePath, List<HDBOfficer> officers) {
+    public void saveOfficers(String filePath, List<HDBOfficer> officers) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Name,NRIC,Age,Marital Status,Password\n"); // Header
             for (HDBOfficer officer : officers) {
@@ -82,7 +82,7 @@ public class FileSaver {
         }
     }
 
-    public static void saveManagers(String filePath, List<HDBManager> managers) {
+    public void saveManagers(String filePath, List<HDBManager> managers) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Name,NRIC,Age,Marital Status,Password\n"); // Header
             for (HDBManager manager : managers) {
@@ -98,7 +98,7 @@ public class FileSaver {
         }
     }
 
-    public static void saveProjects(String filePath, List<BTOProject> projects) {
+    public void saveProjects(String filePath, List<BTOProject> projects) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Project Name,Neighborhood,Number of units for 2-room,Selling price for 2-room,Number of units for 3-room,Selling price for 3-room,Application opening date,Application closing date,Manager,Officer Slot,Officer,Visibility\n"); // Updated header
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -123,7 +123,7 @@ public class FileSaver {
         }
     }
 
-    public static void saveEnquiries(String filePath, List<Enquiry> enquiries) {
+    public void saveEnquiries(String filePath, List<Enquiry> enquiries) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("ID,UserID,Project,Content,timestamp,ReplierUserID,ReplyContent,ReplierTimestamp\n"); // Header
@@ -144,7 +144,7 @@ public class FileSaver {
         }
     }
 
-    public static void saveProjectApplications(String filePath, List<ProjectApplication> applications) {
+    public void saveProjectApplications(String filePath, List<ProjectApplication> applications) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date,Flat Type\n"); // Header
@@ -161,7 +161,7 @@ public class FileSaver {
         }
     }
 
-    public static void saveOfficerApplications(String filePath, List<OfficerApplication> applications) {
+    public void saveOfficerApplications(String filePath, List<OfficerApplication> applications) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date\n"); // Header

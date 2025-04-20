@@ -4,17 +4,25 @@ import java.util.List;
 import models.users.Applicant;
 import utils.FileLoader;
 import utils.FileSaver;
+import utils.IFileLoader;
+import utils.IFileSaver;
 
 public class ApplicantDB {
   private static List<Applicant> db;
+  private static IFileLoader fileLoader = new FileLoader();
+  private static IFileSaver fileSaver = new FileSaver();
 
   public static void initiateDB(){
-    db = FileLoader.loadApplicants();
+    db = fileLoader.loadApplicants();
+  }
+
+  private static void saveToFile(){
+    fileSaver.saveApplicants(db);
   }
   
   //update or add
   public static void updateDB(List<Applicant> dataList){
-    FileSaver.saveApplicants(dataList);
+    saveToFile();
     initiateDB();
   }
 
@@ -29,7 +37,7 @@ public class ApplicantDB {
         break;
       }
     }
-    FileSaver.saveApplicants(db);
+    saveToFile();
   }
 
   public static String getUsernameByID(String userID){
@@ -52,7 +60,7 @@ public class ApplicantDB {
 
   public static void addUser(Applicant applicant) {
     db.add(applicant);
-    FileSaver.saveApplicants(db);
+    saveToFile();
   }
 
 }

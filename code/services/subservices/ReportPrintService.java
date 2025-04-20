@@ -12,6 +12,7 @@ import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 import models.users.Applicant;
 import services.interfaces.IReportPrintService;
+import view.ViewFormatter;
 
 public class ReportPrintService implements IReportPrintService {
 
@@ -37,7 +38,7 @@ public class ReportPrintService implements IReportPrintService {
 
 
         System.out.println("A report of the list of applicants based on the filter category is as follows:");
-        System.out.println("-------------------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         for (Applicant applicant : applicantsAndApplication.keySet()) {
             ProjectApplication application = applicantsAndApplication.get(applicant);
             System.out.println("Applicant Name: " + applicant.getName());
@@ -45,7 +46,7 @@ public class ReportPrintService implements IReportPrintService {
             System.out.println("Marital Status: " + applicant.getMaritalStatus());
             System.out.println("Project Name: " + application.getProjectName());
             System.out.println("Flat Type: " + application.getFlatType());
-            System.out.println("-------------------------------------------------");
+            System.out.println(ViewFormatter.breakLine());
 
         }
 

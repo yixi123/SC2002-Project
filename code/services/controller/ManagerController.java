@@ -38,7 +38,6 @@ public class ManagerController extends UserController{
   IProjectViewService projectViewService = new ProjectViewService();
   IEnquiryService enquiryService = new EnquiryService();
   IReportPrintService reportPrintService = new ReportPrintService();
-
   private static ManagerView managerView = new ManagerView();
 
 

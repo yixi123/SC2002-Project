@@ -66,11 +66,11 @@ public class MainApp{
                 
                 switch(choice){
                     case 1:
-                        User user = auth.login(sc); 
+                        User user = auth.enterLoginPage(sc); 
                         navigateMenu(user, sc);
                         break;
                     case 2:
-                        auth.addApplicant(sc);
+                        auth.enterAddApplicantPage(sc);
                         break;
                     case 3:
                         System.out.println("Exiting...");

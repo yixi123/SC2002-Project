@@ -5,18 +5,26 @@ import java.util.List;
 import models.users.HDBOfficer;
 import utils.FileLoader;
 import utils.FileSaver;
+import utils.IFileLoader;
+import utils.IFileSaver;
 
 public class OfficerDB {
     private static List<HDBOfficer> db;
+    private static IFileLoader fileLoader = new FileLoader();
+    private static IFileSaver fileSaver = new FileSaver();
 
   public static void initiateDB(){
-    db = FileLoader.loadOfficers();
+    db = fileLoader.loadOfficers();
+  }
+
+  private static void saveToFile(){
+    fileSaver.saveOfficers(db);
   }
   
   //update or add
   public static void updateDB(List<HDBOfficer> dataList){
     db = dataList;
-    FileSaver.saveOfficers(db);
+    saveToFile();
   }
 
   public static List<HDBOfficer> getDB(){
