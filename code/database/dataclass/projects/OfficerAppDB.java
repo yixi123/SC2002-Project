@@ -4,21 +4,29 @@ import models.enums.OfficerAppStat;
 import models.projects.OfficerApplication;
 import utils.FileLoader;
 import utils.FileSaver;
+import utils.IFileLoader;
+import utils.IFileSaver;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OfficerAppDB {
   private static List<OfficerApplication> db;
+  private static IFileLoader fileLoader = new FileLoader();
+  private static IFileSaver fileSaver = new FileSaver();
 
   public static void initiateDB(){
-    db = FileLoader.loadOfficerApplications();
+    db = fileLoader.loadOfficerApplications();
   }
 
   //update or add
   public static void updateDB(List<OfficerApplication> dataList){
-    FileSaver.saveOfficerApplications(dataList);
+    saveToFile();
     initiateDB();
+  }
+
+  private static void saveToFile(){
+    fileSaver.saveOfficerApplications(db);
   }
 
   public static List<OfficerApplication> getApplicationsByUser(String nric) {
@@ -43,17 +51,17 @@ public class OfficerAppDB {
 
   public static void addApplication(OfficerApplication application) {
       db.add(application);
-      FileSaver.saveOfficerApplications(db);
+      saveToFile();
   }
 
   public static void removeApplication(OfficerApplication application) {
       db.remove(application);
-      FileSaver.saveOfficerApplications(db);
+      saveToFile();
   }
 
   public static void removeApplicationByProject(String projectName) {
       db.removeIf(application -> application.getProjectName().equalsIgnoreCase(projectName));
-      FileSaver.saveOfficerApplications(db);
+      saveToFile();
   }
 
   public static void updateApplication(OfficerApplication application) {
@@ -65,7 +73,7 @@ public class OfficerAppDB {
                   break;
           }
       }
-      FileSaver.saveOfficerApplications(db);
+      saveToFile();
   }
 
   public static List<OfficerApplication> getDB(){

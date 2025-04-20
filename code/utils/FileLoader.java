@@ -25,35 +25,35 @@ public class FileLoader implements IFileLoader {
     private static final String PROJECT_APPLICATIONS_FILE = "code/database/csv/ProjectApplicationList.csv";
     private static final String OFFICER_APPLICATIONS_FILE = "code/database/csv/OfficerApplicationList.csv";
 
-    public static List<Applicant> loadApplicants() {
+    public List<Applicant> loadApplicants() {
         return loadApplicants(APPLICANTS_FILE);
     }
 
-    public static List<HDBOfficer> loadOfficers() {
+    public List<HDBOfficer> loadOfficers() {
         return loadOfficers(OFFICERS_FILE);
     }
 
-    public static List<HDBManager> loadManagers() {
+    public List<HDBManager> loadManagers() {
         return loadManagers(MANAGERS_FILE);
     }
 
-    public static List<BTOProject> loadProjects() {
+    public List<BTOProject> loadProjects() {
         return loadProjects(PROJECTS_FILE);
     }
 
-    public static List<Enquiry> loadEnquiries() {
+    public List<Enquiry> loadEnquiries() {
         return loadEnquiries(ENQUIRIES_FILE);
     }
 
-    public static List<ProjectApplication> loadProjectApplications() {
+    public List<ProjectApplication> loadProjectApplications() {
         return loadProjectApplications(PROJECT_APPLICATIONS_FILE);
     }
 
-    public static List<OfficerApplication> loadOfficerApplications() {
+    public List<OfficerApplication> loadOfficerApplications() {
         return loadOfficerApplications(OFFICER_APPLICATIONS_FILE);
     }
 
-    public static List<Applicant> loadApplicants(String filePath) {
+    public List<Applicant> loadApplicants(String filePath) {
         List<Applicant> applicants = new ArrayList<>();
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
             br.readLine(); // Skip header
@@ -68,7 +68,7 @@ public class FileLoader implements IFileLoader {
         return applicants;
     }
 
-    public static List<HDBOfficer> loadOfficers(String filePath) {
+    public List<HDBOfficer> loadOfficers(String filePath) {
         List<HDBOfficer> officers = new ArrayList<>();
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
             br.readLine(); // Skip header
@@ -83,7 +83,7 @@ public class FileLoader implements IFileLoader {
         return officers;
     }
 
-    public static List<HDBManager> loadManagers(String filePath) {
+    public List<HDBManager> loadManagers(String filePath) {
         List<HDBManager> managers = new ArrayList<>();
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
             br.readLine(); // Skip header
@@ -98,7 +98,7 @@ public class FileLoader implements IFileLoader {
         return managers;
     }
 
-    public static List<BTOProject> loadProjects(String filePath) {
+    public List<BTOProject> loadProjects(String filePath) {
         List<BTOProject> projects = new ArrayList<>();
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
             br.readLine(); // Skip header
@@ -120,7 +120,7 @@ public class FileLoader implements IFileLoader {
         return projects;
     }
 
-    public static List<Enquiry> loadEnquiries(String filePath) {
+    public List<Enquiry> loadEnquiries(String filePath) {
         List<Enquiry> enquiries = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
@@ -146,7 +146,7 @@ public class FileLoader implements IFileLoader {
         return enquiries;
     }
 
-    public static List<ProjectApplication> loadProjectApplications(String filePath) {
+    public List<ProjectApplication> loadProjectApplications(String filePath) {
         List<ProjectApplication> applications = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {
@@ -168,7 +168,7 @@ public class FileLoader implements IFileLoader {
         return applications;
     }
 
-    public static List<OfficerApplication> loadOfficerApplications(String filePath) {
+    public List<OfficerApplication> loadOfficerApplications(String filePath) {
         List<OfficerApplication> applications = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedReader br = Files.newBufferedReader(Paths.get(filePath))) {

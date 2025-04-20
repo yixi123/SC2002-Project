@@ -5,19 +5,27 @@ import java.util.List;
 import models.projects.Enquiry;
 import utils.FileLoader ;
 import utils.FileSaver;
+import utils.IFileLoader;
+import utils.IFileSaver;
 
 public class EnquiryDB {
 
   private static List<Enquiry> db; 
+  private static IFileLoader fileLoader = new FileLoader();
+  private static IFileSaver fileSaver = new FileSaver();
 
   public static void initiateDB(){
-    db = FileLoader.loadEnquiries();
+    db = fileLoader.loadEnquiries();
   }
 
   //update or add
   public static void updateDB(List<Enquiry> enqList){
     db = enqList;
-    FileSaver.saveEnquiries(db);
+    saveToFile();
+  }
+
+  private static void saveToFile(){
+    fileSaver.saveEnquiries(db);
   }
 
   public static List<Enquiry> getDB(){
@@ -46,17 +54,17 @@ public class EnquiryDB {
 
   public static void addEnquiry(Enquiry enquiry) {
       db.add(enquiry);
-      FileSaver.saveEnquiries(db);
+      saveToFile();
   }
 
   public static void removeEnquiry(Enquiry enquiry) {
       db.remove(enquiry);
-      FileSaver.saveEnquiries(db);
+      saveToFile();
   }
 
   public static void removeEnquiryByID(int enquiryID) {
       db.removeIf(enquiry -> enquiry.getId() == enquiryID);
-      FileSaver.saveEnquiries(db);
+      saveToFile();
   }
 
   public static void updateEnquiry(Enquiry enquiry) {
@@ -66,6 +74,6 @@ public class EnquiryDB {
               break;
           }
       }
-      FileSaver.saveEnquiries(db);
+      saveToFile();
   }
 }

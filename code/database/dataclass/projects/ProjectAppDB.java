@@ -5,21 +5,29 @@ import java.util.List;
 import models.projects.ProjectApplication;
 import utils.FileLoader;
 import utils.FileSaver;
+import utils.IFileLoader;
+import utils.IFileSaver;
 
 public class ProjectAppDB {
   private static List<ProjectApplication> db;
+  private static IFileLoader fileLoader = new FileLoader();
+  private static IFileSaver fileSaver = new FileSaver();
   
   public static void initiateDB(){
-    db = FileLoader.loadProjectApplications();
+    db = fileLoader.loadProjectApplications();
+  }
+
+  private static void saveToFile(){
+    fileSaver.saveProjectApplications(db);
   }
   
   //update or add
   public static void updateDB(List<ProjectApplication> dataList){
     db = dataList;
-    FileSaver.saveProjectApplications(db);
+    saveToFile();
   }
   public static void updateDB(){
-    FileSaver.saveProjectApplications(db);
+    saveToFile();
   }
 
 
@@ -54,17 +62,17 @@ public class ProjectAppDB {
 
   public static void addApplication(ProjectApplication application) {
       db.add(application);
-      FileSaver.saveProjectApplications(db);
+      saveToFile();
   }
 
   public static void removeApplication(ProjectApplication application) {
       db.remove(application);
-      FileSaver.saveProjectApplications(db);
+      saveToFile();
   }
 
   public static void removeApplicationByProject(String projectName) {
       db.removeIf(application -> application.getProjectName().equalsIgnoreCase(projectName));
-      FileSaver.saveProjectApplications(db);
+      saveToFile();
   }
 
   public static void updateApplication(ProjectApplication application) {
@@ -75,7 +83,7 @@ public class ProjectAppDB {
               break;
           }
       }
-      FileSaver.saveProjectApplications(db);
+      saveToFile();
   }
 
 

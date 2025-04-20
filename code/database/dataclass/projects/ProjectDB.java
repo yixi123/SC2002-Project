@@ -6,21 +6,29 @@ import java.util.List;
 import models.projects.BTOProject;
 import utils.FileLoader;
 import utils.FileSaver;
+import utils.IFileLoader;
+import utils.IFileSaver;
 
 public class ProjectDB {
   private static List<BTOProject> db;
+  private static IFileLoader fileLoader = new FileLoader();
+  private static IFileSaver fileSaver = new FileSaver();
 
   public static void initiateDB(){
-    db = FileLoader.loadProjects();
+    db = fileLoader.loadProjects();
+  }
+
+  private static void saveToFile(){
+    fileSaver.saveProjects(db);
   }
   
   //update or add
   public static void updateDB(List<BTOProject> dataList){
-    FileSaver.saveProjects(dataList);
+    saveToFile();
     initiateDB();
   }
   public static void updateDB(){
-    FileSaver.saveProjects(db);
+    saveToFile();
     initiateDB();
   }
 
@@ -46,12 +54,12 @@ public class ProjectDB {
         db.set(i, project);
       }
     }
-    FileSaver.saveProjects(db);
+    saveToFile();
   }
 
   public static void addProject(BTOProject project){
     db.add(project);
-    FileSaver.saveProjects(db);
+    saveToFile();
   }
 
   public static void removeProject(BTOProject project){
@@ -65,7 +73,7 @@ public class ProjectDB {
         OfficerAppDB.removeApplicationByProject(project.getProjectName());
       }
     }
-    FileSaver.saveProjects(db);
+    saveToFile();
   }
 
   public static List<BTOProject> getProjectsByOfficer(String officerId){

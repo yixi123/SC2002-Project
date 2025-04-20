@@ -124,6 +124,6 @@ public class ApplicantController extends UserController {
     }
 
     public void changeMyPassword(Scanner sc){
-        auth.changePasswordPage(sc);
+        auth.enterChangePasswordPage(sc);
     }
 }

@@ -16,7 +16,7 @@ public abstract class UserController {
     public abstract void start(Scanner sc);
 
     public void changeMyPassword(Scanner sc){
-        auth.changePasswordPage(sc);
+        auth.enterChangePasswordPage(sc);
     }
 
     public void adjustFilterSettings(Scanner sc) {
