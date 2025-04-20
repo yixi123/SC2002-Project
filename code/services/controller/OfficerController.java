@@ -139,6 +139,17 @@ public class OfficerController extends ApplicantController {
 
 
   public void registerAsOfficer(BTOProject project) {
+	ProjectApplication existingApp = proAppService.getApplicationByUserAndProject(retrieveOfficer().getNric(), project.getProjectName());
+	if (existingApp != null){
+		System.out.println(
+			"Cannot register as an officer for \""
+			+ project.getProjectName()
+			+ "\" because you’ve already applied for it as an applicant.\n"
+			+ "Please check your application status."
+		);
+		System.out.println(ViewFormatter.breakLine());
+		return;
+	}
 	  offAppService.applyForOfficer(retrieveOfficer(), project);
   }
 
