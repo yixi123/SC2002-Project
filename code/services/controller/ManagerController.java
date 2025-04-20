@@ -16,7 +16,7 @@ import models.projects.ProjectApplication;
 import models.users.HDBManager;
 
 import view.ManagerView;
-
+import view.ViewFormatter;
 import services.interfaces.IEnquiryService;
 import services.interfaces.IOfficerApplicationService;
 import services.interfaces.IReportPrintService;
@@ -197,7 +197,7 @@ public class ManagerController extends UserController{
         return;
     }
     System.out.println("You have selected: " + selectedOfficerApp.toString());
-    System.out.println("-----------------------------------------");
+    System.out.println(ViewFormatter.breakLine());
     System.out.println("1. Approve Officer Application");
     System.out.println("2. Reject Officer Application");
     System.out.print("Enter your choice: ");
@@ -306,10 +306,10 @@ public class ManagerController extends UserController{
       try{
         System.out.print("Enter your reply content: ");
         String replyContent = sc.nextLine();
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         enquiryService.replyEnquiry(enquiryId, auth.getCurrentUser().getNric(), replyContent);
         System.out.println("Reply sent successfully.");
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         break;
       }catch(Exception e){
         System.out.println("Error: " + e.getMessage());
