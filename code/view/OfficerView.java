@@ -149,7 +149,7 @@ public class OfficerView extends ApplicantView {
 				sc.nextLine(); // Consume newline
 				System.out.println(ViewFormatter.breakLine());
 				if (projectChoice >= 0 && projectChoice < filteredProjects.size()) {
-					  displayOfficerProjectPortal(sc, filteredProjects.get(projectChoice));
+					displayOfficerProjectAction(sc, filteredProjects.get(projectChoice));
 				}
 				else if (projectChoice == -1) {
 					System.out.println("Returning to menu.");
@@ -164,7 +164,7 @@ public class OfficerView extends ApplicantView {
 		}
   }
 
-  	public void displayOfficerProjectPortal(Scanner sc, BTOProject selectedProject) throws Exception {
+  	public void displayOfficerProjectAction(Scanner sc, BTOProject selectedProject) throws Exception {
 		do{
 			System.out.println("You have selected: " + selectedProject.getProjectName());
 			System.out.println(ViewFormatter.breakLine());
