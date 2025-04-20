@@ -36,7 +36,7 @@ public class OfficerController extends ApplicantController {
   private static OfficerView officerView = new OfficerView();
 
 
-  	public OfficerController() {
+  public OfficerController() {
 		this.offAppService  = new OfficerApplicationService();
 		this.proAppService  = new ProjectApplicationService();
 		this.enquiryService = new EnquiryService();

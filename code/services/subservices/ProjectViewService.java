@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 import models.projects.BTOProject;
 import services.interfaces.IProjectViewService;
+import view.ViewFormatter;
 
 public class ProjectViewService implements IProjectViewService {
 
@@ -13,11 +14,11 @@ public class ProjectViewService implements IProjectViewService {
         System.out.println("No projects available based on the current filter settings.");
     } else {
         System.out.println("Available Projects:");
-        System.out.println("------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         for (int i = 0; i < filteredProjects.size(); i++) {
             System.out.println((i + 1) + ". " + filteredProjects.get(i).toString());
         }
-        System.out.println("------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         System.out.println("0. Return to menu");
         System.out.println("Please select a project by entering the corresponding number: ");
         int projectChoice = sc.nextInt() - 1;

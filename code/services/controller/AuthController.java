@@ -4,11 +4,15 @@ import database.dataclass.users.ApplicantDB;
 import database.dataclass.users.ManagerDB;
 import database.dataclass.users.OfficerDB;
 import exception.AuthException;
+
 import java.util.*;
+
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
+
+import view.ViewFormatter;
 
 public class AuthController {
     private static int attempt = 1;
@@ -18,7 +22,7 @@ public class AuthController {
 
     public User login(Scanner sc) throws AuthException{
         System.out.println("                Login Page               ");
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         System.out.print("Enter NRIC: ");
         String nric = sc.nextLine();
         // Check if NRIC is valid
@@ -28,21 +32,21 @@ public class AuthController {
         }
         System.out.print("Enter Password: ");
         String password = sc.nextLine();
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
 
         try{
             authenticate(nric, password);
             System.out.println("Login successful! Welcome " + currentUser.getName() + ".");
-            System.out.println("-----------------------------------------");
+            System.out.println(ViewFormatter.breakLine());
             return currentUser;
         }
         catch(AuthException e){
             System.out.println(e.getMessage() + "\nPlease try again.");
-            System.out.println("-----------------------------------------");
+            System.out.println(ViewFormatter.breakLine());
             attempt += 1;
             if(attempt <= MAX_ATTEMPTS){
                 System.out.printf("Attempt (%d / 3)", attempt);
-                System.out.println("\n-----------------------------------------");
+                System.out.println(ViewFormatter.breakLine());
                 return login(sc);
             }
             else{
@@ -56,16 +60,16 @@ public class AuthController {
     public void logout(){
         currentUser = null;
         System.out.println("You have logged out successfully.");
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
     }
 
     public void changePasswordPage(Scanner sc){
         String oldPassword;
         String newPassword; 
 
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         System.out.println("           Change Your Password          ");
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
         System.out.println("Enter Your Old Password:");
         oldPassword = sc.nextLine();
         System.out.println("Enter Your New Password:");
@@ -76,7 +80,7 @@ public class AuthController {
         catch(AuthException e){
             System.out.println(e.getMessage());
         }
-        System.out.println("-----------------------------------------");
+        System.out.println(ViewFormatter.breakLine());
     }
 
     public void authenticate(String nric, String password) throws AuthException {

@@ -75,6 +75,7 @@ public class ProjectManagementService implements IProjectManagementService {
 
             case(6):
               project.setVisibility(!project.isVisible());
+              System.out.println("Visibility changed!");
               break;
 
             case(0):
