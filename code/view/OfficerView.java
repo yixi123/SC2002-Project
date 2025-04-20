@@ -35,20 +35,21 @@ public class OfficerView extends ApplicantView {
 			int choice = sc.nextInt(); sc.nextLine();
 
 			switch (choice) {
-				case 1 -> officerMenu(sc);
-				case 2 -> {
+				case 1 : officerMenu(sc); break;
+				case 2 : {
 					try {
 						applicantMenu(sc);
 					}catch (Exception e) {
 						System.out.println("An error occurred: " + e.getMessage());
 					}
+					break;
 				}
-				case 3 -> app.changeMyPassword(sc);
-				case 4 -> {
+				case 3 : app.changeMyPassword(sc); break;
+				case 4 : {
 					System.out.println("Logging out...");
 					return;    // exit start()
 					}
-				default -> System.out.println("Invalid choice. Try again.");
+				default : System.out.println("Invalid choice. Try again.");
 			}
 		}
 	}
@@ -72,25 +73,27 @@ public class OfficerView extends ApplicantView {
 			int opt = sc.nextInt(); sc.nextLine();
 
 			switch (opt) {
-				case 1 -> app.enterOfficerProjectPortal(sc);
-				case 2 -> app.viewHandledProject();
-				case 3 -> app.viewSuccessfulApplicantsList();
-				case 4 -> {
+				case 1 : app.enterOfficerProjectPortal(sc);break;
+				case 2 : app.viewHandledProject();break;
+				case 3 : app.viewSuccessfulApplicantsList();break;
+				case 4 : {
 					System.out.print("Applicant NRIC: ");
 					String id4 = sc.nextLine();
 					app.handleApplicantsSuccessfulApp(id4);
+					break;
 				}
-				case 5 -> {
+				case 5 : {
 					System.out.print("Applicant NRIC: ");
 					String id5 = sc.nextLine();
 					app.generateReceipt(id5);
+					break;
 				}
-				case 6 -> app.viewEnquiries(sc);
-				case 7 -> app.viewOfficerApplicationStatus();
-				case 0 -> {
+				case 6 : app.viewEnquiries(sc);break;
+				case 7 : app.viewOfficerApplicationStatus();break;
+				case 0 : {
 						return;  // back to start()
 				}
-				default -> System.out.println("Invalid.");
+				default : System.out.println("Invalid.");
 			}
 		}
   	}
@@ -120,9 +123,9 @@ public class OfficerView extends ApplicantView {
         sc.nextLine(); // Consume newline
 		System.out.println(ViewFormatter.breakLine());
         switch (actionChoice) {
-            case 1 -> app.replyEnquiry(sc, selectedEnquiry);
-            case 2 -> System.out.println("Returning to menu.");
-            default -> System.out.println("Invalid choice. Returning to menu.");
+            case 1 : app.replyEnquiry(sc, selectedEnquiry);break;
+            case 2 : System.out.println("Returning to menu.");break;
+            default : System.out.println("Invalid choice. Returning to menu.");
         }
     }
 
@@ -176,13 +179,13 @@ public class OfficerView extends ApplicantView {
 			sc.nextLine(); // Consume newline
 			System.out.println(ViewFormatter.breakLine());
 			switch (actionChoice) {
-				case 1 -> app.registerAsOfficer(selectedProject);
-				case 2 -> {
+				case 1 : app.registerAsOfficer(selectedProject);break;
+				case 2 : {
 					System.out.println("Back to project list...");
 					System.out.println(ViewFormatter.breakLine());		 
 					return;
 				}
-				default -> {
+				default : {
 					System.out.println("Invalid choice. Try again!");
 					System.out.println(ViewFormatter.breakLine());
 				}
@@ -210,17 +213,17 @@ public class OfficerView extends ApplicantView {
 			sc.nextLine();
 
 			switch (choice) {
-				case 0 -> {
+				case 0 : {
 					System.out.println("Logging out...");
 					System.out.println(ViewFormatter.breakLine());
 					return;
 				}
-				case 1 -> app.enterProjectPortal(sc);
-				case 2 -> app.adjustFilterSettings(sc);
-				case 3 -> app.viewApplicationStatus();
-				case 4 -> app.withdrawProject(sc);
-				case 5 -> app.viewMyEnquiry(sc);
-				default -> {
+				case 1 : app.enterProjectPortal(sc);break;
+				case 2 : app.adjustFilterSettings(sc);break;
+				case 3 : app.viewApplicationStatus();break;
+				case 4 : app.withdrawProject(sc);break;
+				case 5 : app.viewMyEnquiry(sc);break;
+				default : {
 					System.out.println("Invalid choice. Please try again.");
 					System.out.println(ViewFormatter.breakLine());
 				}
@@ -243,14 +246,14 @@ public class OfficerView extends ApplicantView {
 			sc.nextLine(); // Consume newline
 			System.out.println(ViewFormatter.breakLine());
 			switch (actionChoice) {
-				case 1 -> app.applyForProject(sc, selectedProject);
-				case 2 -> app.addEnquiry(sc, selectedProject);
-				case 3 -> {
+				case 1 : app.applyForProject(sc, selectedProject);break;
+				case 2 : app.addEnquiry(sc, selectedProject);break;
+				case 3 : {
 					System.out.println("Back to project list...");
 					System.out.println(ViewFormatter.breakLine());
 					return;
 				}
-				default -> {
+				default : {
 					System.out.println("Invalid choice. Try again!");
 					System.out.println(ViewFormatter.breakLine());
 				}
