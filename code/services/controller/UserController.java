@@ -1,10 +1,8 @@
 package services.controller;
 
 import java.util.Scanner;
-import models.enums.FlatType;
 import models.projects.FilterSettings;
 
-import view.ViewFormatter;
 import view.UserView;
 
 public abstract class UserController {
