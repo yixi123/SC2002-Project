@@ -137,7 +137,7 @@ public class OfficerView extends ApplicantView {
 			do{
 				System.out.println("Available Projects:");
 				System.out.println(ViewFormatter.breakLine());
-				System.out.println("Choose a project to register as officer for or enquire about:");
+				System.out.println("Choose a project to register as\n officer for or enquire about:");
 				System.out.println(ViewFormatter.breakLine());
 				for (int i = 0; i < filteredProjects.size(); i++) {
 					System.out.println((i + 1) + ". " + filteredProjects.get(i).toString());

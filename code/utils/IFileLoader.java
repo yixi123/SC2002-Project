@@ -1,5 +1,6 @@
+
 package utils;
 
-public interface IFileLoader {
+public interface IFileLoader{
   
 }

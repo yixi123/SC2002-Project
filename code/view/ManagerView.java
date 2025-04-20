@@ -9,7 +9,7 @@ import models.projects.FilterSettings;
 import services.controller.ManagerController;
 import utils.FilterUtil;
 
-public class ManagerView {
+public class ManagerView extends UserView {
 
 	private static ManagerController app = new ManagerController();
 
