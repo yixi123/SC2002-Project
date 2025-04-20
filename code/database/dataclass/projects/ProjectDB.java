@@ -19,6 +19,11 @@ public class ProjectDB {
     FileSaver.saveProjects(dataList);
     initiateDB();
   }
+  public static void updateDB(){
+    FileSaver.saveProjects(db);
+    initiateDB();
+  }
+
   public static List<BTOProject> getDB(){
     return db;
   }
@@ -67,6 +72,16 @@ public class ProjectDB {
     List<BTOProject> projects = new ArrayList<>();
     for (BTOProject project : db) {
         if (project.getOfficers() != null && project.getOfficers().contains(officerId)) {
+            projects.add(project);
+        }
+    }
+    return projects; 
+  }
+
+  public static List<BTOProject> getProjectsByManager(String managerId){
+    List<BTOProject> projects = new ArrayList<>();
+    for (BTOProject project : db) {
+        if (project.getManagerID() != null && project.getManagerID().equals(managerId)) {
             projects.add(project);
         }
     }

@@ -3,15 +3,11 @@ package view;
 import java.util.List;
 import java.util.Scanner;
 
-import database.dataclass.projects.EnquiryDB;
 import database.dataclass.projects.ProjectDB;
 import models.projects.BTOProject;
-import models.projects.Enquiry;
 import models.projects.FilterSettings;
 import services.controller.ManagerController;
 import utils.FilterUtil;
-
-import view.ViewFormatter;
 
 public class ManagerView {
 

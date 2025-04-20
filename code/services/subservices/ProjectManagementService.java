@@ -3,7 +3,6 @@ package services.subservices;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
@@ -32,7 +31,7 @@ public class ProjectManagementService implements IProjectManagementService {
           System.out.println("4. Edit Three-Room Slots");
           System.out.println("5. Edit Officer Slots");
           System.out.println("6. Toggle Project Visibility");
-          System.out.println("0. Back to Main Menu");
+          System.out.println("0. Save edit and back to Main Menu");
           System.out.println(ViewFormatter.breakLine());
           System.out.print("Enter your selection:");
           
@@ -75,15 +74,21 @@ public class ProjectManagementService implements IProjectManagementService {
 
             case(6):
               project.setVisibility(!project.isVisible());
-              System.out.println("Visibility changed!");
+              if (project.isVisible()) {
+                System.out.println("Project is now visible to the public.");
+              } else {
+                System.out.println("Project is now hidden from the public.");
+              }
               break;
 
             case(0):
+
               System.out.println("Back to Main Menu");
-              break;
+              return;
             default:
               System.out.println("Invalid choice. Please try again.");
-              break;}
+              break;
+            }
         }
         while(choice != 0);
       }
@@ -112,6 +117,7 @@ public class ProjectManagementService implements IProjectManagementService {
           if (confirmation.equals("Y")) {
               ProjectDB.removeProject(project);
               System.out.println("Project deleted successfully.");
+              return;
           } else if (confirmation.equals("N")) {
               System.out.println("Project deletion cancelled.");
               return;
@@ -120,12 +126,10 @@ public class ProjectManagementService implements IProjectManagementService {
           System.out.println("Invalid input. Please enter Y or N.");
           return;
       }
-
-      System.out.println("Project deleted successfully.");
   }
 
   @Override
-  public void createProject(Scanner sc, String managerID, List<String> projectIDList) {
+  public void createProject(Scanner sc, String managerID, List<BTOProject> projectList) {
       System.out.println("Create New Project");
       System.out.println(ViewFormatter.breakLine());
 
@@ -161,9 +165,8 @@ public class ProjectManagementService implements IProjectManagementService {
 
       List<List<Date>> dateRangeList = new ArrayList<>();
 
-      for (String projectID : projectIDList) {
-        BTOProject project = ProjectDB.getProjectByName(projectID);
-        if(project != null && project.isActive())
+      for (BTOProject project : projectList) {
+        if(project != null)
           dateRangeList.add(new ArrayList<>(List.of(project.getOpeningDate(), project.getClosingDate())));
       }
 
@@ -195,14 +198,17 @@ public class ProjectManagementService implements IProjectManagementService {
             System.out.println("Closing date cannot be before opening date.\nPlease enter a valid date range.");
             continue;
         }
-
+        boolean isOverlapping = false;
         for (List<Date> dateRange : dateRangeList) {
           if (!(openingDate.after(dateRange.get(1)) || closingDate.before(dateRange.get(0)))) {
-              System.out.println("Project dates overlap with existing project dates.\nPlease enter a different date range.");
-              continue;
+            isOverlapping = true;
+            System.out.println("Project dates overlap with existing project dates.\nPlease enter a different date range.");
+            break;
           }
         }
-
+        if (isOverlapping) {
+            continue;
+        }
         break;
       }
       
@@ -259,13 +265,14 @@ public class ProjectManagementService implements IProjectManagementService {
         }
         break;
       }
-
+      
       BTOProject newProject = new BTOProject(projectName, neighborhood, twoRoomUnits, threeRoomUnits, 
                                           sellingPrice2, sellingPrice3, openingDate, closingDate, managerID, 
                                           officerSlots, false);
       ProjectDB.addProject(newProject);
 
       System.out.printf("Project '%s' created successfully.\n", projectName);
+      return;
 
   }
   

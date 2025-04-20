@@ -88,6 +88,9 @@ public class FilterUtil {
         if (settings.getVisibility() != null && settings.getVisibility()) {
             filteredProjects = filterByVisibility(filteredProjects);
         }
+        if (settings.getSortBy() != null) {
+            filteredProjects = SortUtil.sortBySettings(filteredProjects, settings);
+        }
 
         return filteredProjects;
     }

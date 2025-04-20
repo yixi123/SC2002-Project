@@ -4,7 +4,6 @@ import java.io.*;
 import java.text.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import models.projects.Application;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.OfficerApplication;
@@ -116,7 +115,7 @@ public class FileSaver {
                         project.getManagerID(),
                         project.getOfficerSlot(),
                         String.join(";", project.getOfficers()),
-                        project.isVisible() // Include visibility
+                        project.isVisible()
                 ));
             }
         } catch (IOException e) {
@@ -166,7 +165,7 @@ public class FileSaver {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("UserID,Project,Status,Apply Date\n"); // Header
-            for (Application application : applications) {
+            for (OfficerApplication application : applications) {
                 bw.write(String.format("%s,%s,%s,%s\n",
                         application.getUser(),
                         application.getProjectName(),

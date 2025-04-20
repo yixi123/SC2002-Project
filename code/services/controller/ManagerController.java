@@ -2,8 +2,6 @@ package services.controller;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.Map;
-import java.util.HashMap;
 
 import database.dataclass.projects.EnquiryDB;
 import database.dataclass.projects.ProjectDB;
@@ -15,12 +13,7 @@ import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
-import models.users.Applicant;
 import models.users.HDBManager;
-
-
-import utils.FilterUtil;
-import view.ViewFormatter;
 
 import view.ManagerView;
 
@@ -37,7 +30,6 @@ import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectManagementService;
 import services.subservices.ProjectViewService;
 import services.subservices.ReportPrintService;
-
 
 public class ManagerController extends UserController{
   IProjectApplicationService projectAppService = new ProjectApplicationService();;
@@ -64,23 +56,24 @@ public class ManagerController extends UserController{
 
   public HDBManager retreiveManager(){
     HDBManager currentUser = (HDBManager) auth.getCurrentUser();
+    currentUser.setManagedProjectsList(ProjectDB.getProjectsByManager(currentUser.getNric()));
     return currentUser;
   }
 
   public void start(Scanner sc){
-    int option = 0;
       try{
           managerView.enterMainMenu(sc);
       }catch(IllegalArgumentException e){
           System.out.println(e.getMessage());
-      }catch(Exception e){
+      }
+      catch(Exception e){
           System.out.println("Unexpected Error has occured: " + e.getMessage());
           System.out.println("Returning to Homepage...");
-      }
+        }
+  
   }
 
   public void manageChosenProject(Scanner sc, BTOProject chosenProject) throws Exception{
-      int option = 0;
       try{
           managerView.enterManagementPortal(sc, chosenProject);
       }catch(IllegalArgumentException e){
@@ -204,6 +197,7 @@ public class ManagerController extends UserController{
         return;
     }
     System.out.println("You have selected: " + selectedOfficerApp.toString());
+    System.out.println("-----------------------------------------");
     System.out.println("1. Approve Officer Application");
     System.out.println("2. Reject Officer Application");
     System.out.print("Enter your choice: ");
@@ -219,7 +213,7 @@ public class ManagerController extends UserController{
   public void createBTOProjects(Scanner sc) {
     HDBManager manager = retreiveManager();
     try{
-      projectManagementService.createProject(sc, manager.getNric(), manager.getManagedProjectsID());
+      projectManagementService.createProject(sc, manager.getNric(), manager.getManagedProjectsList());
     }catch(Exception e){
       System.out.println("Error creating project: " + e.getMessage());
     }

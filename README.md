@@ -1,5 +1,5 @@
-# SC2002 - BTO Project Management System
-## NTU 2025 Semester 2 OODP Group Project
+## SC2002 - BTO Project Management System
+### NTU 2025 Semester 2 OODP Group Project
 </br>
 
 Contributor:   

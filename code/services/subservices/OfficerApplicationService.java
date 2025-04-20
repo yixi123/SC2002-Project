@@ -2,14 +2,15 @@ package services.subservices;
 
 import database.dataclass.projects.OfficerAppDB;
 import database.dataclass.projects.ProjectDB;
+import database.dataclass.users.OfficerDB;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import models.enums.OfficerAppStat;
 import models.projects.BTOProject;
 import models.projects.OfficerApplication;
+import models.projects.ProjectApplication;
 import models.users.HDBOfficer;
 import services.interfaces.IOfficerApplicationService;
 import view.ViewFormatter;
@@ -28,10 +29,14 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         if (filterChoice.equals("yes")) {
             applications.removeIf(app -> !app.getStatus().equals(OfficerAppStat.PENDING));
         }
-        
+        if (applications.isEmpty()) {
+            System.out.println("No applications available.");
+            return null;
+        }
         System.out.println("Choose an application to view details:");
         for (int i = 0; i < applications.size(); i++) {
-            System.out.println((i + 1) + ". " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
+            String applicantName = OfficerDB.getUsernameByID(applications.get(i).getUser());
+            System.out.println((i + 1) + ". " + applicantName + " - " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
         }
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
@@ -85,6 +90,16 @@ public class OfficerApplicationService implements IOfficerApplicationService {
 			System.out.println("No officer slots available for this project.");
 			return;
 		}
+        List<ProjectApplication> applications = officer.getMyApplication();
+        if (applications.stream().anyMatch(app -> app.getProjectName().equals(project.getProjectName()))) {
+            System.out.println(
+            "Cannot register as an officer for \"" + project.getProjectName() 
+            + "\"\n because you’ve already applied for it as an applicant.\n" 
+            + "Please check your application status."
+            );
+            System.out.println(ViewFormatter.breakLine());
+            return;
+        }
 
 		List<OfficerApplication> apps = officer.getOfficerApplications();
 

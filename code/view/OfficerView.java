@@ -5,19 +5,15 @@ import java.util.Scanner;
 
 import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
-import models.enums.OfficerAppStat;
 import models.enums.ProjectAppStat;
 import models.projects.BTOProject;
 import models.projects.Enquiry;
 import models.projects.FilterSettings;
 import models.projects.OfficerApplication;
 import models.projects.ProjectApplication;
-import models.users.Applicant;
 import models.users.HDBOfficer;
 import services.controller.OfficerController;
 import utils.FilterUtil;
-
-import view.ViewFormatter;
 
 public class OfficerView extends ApplicantView {
 
@@ -68,7 +64,7 @@ public class OfficerView extends ApplicantView {
 			System.out.println("3. View Successful Applicants");
 			System.out.println("4. Book Applicant Flat");
 			System.out.println("5. Generate Receipt");
-			System.out.println("6. Managed Enquiries");
+			System.out.println("6. Manage Enquiries");
 			System.out.println("7. View My Officer Application Status");
 			System.out.println("0. Back");
 			System.out.println(ViewFormatter.breakLine());
@@ -141,7 +137,7 @@ public class OfficerView extends ApplicantView {
 			do{
 				System.out.println("Available Projects:");
 				System.out.println(ViewFormatter.breakLine());
-				System.out.println("Choose a project to register as officer for\n or enquire about:");
+				System.out.println("Choose a project to register as officer for or enquire about:");
 				System.out.println(ViewFormatter.breakLine());
 				for (int i = 0; i < filteredProjects.size(); i++) {
 					System.out.println((i + 1) + ". " + filteredProjects.get(i).toString());
@@ -282,7 +278,7 @@ public class OfficerView extends ApplicantView {
 		}
 		List<ProjectApplication> apps = ProjectAppDB.getApplicationsByProject(project.getProjectName());
 		if (apps == null || apps.isEmpty()) {
-			System.out.println("No applications found\n for project " + project.getProjectName());
+			System.out.println("No applications found for project " + project.getProjectName());
 			System.out.println(ViewFormatter.breakLine());
 			return;
 		}
