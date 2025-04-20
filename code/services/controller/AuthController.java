@@ -1,20 +1,12 @@
 package services.controller;
 
-import database.dataclass.users.ApplicantDB;
-import database.dataclass.users.ManagerDB;
-import database.dataclass.users.OfficerDB;
 import exception.AuthException;
 
 import java.util.*;
 
-import models.enums.MaritalStatus;
-import models.users.Applicant;
-import models.users.HDBManager;
-import models.users.HDBOfficer;
 import models.users.User;
 import services.interfaces.IAuthService;
 import services.subservices.AuthService;
-import view.ViewFormatter;
 
 public class AuthController {
     
