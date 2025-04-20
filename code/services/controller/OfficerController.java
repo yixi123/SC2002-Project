@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import models.enums.FlatType;
 import models.projects.*;
 import models.users.HDBOfficer;
 
@@ -73,7 +74,7 @@ public class OfficerController extends ApplicantController {
 	public void enterOfficerProjectPortal(Scanner sc) throws Error {
 		try{
       filterSettings.setVisibility(true);
-      filterSettings.setActiveDate(new Date());
+      filterSettings.setActiveDate(null);
 			officerView.displayOfficerProjectPortal(sc, filterSettings);
 		}catch(Exception e){
 			System.out.println("An error occurred: " + e.getMessage());
@@ -90,7 +91,16 @@ public class OfficerController extends ApplicantController {
 			System.out.println("No project assigned.");
 			return;
 		}
-		proAppService.bookApplication(project.getProjectName(), applicantId);
+		int bookSuccess = proAppService.bookApplication(project.getProjectName(), applicantId);
+    if (bookSuccess == 1){
+      ProjectApplication app = proAppService.getApplicationByUserAndProject(applicantId, project.getProjectName());
+      FlatType flatType = app.getFlatType();
+      if (flatType == FlatType.TWO_ROOM) {
+        project.setTwoRoomUnits(project.getTwoRoomUnits() - 1);
+      } else if (flatType == FlatType.THREE_ROOM) {
+        project.setThreeRoomUnits(project.getThreeRoomUnits() - 1);
+      }
+    }
 		
 	}
 
@@ -128,9 +138,20 @@ public class OfficerController extends ApplicantController {
   }
 
 
-	public void registerAsOfficer(BTOProject project) {
-		offAppService.applyForOfficer(retrieveOfficer(), project);
+  public void registerAsOfficer(BTOProject project) {
+	ProjectApplication existingApp = proAppService.getApplicationByUserAndProject(retrieveOfficer().getNric(), project.getProjectName());
+	if (existingApp != null){
+		System.out.println(
+			"Cannot register as an officer for \""
+			+ project.getProjectName()
+			+ "\" because you’ve already applied for it as an applicant.\n"
+			+ "Please check your application status."
+		);
+		System.out.println(ViewFormatter.breakLine());
+		return;
 	}
+	  offAppService.applyForOfficer(retrieveOfficer(), project);
+  }
 
   public void viewOfficerApplicationStatus() {
      officerView.displayOfficerApplicationStatus();

@@ -12,7 +12,7 @@ public interface IProjectApplicationService {
   public void addApplication(String projectName, String userID, FlatType flatType);
   public void withdrawApplication(ProjectApplication application);
   public void updateApplicationStatus(ProjectApplication application, ProjectAppStat newStatus);
-  public void bookApplication(String projectName, String userID);
+  public int bookApplication(String projectName, String userID);
   public List<ProjectApplication> getProjectApplications(String projectName);
   public ProjectApplication chooseFromApplicationList(Scanner sc, List<ProjectApplication> applications);
   public ProjectApplication getApplicationByUserAndProject(String userId, String projectName);

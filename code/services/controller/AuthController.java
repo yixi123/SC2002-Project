@@ -5,6 +5,8 @@ import database.dataclass.users.ManagerDB;
 import database.dataclass.users.OfficerDB;
 import exception.AuthException;
 import java.util.*;
+
+import models.enums.MaritalStatus;
 import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
@@ -125,4 +127,45 @@ public class AuthController {
         return currentUser;
     }
 
+    public void addApplicant(Scanner sc) {
+        List<Applicant> applicants = ApplicantDB.getDB();
+        System.out.println("Enter NRIC: ");
+        String nric = sc.nextLine();
+        // Check if NRIC is valid
+        if (!nric.matches("[STFG]\\d{7}[A-Z]")) {
+            System.out.println("Invalid NRIC format. Please try again.");
+            return;
+        }
+        for (Applicant applicant : applicants) {
+            if (applicant.getNric().equals(nric)) {
+                System.out.println("NRIC already exists. Please try again.");
+                return;
+            }
+        }
+        System.out.println("Enter Name: ");
+        String name = sc.nextLine();
+        System.out.println("Enter Password: ");
+        String password = sc.nextLine();
+        System.out.println("Enter Age: ");
+        int age = sc.nextInt(); sc.nextLine();
+        MaritalStatus maritalStatus;
+        while (true) {
+            System.out.println("Enter Marital Status (single/married): ");
+            String maritalStatusInput = sc.nextLine().toLowerCase();
+            if (maritalStatusInput.equals("single")) {
+                maritalStatus = MaritalStatus.SINGLE;
+                break;
+            } else if (maritalStatusInput.equals("married")) {
+                maritalStatus = MaritalStatus.MARRIED;
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter 'single' or 'married'.");
+            }
+        }
+
+        Applicant newApplicant = new Applicant(name, nric, password, age, maritalStatus);
+        ApplicantDB.addUser(newApplicant);
+        System.out.println("Applicant added successfully!");
+        System.out.println("-----------------------------------------");
+    }
 }
