@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"database.dataclass.projects"},{"l":"database.dataclass.users"},{"l":"models.enums"},{"l":"models.projects"},{"l":"models.users"},{"l":"services.controller"},{"l":"services.interfaces"},{"l":"services.subservices"},{"l":"utils"},{"l":"view"}];updateSearchResults();
