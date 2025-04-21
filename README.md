@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/01d3f32d-52f8-4422-9b13-4373c663cbb9)## SC2002 - BTO Project Management System
+## SC2002 - BTO Project Management System
 ### NTU 2025 Semester 2 OODP Group Project
 </br>
 
