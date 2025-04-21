@@ -14,8 +14,23 @@ import models.users.Applicant;
 import services.interfaces.IReportPrintService;
 import view.ViewFormatter;
 
+/**
+ * Service class responsible for generating detailed reports on booked project applications.
+ * Reports can be filtered by applicant attributes such as flat type, marital status, and age.
+ * The report displays information such as applicant name, age, marital status, and project/flat details.
+ */
 public class ReportPrintService implements IReportPrintService {
 
+    /**
+     * Generates a report of applicants who have successfully booked a flat
+     * in the specified BTO project. The report is generated after applying
+     * user-specified filters such as flat type, marital status, and age.
+     *
+     * @param sc Scanner for user input
+     * @param project The BTOProject object for which the report is generated
+     * @return A formatted string containing the filtered applicant report,
+     * or null if no matching applicants are found
+     */
     public String printReport(Scanner sc, BTOProject project) {
         
         List<ProjectApplication> projectApplications = ProjectAppDB.getApplicationsByProject(project.getProjectName());
@@ -32,7 +47,7 @@ public class ReportPrintService implements IReportPrintService {
 
         applicantsAndApplication = filterReportContent(sc, applicantsAndApplication);
         if (applicantsAndApplication.isEmpty()) {
-            System.out.println("No applicants found\n for the selected filter criteria.");
+            System.out.println("No applicants found for the selected filter criteria.");
             return null;
         }
 
@@ -56,6 +71,17 @@ public class ReportPrintService implements IReportPrintService {
         return sb.toString();
     }
 
+    /**
+     * Applies user-selected filters to a given map of applicants and their project applications.
+     * The following filters can be applied:
+     * - Flat type: TWO_ROOM or THREE_ROOM
+     * - Marital status: SINGLE or MARRIED
+     * - Age: either a specific value or a range (minimum and maximum)
+     *
+     * @param sc Scanner for user input
+     * @param applicantsAndApplication A map of applicants and their project applications
+     * @return A filtered version of the original map based on the selected filter criteria
+     */
     public Map<Applicant, ProjectApplication> filterReportContent(Scanner sc, Map<Applicant, ProjectApplication> applicantsAndApplication) {
         int filterChoice = 0;
         do{
