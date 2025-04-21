@@ -22,11 +22,10 @@ public class EnquiryService implements IEnquiryService{
                 }
                 System.out.println(ViewFormatter.breakLine());
                 System.out.println("0. Back to menu");
-                System.out.printf("Please select an enquiry [1 - %d]: ", enquiryList.size());
-                System.out.println();
-                System.out.println(ViewFormatter.breakLine());
+                System.out.printf("Please select an enquiry [0 - %d]: ", enquiryList.size());
                 int enquiryChoice = sc.nextInt() - 1;
                 sc.nextLine(); // Consume newline
+                System.out.println(ViewFormatter.breakLine());
                 if (enquiryChoice >= 0 && enquiryChoice < enquiryList.size()) {
 
                     Enquiry selectedEnquiry = enquiryList.get(enquiryChoice);
