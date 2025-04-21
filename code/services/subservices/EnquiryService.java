@@ -26,7 +26,7 @@ public class EnquiryService implements IEnquiryService{
     public Enquiry chooseFromEnquiryList(Scanner sc, List<Enquiry> enquiryList) {
         do{
             if (enquiryList.isEmpty()) {
-                System.out.println("You have no enquiries to view.");
+                System.out.println("You have no enquiries to view."); break;
             } else {
                 System.out.println("\nEnquiries:");
                 System.out.println(ViewFormatter.breakLine());
