@@ -1,4 +1,4 @@
-## SC2002 - BTO Project Management System
+![image](https://github.com/user-attachments/assets/01d3f32d-52f8-4422-9b13-4373c663cbb9)## SC2002 - BTO Project Management System
 ### NTU 2025 Semester 2 OODP Group Project
 </br>
 
@@ -67,16 +67,22 @@ code/
 ### **Models**
 - **`BTOProject`**: Represents a BTO project with details like units, prices, and officers.
 - **`Applicant`**: Represents an applicant with their applications.
+- **`HDBOfficer`**: Represents an officer with their project application and/or officer registration.
+- **`HDBManager`**: Represents a manager with the project they manage.
 - **`OfficerApplication`**: Represents an officer's application to manage a project.
 - **`ProjectApplication`**: Represents an applicant's application for a project.
 
 ### **Controllers**
-- **`ApplicantController`**: Handles applicant-specific actions like applying for projects and managing enquiries.
-- **`OfficerController`**: Manages officer-specific actions like booking flats and generating receipts.
-- **`ManagerController`**: Handles manager-specific actions like creating projects and generating reports.
+- **`AuthController`**: Manages the flow of authentication and account management processes.
+- **`ApplicantController`**: Handles the flow of applicant-specific actions like applying for projects and managing enquiries.
+- **`OfficerController`**: Manages the flow of officer-specific actions like booking flats and generating receipts.
+- **`ManagerController`**: Handles the flow of manager-specific actions like creating projects and generating reports.
 
 ### **Services**
 - **`ProjectManagementService`**: Handles project creation, editing, and deletion.
+- **`EnquiryService`**: Create, responds, and edit project enquiries
+- **`OfficerApplicationService`**: Handles the processes behind officer application, i.e. creation, approval, and refusal
+- **`ProjectApplicationService`**: Handles the processes behind project application, i.e. creation, approval, withdrawal, refusal, and booking 
 - **`ReportPrintService`**: Generates reports based on project applications.
 - **`ReceiptPrintService`**: Generates booking receipts for applicants.
 
@@ -138,8 +144,9 @@ code/
 
 ## Future Improvements
 - Implement a graphical user interface (GUI) for better user experience.
-- Add more robust error handling and validation.
+- Add more robust exception handling and error validation.
 - Integrate with a database management system (e.g., MySQL) for better scalability.
+- Implementation of more time-efficient algorithm, such as Binary Search or Jump Search to retrieve information from database
 
 ---
 
