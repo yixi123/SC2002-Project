@@ -13,8 +13,19 @@ import models.projects.BTOProject;
 import services.interfaces.IProjectManagementService;
 import view.ViewFormatter;
 
+/**
+ * Service class for managing BTO projects.
+ * Provides functionality for creating, editing, and deleting projects.
+ * Enforces rules such as non-overlapping dates, valid pricing, and slot validation.
+ */
 public class ProjectManagementService implements IProjectManagementService {
-
+    /**
+     * Opens an editing menu that allows the user to modify the selected project's
+     * date range, slot counts, and visibility. Prevents editing of active projects’ opening dates.
+     *
+     * @param sc Scanner for user input
+     * @param project The BTO project to be edited
+     */
   @Override
   public void editProject(Scanner sc, BTOProject project) {
       int choice = 0;
@@ -103,6 +114,13 @@ public class ProjectManagementService implements IProjectManagementService {
       }
   }
 
+    /**
+     * Deletes a BTO project after confirming with the user.
+     * Prevents deletion of active projects.
+     *
+     * @param sc Scanner for user input
+     * @param project The BTO project to be deleted
+     */
   @Override
   public void deleteProject(Scanner sc, BTOProject project) {
 
@@ -128,6 +146,18 @@ public class ProjectManagementService implements IProjectManagementService {
       }
   }
 
+    /**
+     * Facilitates the creation of a new BTO project.
+     * Includes validation for:
+     * - Unique project name
+     * - Non-empty neighborhood
+     * - Non-overlapping date range
+     * - Valid pricing and slot counts
+     *
+     * @param sc Scanner for user input
+     * @param managerID The NRIC of the manager creating the project
+     * @param projectList Existing list of projects to check for date overlaps
+     */
   @Override
   public void createProject(Scanner sc, String managerID, List<BTOProject> projectList) {
       System.out.println("Create New Project");

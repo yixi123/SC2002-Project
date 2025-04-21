@@ -19,6 +19,9 @@ import utils.FilterUtil;
  * and managing enquiries.
  */
 public class ApplicantView extends UserView {
+    /**
+     * Handles applicant-related actions triggered from the view.
+     */
 	private static ApplicantController app = new ApplicantController();
 
     /**

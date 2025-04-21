@@ -1,3 +1,4 @@
+
 package utils;
 
 import java.util.List;
@@ -11,56 +12,57 @@ import models.users.HDBManager;
 import models.users.HDBOfficer;
 
 /**
- * The IFileLoader interface defines methods for loading data from files into various models.
+ * IFileLoader is an interface for loading application data from external sources (e.g., CSV files).
+ * Defines methods to load data into in-memory models for applicants, officers, managers,
+ * projects, enquiries, and applications.
  */
-public interface IFileLoader {
+public interface IFileLoader{
+  /**
+   * Loads and returns a list of all registered applicants.
+   *
+   * @return List of {@code Applicant} objects
+   */
+  public List<Applicant> loadApplicants();
 
-    /**
-     * Loads all applicants from a file.
-     *
-     * @return A list of Applicant objects.
-     */
-    public List<Applicant> loadApplicants();
+  /**
+   * Loads and returns a list of all registered HDB officers.
+   *
+   * @return List of {@code HDBOfficer} objects
+   */
+  public List<HDBOfficer> loadOfficers();
 
-    /**
-     * Loads all officers from a file.
-     *
-     * @return A list of HDBOfficer objects.
-     */
-    public List<HDBOfficer> loadOfficers();
+  /**
+   * Loads and returns a list of all HDB managers.
+   *
+   * @return List of {@code HDBManager} objects
+   */
+  public List<HDBManager> loadManagers();
 
-    /**
-     * Loads all managers from a file.
-     *
-     * @return A list of HDBManager objects.
-     */
-    public List<HDBManager> loadManagers();
+  /**
+   * Loads and returns a list of all BTO projects.
+   *
+   * @return List of {@code BTOProject} objects
+   */
+  public List<BTOProject> loadProjects();
 
-    /**
-     * Loads all projects from a file.
-     *
-     * @return A list of BTOProject objects.
-     */
-    public List<BTOProject> loadProjects();
+  /**
+   * Loads and returns a list of all public enquiries.
+   *
+   * @return List of {@code Enquiry} objects
+   */
+  public List<Enquiry> loadEnquiries();
 
-    /**
-     * Loads all enquiries from a file.
-     *
-     * @return A list of Enquiry objects.
-     */
-    public List<Enquiry> loadEnquiries();
+  /**
+   * Loads and returns all project applications submitted by applicants.
+   *
+   * @return List of {@code ProjectApplication} objects
+   */
+  public List<ProjectApplication> loadProjectApplications();
 
-    /**
-     * Loads all project applications from a file.
-     *
-     * @return A list of ProjectApplication objects.
-     */
-    public List<ProjectApplication> loadProjectApplications();
-
-    /**
-     * Loads all officer applications from a file.
-     *
-     * @return A list of OfficerApplication objects.
-     */
-    public List<OfficerApplication> loadOfficerApplications();
+  /**
+   * Loads and returns all officer applications submitted by HDB officers.
+   *
+   * @return List of {@code OfficerApplication} objects
+   */
+  public List<OfficerApplication> loadOfficerApplications();
 }

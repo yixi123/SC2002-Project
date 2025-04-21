@@ -7,17 +7,18 @@ import models.projects.BTOProject;
 import models.projects.FilterSettings;
 
 /**
- * The FilterUtil class provides utility methods to filter lists of BTO projects
- * based on various criteria such as project name, neighborhood, unit counts, and prices.
+ * FilterUtil is a utility class for filtering {@code BTOProject} objects based on various criteria.
+ * Supports filtering by project name, neighborhood, number of units, selling price,
+ * active date, manager, officer slots, visibility, and combinations via {@code FilterSettings}.
  */
 public class FilterUtil {
 
     /**
-     * Filters a list of projects based on a given condition.
+     * Filters a list of projects using a custom condition.
      *
-     * @param projects The list of projects to filter.
-     * @param condition The condition to filter by.
-     * @return The filtered list of projects.
+     * @param projects The list of BTO projects to filter
+     * @param condition A predicate defining the filter condition
+     * @return A list of projects that satisfy the condition
      */
     public static List<BTOProject> filterBy(List<BTOProject> projects, Predicate<BTOProject> condition) {
         return projects.stream()
@@ -26,120 +27,130 @@ public class FilterUtil {
     }
 
     /**
-     * Filters a list of projects by project name.
+     * Filters projects by exact project name (case-insensitive).
      *
-     * @param projects The list of projects to filter.
-     * @param projectName The project name to filter by.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param projectName Project name to filter by
+     * @return Filtered list of projects with the given name
      */
     public static List<BTOProject> filterByProjectName(List<BTOProject> projects, String projectName) {
         return filterBy(projects, project -> project.getProjectName().equalsIgnoreCase(projectName));
     }
 
     /**
-     * Filters a list of projects by neighborhood.
+     * Filters projects by neighborhood (case-insensitive).
      *
-     * @param projects The list of projects to filter.
-     * @param neighborhood The neighborhood to filter by.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param neighborhood Neighborhood name to match
+     * @return Filtered list of projects in the given neighborhood
      */
     public static List<BTOProject> filterByNeighborhood(List<BTOProject> projects, String neighborhood) {
         return filterBy(projects, project -> project.getNeighborhood().equalsIgnoreCase(neighborhood));
     }
 
     /**
-     * Filters a list of projects by the minimum number of two-room units.
+     * Filters projects that have at least a specified number of two-room units.
      *
-     * @param projects The list of projects to filter.
-     * @param minUnits The minimum number of two-room units.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param minUnits Minimum number of two-room units required
+     * @return Filtered list of projects with sufficient two-room units
      */
     public static List<BTOProject> filterByTwoRoomUnits(List<BTOProject> projects, int minUnits) {
         return filterBy(projects, project -> project.getTwoRoomUnits() >= minUnits);
     }
 
     /**
-     * Filters a list of projects by the minimum number of three-room units.
+     * Filters projects that have at least a specified number of three-room units.
      *
-     * @param projects The list of projects to filter.
-     * @param minUnits The minimum number of three-room units.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param minUnits Minimum number of three-room units required
+     * @return Filtered list of projects with sufficient three-room units
      */
     public static List<BTOProject> filterByThreeRoomUnits(List<BTOProject> projects, int minUnits) {
         return filterBy(projects, project -> project.getThreeRoomUnits() >= minUnits);
     }
 
     /**
-     * Filters a list of projects by the maximum selling price for type 1 units.
+     * Filters projects whose selling price for two-room flats is less than or equal to the specified price.
      *
-     * @param projects The list of projects to filter.
-     * @param maxPrice The maximum selling price for type 1 units.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param maxPrice Maximum selling price allowed
+     * @return Filtered list of projects within the price limit
      */
     public static List<BTOProject> filterBySellingPriceForType1(List<BTOProject> projects, double maxPrice) {
         return filterBy(projects, project -> project.getSellingPriceForType1() <= maxPrice);
     }
 
     /**
-     * Filters a list of projects by the maximum selling price for type 2 units.
+     * Filters projects whose selling price for three-room flats is less than or equal to the specified price.
      *
-     * @param projects The list of projects to filter.
-     * @param maxPrice The maximum selling price for type 2 units.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param maxPrice Maximum selling price allowed
+     * @return Filtered list of projects within the price limit
      */
     public static List<BTOProject> filterBySellingPriceForType2(List<BTOProject> projects, double maxPrice) {
         return filterBy(projects, project -> project.getSellingPriceForType2() <= maxPrice);
     }
 
     /**
-     * Filters a list of projects by active date.
+     * Filters projects that are active on a specific date (i.e., between opening and closing dates).
      *
-     * @param projects The list of projects to filter.
-     * @param activeDate The active date to filter by.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param activeDate Date to check project activity
+     * @return Filtered list of projects active on the given date
      */
     public static List<BTOProject> filterByActiveDate(List<BTOProject> projects, java.util.Date activeDate) {
         return filterBy(projects, project -> !project.getOpeningDate().after(activeDate) && !project.getClosingDate().before(activeDate));
     }
 
     /**
-     * Filters a list of projects by manager name.
+     * Filters projects managed by a specific manager (case-insensitive).
      *
-     * @param projects The list of projects to filter.
-     * @param managerName The manager name to filter by.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param managerName Manager's NRIC to match
+     * @return Filtered list of projects managed by the given manager
      */
     public static List<BTOProject> filterByManager(List<BTOProject> projects, String managerName) {
         return filterBy(projects, project -> project.getManagerID().equalsIgnoreCase(managerName));
     }
 
     /**
-     * Filters a list of projects by the minimum number of officer slots.
+     * Filters projects that have at least a specified number of officer slots.
      *
-     * @param projects The list of projects to filter.
-     * @param minSlots The minimum number of officer slots.
-     * @return The filtered list of projects.
+     * @param projects List of BTO projects
+     * @param minSlots Minimum officer slots required
+     * @return Filtered list of projects meeting the slot requirement
      */
     public static List<BTOProject> filterByOfficerSlot(List<BTOProject> projects, int minSlots) {
         return filterBy(projects, project -> project.getOfficerSlot() >= minSlots);
     }
 
     /**
-     * Filters a list of projects by visibility.
+     * Filters only projects marked as publicly visible.
      *
-     * @param projects The list of projects to filter.
-     * @return The filtered list of visible projects.
+     * @param projects List of BTO projects
+     * @return List of projects where visibility is set to true
      */
     public static List<BTOProject> filterByVisibility(List<BTOProject> projects) {
         return filterBy(projects, BTOProject::isVisible);
     }
 
     /**
-     * Filters a list of projects based on the provided filter settings.
+     * Applies multiple filters to a list of BTO projects based on a {@code FilterSettings} object.
+     * Applies filters sequentially in the following order:
+     * - Project name
+     * - Neighborhood
+     * - Unit availability
+     * - Price ceilings
+     * - Date of activity
+     * - Manager
+     * - Officer slot count
+     * - Visibility
+     * - Sorting (if specified)
      *
-     * @param projects The list of projects to filter.
-     * @param settings The filter settings containing the filtering criteria.
-     * @return The filtered list of projects.
+     * @param projects The list of BTO projects to filter
+     * @param settings FilterSettings object containing filter criteria
+     * @return Filtered list of projects based on all matching criteria
      */
     public static List<BTOProject> filterBySettings(List<BTOProject> projects, FilterSettings settings) {
         List<BTOProject> filteredProjects = projects;

@@ -15,8 +15,23 @@ import models.users.User;
 import services.interfaces.IAccountService;
 import view.ViewFormatter;
 
+/**
+ * Service class responsible for account-related functionality such as:
+ * - Changing passwords for all user types (Applicant, Officer, Manager)
+ * - Registering new applicants into the system
+ *
+ * This class interacts with user databases and performs input validation
+ * during account modification or creation workflows.
+ */
 public class AccountService implements IAccountService {
 
+    /**
+     * Displays the UI for changing the user's password.
+     * Accepts the current and new password as input, and attempts to apply the change.
+     *
+     * @param sc Scanner for reading user input
+     * @param currentUser The currently logged-in user requesting a password change
+     */
     public void changePasswordPage(Scanner sc, User currentUser){
         String oldPassword;
         String newPassword; 
@@ -37,6 +52,15 @@ public class AccountService implements IAccountService {
         System.out.println(ViewFormatter.breakLine());
     }
 
+    /**
+     * Changes the password of the specified user after validating the old password.
+     * Updates the user record in the corresponding database based on user type.
+     *
+     * @param oldPassword The user's current password (for verification)
+     * @param newPassword The new password to be set
+     * @param currentUser The user performing the password change
+     * @throws AuthException If the old password is incorrect
+     */
     public void changePassword(String oldPassword, String newPassword, User currentUser) throws AuthException{
         if (currentUser.getPassword().equals(oldPassword)) {
             currentUser.setPassword(newPassword);
@@ -52,6 +76,13 @@ public class AccountService implements IAccountService {
         }
     }
 
+    /**
+     * Displays a form to register a new applicant.
+     * Collects details such as NRIC, name, age, password, and marital status,
+     * validates the inputs, and stores the new applicant in the system.
+     *
+     * @param sc Scanner for reading user input
+     */
     public void addApplicantPage(Scanner sc) {
         List<Applicant> applicants = ApplicantDB.getDB();
         System.out.println("Enter NRIC: ");

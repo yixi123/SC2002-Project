@@ -15,14 +15,17 @@ import utils.FilterUtil;
  * and handling enquiries.
  */
 public class ManagerView extends UserView {
-
+	/**
+	 * Handles manager-related actions triggered from the view.
+	 */
 	private static ManagerController app = new ManagerController();
 
 	/**
-	 * Displays the main menu for the manager.
+	 * Displays the main menu for a manager, allowing access to various project management features.
 	 *
-	 * @param sc The Scanner object for user input.
-	 * @throws Exception If an error occurs during menu navigation.
+	 * @param sc Scanner for user input
+	 * @throws Exception if an unexpected error occurs during navigation
+	 * @throws IllegalArgumentException if invalid inputs are provided
 	 */
 	public void enterMainMenu(Scanner sc) 
 	throws Exception, IllegalArgumentException{
@@ -61,11 +64,13 @@ public class ManagerView extends UserView {
 	}
 
 	/**
-	 * Displays a read-only list of all projects based on filter settings.
+	 * Displays all available BTO projects in a read-only view based on current filter settings.
 	 *
-	 * @param sc The Scanner object for user input.
-	 * @param filterSettings The filter settings to apply to the project list.
-	 * @throws Exception If an error occurs during project list navigation.
+	 * @param sc Scanner for user input
+	 * @param filterSettings applied filters to narrow the project list
+	 * @throws Exception if filtering or selection fails
+	 * @throws IllegalArgumentException if an invalid option is entered
+	 * @throws IndexOutOfBoundsException if project index is invalid
 	 */
 	public void displayReadOnlyAllProject(Scanner sc, FilterSettings filterSettings) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{
@@ -105,11 +110,13 @@ public class ManagerView extends UserView {
 	}
 
 	/**
-	 * Displays the project portal for a selected project in read-only mode.
+	 * Displays project-specific details and enquiries in read-only mode.
 	 *
-	 * @param sc The Scanner object for user input.
-	 * @param projectName The name of the selected project.
-	 * @throws Exception If an error occurs during project portal navigation.
+	 * @param sc Scanner for user input
+	 * @param projectName the name of the selected project
+	 * @throws Exception if an error occurs while accessing project data
+	 * @throws IllegalArgumentException if the project name is invalid
+	 * @throws IndexOutOfBoundsException if the project cannot be found
 	 */
 	public void displayReadOnlyProjectPortal(Scanner sc, String projectName) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{
@@ -132,11 +139,13 @@ public class ManagerView extends UserView {
 	}
 
 	/**
-	 * Displays the management portal for a selected project.
+	 * Displays the project management portal for the chosen project, with options to edit, delete, manage applications, and enquiries.
 	 *
-	 * @param sc The Scanner object for user input.
-	 * @param chosenProject The selected project to manage.
-	 * @throws Exception If an error occurs during project management.
+	 * @param sc Scanner for user input
+	 * @param chosenProject the selected project to manage
+	 * @throws Exception if user input or backend actions fail
+	 * @throws IllegalArgumentException if an invalid option is selected
+	 * @throws IndexOutOfBoundsException if the project cannot be found
 	 */
 	public void enterManagementPortal(Scanner sc, BTOProject chosenProject) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{
@@ -173,11 +182,13 @@ public class ManagerView extends UserView {
 	}
 
 	/**
-	 * Displays the manager's projects based on filter settings.
+	 * Displays only the projects managed by the current manager and allows navigation to project management.
 	 *
-	 * @param sc The Scanner object for user input.
-	 * @param filterSettings The filter settings to apply to the project list.
-	 * @throws Exception If an error occurs during project list navigation.
+	 * @param sc Scanner for user input
+	 * @param filterSettings applied filters for the manager's project list
+	 * @throws Exception if filtering or selection fails
+	 * @throws IllegalArgumentException if input is invalid
+	 * @throws IndexOutOfBoundsException if selected index is invalid
 	 */
 	public void displayMyProjects(Scanner sc, FilterSettings filterSettings) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{

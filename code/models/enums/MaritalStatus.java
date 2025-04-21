@@ -1,6 +1,12 @@
 package models.enums;
 
+/**
+ * Enum representing the marital status of a user.
+ */
 public enum MaritalStatus {
+  /** Single user. */
   SINGLE,
-  MARRIED,
+
+  /** Married user. */
+  MARRIED
 }
