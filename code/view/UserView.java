@@ -5,9 +5,18 @@ import java.util.Scanner;
 import models.enums.FlatType;
 import models.projects.FilterSettings;
 
+/**
+ * The UserView class provides a user interface for managing filter settings.
+ * It allows users to adjust various filter criteria for project searches.
+ */
 public class UserView {
   protected static FilterSettings filterSettings = new FilterSettings();
 
+  /**
+   * Allows the user to adjust filter settings through a menu-driven interface.
+   *
+   * @param sc The Scanner object for user input.
+   */
   public void adjustFilterSettings(Scanner sc){
     int filterChoice;
     do {

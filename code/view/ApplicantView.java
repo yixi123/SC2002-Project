@@ -13,9 +13,20 @@ import models.users.Applicant;
 import services.controller.ApplicantController;
 import utils.FilterUtil;
 
+/**
+ * The ApplicantView class provides the user interface for applicants.
+ * It includes functionalities for viewing projects, applying for projects,
+ * and managing enquiries.
+ */
 public class ApplicantView extends UserView {
 	private static ApplicantController app = new ApplicantController();
 
+    /**
+     * Displays the main menu for the applicant.
+     *
+     * @param sc The Scanner object for user input.
+     * @throws Exception If an error occurs during menu navigation.
+     */
     public void enterMainMenu(Scanner sc) throws Exception{
         int choice;
 		
@@ -57,6 +68,13 @@ public class ApplicantView extends UserView {
         } while (choice != 0 && choice != 6);
 	}
 
+    /**
+     * Displays the project portal for applicants based on filter settings.
+     *
+     * @param sc The Scanner object for user input.
+     * @param filterSettings The filter settings to apply to the project list.
+     * @throws Exception If an error occurs during project portal navigation.
+     */
 	public void displayProjectPortal(Scanner sc, FilterSettings filterSettings) throws Exception {
 		List<BTOProject> projects =  ProjectDB.getDB();
         List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
@@ -94,7 +112,13 @@ public class ApplicantView extends UserView {
 		}
 	}
 
-	
+    /**
+     * Displays the action menu for a selected project.
+     *
+     * @param sc The Scanner object for user input.
+     * @param selectedProject The selected project to perform actions on.
+     * @throws Exception If an error occurs during project action navigation.
+     */
     public void displayProjectAction(Scanner sc, BTOProject selectedProject) throws Exception {
 		do{
 			System.out.println("\nYou have selected: " + selectedProject.getProjectName());
@@ -116,6 +140,9 @@ public class ApplicantView extends UserView {
 		}while(true);
     }
 
+    /**
+     * Displays the application status for the applicant.
+     */
 	public void displayApplicationStatus(){
 		Applicant applicant = app.retreiveApplicant();
         List<ProjectApplication> applicationList = applicant.getMyApplication();
@@ -135,6 +162,12 @@ public class ApplicantView extends UserView {
         }
 	}
 
+    /**
+     * Displays the action menu for a selected enquiry.
+     *
+     * @param sc The Scanner object for user input.
+     * @param selectedEnquiry The selected enquiry to view or edit.
+     */
 	public void viewEnquiryActionMenu(Scanner sc, Enquiry selectedEnquiry) {
         Boolean isReplied = selectedEnquiry.getReplierUserID() != null;
         if (isReplied) {

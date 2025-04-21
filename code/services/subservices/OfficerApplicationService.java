@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.text.View;
 
 import models.enums.OfficerAppStat;
 import models.projects.BTOProject;

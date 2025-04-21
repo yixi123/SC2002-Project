@@ -12,6 +12,10 @@ import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 
+/**
+ * The FileSaver class provides methods to save data to CSV files from various models.
+ * It supports saving applicants, officers, managers, projects, enquiries, and applications.
+ */
 public class FileSaver implements IFileSaver {
 
     private static final String APPLICANTS_FILE = "code/database/csv/ApplicantList.csv";
@@ -22,34 +26,75 @@ public class FileSaver implements IFileSaver {
     private static final String PROJECT_APPLICATIONS_FILE = "code/database/csv/ProjectApplicationList.csv";
     private static final String OFFICER_APPLICATIONS_FILE = "code/database/csv/OfficerApplicationList.csv";
 
+    /**
+     * Saves all applicants to the default file path.
+     *
+     * @param applicants The list of Applicant objects to save.
+     */
     public void saveApplicants(List<Applicant> applicants) {
         saveApplicants(APPLICANTS_FILE, applicants);
     }
 
+    /**
+     * Saves all officers to the default file path.
+     *
+     * @param officers The list of HDBOfficer objects to save.
+     */
     public void saveOfficers(List<HDBOfficer> officers) {
         saveOfficers(OFFICERS_FILE, officers);
     }
 
+    /**
+     * Saves all managers to the default file path.
+     *
+     * @param managers The list of HDBManager objects to save.
+     */
     public void saveManagers(List<HDBManager> managers) {
         saveManagers(MANAGERS_FILE, managers);
     }
 
+    /**
+     * Saves all projects to the default file path.
+     *
+     * @param projects The list of BTOProject objects to save.
+     */
     public void saveProjects(List<BTOProject> projects) {
         saveProjects(PROJECTS_FILE, projects);
     }
 
+    /**
+     * Saves all enquiries to the default file path.
+     *
+     * @param enquiries The list of Enquiry objects to save.
+     */
     public void saveEnquiries(List<Enquiry> enquiries) {
         saveEnquiries(ENQUIRIES_FILE, enquiries);
     }
 
+    /**
+     * Saves all project applications to the default file path.
+     *
+     * @param applications The list of ProjectApplication objects to save.
+     */
     public void saveProjectApplications(List<ProjectApplication> applications) {
         saveProjectApplications(PROJECT_APPLICATIONS_FILE, applications);
     }
 
+    /**
+     * Saves all officer applications to the default file path.
+     *
+     * @param applications The list of OfficerApplication objects to save.
+     */
     public void saveOfficerApplications(List<OfficerApplication> applications) {
         saveOfficerApplications(OFFICER_APPLICATIONS_FILE, applications);
     }
 
+    /**
+     * Saves applicants to a specified file path.
+     *
+     * @param filePath The path to the CSV file.
+     * @param applicants The list of Applicant objects to save.
+     */
     public void saveApplicants(String filePath, List<Applicant> applicants) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Name,NRIC,Age,Marital Status,Password\n"); // Header
@@ -66,6 +111,12 @@ public class FileSaver implements IFileSaver {
         }
     }
 
+    /**
+     * Saves officers to a specified file path.
+     *
+     * @param filePath The path to the CSV file.
+     * @param officers The list of HDBOfficer objects to save.
+     */
     public void saveOfficers(String filePath, List<HDBOfficer> officers) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Name,NRIC,Age,Marital Status,Password\n"); // Header
@@ -82,6 +133,12 @@ public class FileSaver implements IFileSaver {
         }
     }
 
+    /**
+     * Saves managers to a specified file path.
+     *
+     * @param filePath The path to the CSV file.
+     * @param managers The list of HDBManager objects to save.
+     */
     public void saveManagers(String filePath, List<HDBManager> managers) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Name,NRIC,Age,Marital Status,Password\n"); // Header
@@ -98,6 +155,12 @@ public class FileSaver implements IFileSaver {
         }
     }
 
+    /**
+     * Saves projects to a specified file path.
+     *
+     * @param filePath The path to the CSV file.
+     * @param projects The list of BTOProject objects to save.
+     */
     public void saveProjects(String filePath, List<BTOProject> projects) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("Project Name,Neighborhood,Number of units for 2-room,Selling price for 2-room,Number of units for 3-room,Selling price for 3-room,Application opening date,Application closing date,Manager,Officer Slot,Officer,Visibility\n"); // Updated header
@@ -123,6 +186,12 @@ public class FileSaver implements IFileSaver {
         }
     }
 
+    /**
+     * Saves enquiries to a specified file path.
+     *
+     * @param filePath The path to the CSV file.
+     * @param enquiries The list of Enquiry objects to save.
+     */
     public void saveEnquiries(String filePath, List<Enquiry> enquiries) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
@@ -144,6 +213,12 @@ public class FileSaver implements IFileSaver {
         }
     }
 
+    /**
+     * Saves project applications to a specified file path.
+     *
+     * @param filePath The path to the CSV file.
+     * @param applications The list of ProjectApplication objects to save.
+     */
     public void saveProjectApplications(String filePath, List<ProjectApplication> applications) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
@@ -161,6 +236,12 @@ public class FileSaver implements IFileSaver {
         }
     }
 
+    /**
+     * Saves officer applications to a specified file path.
+     *
+     * @param filePath The path to the CSV file.
+     * @param applications The list of OfficerApplication objects to save.
+     */
     public void saveOfficerApplications(String filePath, List<OfficerApplication> applications) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
