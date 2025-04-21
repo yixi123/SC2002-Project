@@ -16,11 +16,24 @@ import models.users.HDBManager;
 import models.users.HDBOfficer;
 
 /**
- * The FileLoader class provides methods to load data from CSV files into various models.
- * It supports loading applicants, officers, managers, projects, enquiries, and applications.
+ * FileLoader is the utility class for loading data from CSV files into Java objects.
+ * Provides methods to load Applicants, Officers, Managers, Projects, Enquiries,
+ * and both Project and Officer Applications from their respective file paths.
+ * This class handles parsing, file reading, and mapping of raw CSV data into model instances.
  */
 public class FileLoader implements IFileLoader {
 
+    /**
+     * File path constants for CSV data sources used in the system.
+     * These paths point to the respective CSV files for loading and saving:
+     * - Applicants
+     * - Officers
+     * - Managers
+     * - BTO Projects
+     * - Enquiries
+     * - Project Applications
+     * - Officer Applications
+     */
     private static final String APPLICANTS_FILE = "code/database/csv/ApplicantList.csv";
     private static final String OFFICERS_FILE = "code/database/csv/OfficerList.csv";
     private static final String MANAGERS_FILE = "code/database/csv/ManagerList.csv";
@@ -30,73 +43,65 @@ public class FileLoader implements IFileLoader {
     private static final String OFFICER_APPLICATIONS_FILE = "code/database/csv/OfficerApplicationList.csv";
 
     /**
-     * Loads all applicants from the default file path.
-     *
-     * @return A list of Applicant objects.
+     * Loads a list of {@code Applicant} objects from the default file path.
+     * @return List of applicants
      */
     public List<Applicant> loadApplicants() {
         return loadApplicants(APPLICANTS_FILE);
     }
 
     /**
-     * Loads all officers from the default file path.
-     *
-     * @return A list of HDBOfficer objects.
+     * Loads a list of {@code HDBOfficer} objects from the default file path.
+     * @return List of HDB officers
      */
     public List<HDBOfficer> loadOfficers() {
         return loadOfficers(OFFICERS_FILE);
     }
 
     /**
-     * Loads all managers from the default file path.
-     *
-     * @return A list of HDBManager objects.
+     * Loads a list of {@code HDBManager} objects from the default file path.
+     * @return List of HDB managers
      */
     public List<HDBManager> loadManagers() {
         return loadManagers(MANAGERS_FILE);
     }
 
     /**
-     * Loads all projects from the default file path.
-     *
-     * @return A list of BTOProject objects.
+     * Loads a list of {@code BTOProject} objects from the default file path.
+     * @return List of BTO projects
      */
     public List<BTOProject> loadProjects() {
         return loadProjects(PROJECTS_FILE);
     }
 
     /**
-     * Loads all enquiries from the default file path.
-     *
-     * @return A list of Enquiry objects.
+     * Loads a list of {@code Enquiry} objects from the default file path.
+     * @return List of enquiries
      */
     public List<Enquiry> loadEnquiries() {
         return loadEnquiries(ENQUIRIES_FILE);
     }
 
     /**
-     * Loads all project applications from the default file path.
-     *
-     * @return A list of ProjectApplication objects.
+     * Loads a list of {@code ProjectApplication} objects from the default file path.
+     * @return List of project applications
      */
     public List<ProjectApplication> loadProjectApplications() {
         return loadProjectApplications(PROJECT_APPLICATIONS_FILE);
     }
 
     /**
-     * Loads all officer applications from the default file path.
-     *
-     * @return A list of OfficerApplication objects.
+     * Loads a list of {@code OfficerApplication} objects from the default file path.
+     * @return List of officer applications
      */
     public List<OfficerApplication> loadOfficerApplications() {
         return loadOfficerApplications(OFFICER_APPLICATIONS_FILE);
     }
 
     /**
-     * Loads applicants from a specified file path.
-     *
-     * @param filePath The path to the CSV file.
-     * @return A list of Applicant objects.
+     * Loads applicants from a specified CSV file path.
+     * @param filePath The path to the applicant CSV file
+     * @return List of applicants
      */
     public List<Applicant> loadApplicants(String filePath) {
         List<Applicant> applicants = new ArrayList<>();
@@ -114,10 +119,9 @@ public class FileLoader implements IFileLoader {
     }
 
     /**
-     * Loads officers from a specified file path.
-     *
-     * @param filePath The path to the CSV file.
-     * @return A list of HDBOfficer objects.
+     * Loads officers from a specified CSV file path.
+     * @param filePath The path to the officer CSV file
+     * @return List of officers
      */
     public List<HDBOfficer> loadOfficers(String filePath) {
         List<HDBOfficer> officers = new ArrayList<>();
@@ -135,10 +139,9 @@ public class FileLoader implements IFileLoader {
     }
 
     /**
-     * Loads managers from a specified file path.
-     *
-     * @param filePath The path to the CSV file.
-     * @return A list of HDBManager objects.
+     * Loads managers from a specified CSV file path.
+     * @param filePath The path to the manager CSV file
+     * @return List of managers
      */
     public List<HDBManager> loadManagers(String filePath) {
         List<HDBManager> managers = new ArrayList<>();
@@ -156,10 +159,11 @@ public class FileLoader implements IFileLoader {
     }
 
     /**
-     * Loads projects from a specified file path.
+     * Loads BTO projects from a specified CSV file path.
+     * Parses project metadata, pricing, dates, and assigned officers.
      *
-     * @param filePath The path to the CSV file.
-     * @return A list of BTOProject objects.
+     * @param filePath The path to the project CSV file
+     * @return List of BTO projects
      */
     public List<BTOProject> loadProjects(String filePath) {
         List<BTOProject> projects = new ArrayList<>();
@@ -184,10 +188,11 @@ public class FileLoader implements IFileLoader {
     }
 
     /**
-     * Loads enquiries from a specified file path.
+     * Loads enquiries from a specified CSV file path.
+     * Parses fields including timestamps and optional reply content.
      *
-     * @param filePath The path to the CSV file.
-     * @return A list of Enquiry objects.
+     * @param filePath The path to the enquiry CSV file
+     * @return List of enquiries
      */
     public List<Enquiry> loadEnquiries(String filePath) {
         List<Enquiry> enquiries = new ArrayList<>();
@@ -216,10 +221,11 @@ public class FileLoader implements IFileLoader {
     }
 
     /**
-     * Loads project applications from a specified file path.
+     * Loads project applications from a specified CSV file path.
+     * Parses application details including status, date, and flat type.
      *
-     * @param filePath The path to the CSV file.
-     * @return A list of ProjectApplication objects.
+     * @param filePath The path to the project application CSV file
+     * @return List of project applications
      */
     public List<ProjectApplication> loadProjectApplications(String filePath) {
         List<ProjectApplication> applications = new ArrayList<>();
@@ -244,10 +250,11 @@ public class FileLoader implements IFileLoader {
     }
 
     /**
-     * Loads officer applications from a specified file path.
+     * Loads officer applications from a specified CSV file path.
+     * Parses application date and status fields.
      *
-     * @param filePath The path to the CSV file.
-     * @return A list of OfficerApplication objects.
+     * @param filePath The path to the officer application CSV file
+     * @return List of officer applications
      */
     public List<OfficerApplication> loadOfficerApplications(String filePath) {
         List<OfficerApplication> applications = new ArrayList<>();

@@ -8,9 +8,24 @@ import models.projects.BTOProject;
 import models.projects.ProjectApplication;
 import services.interfaces.IReceiptPrintService;
 
-
+/**
+ * Service class responsible for generating booking receipts
+ * for applicants who have successfully secured a BTO flat.
+ * A receipt is only generated for applications with status {@code BOOKED}.
+ */
 public class ReceiptPrintService implements IReceiptPrintService {
 
+    /**
+     * Generates a formatted receipt string for a given applicant
+     * if they have a valid and most recent project application
+     * with status {@code BOOKED}.
+     *
+     * @param applicantId The NRIC of the applicant
+     * @return A booking receipt string if applicable, or {@code null} if:
+     *         - No application found
+     *         - Most recent application is not booked
+     *         - Project cannot be retrieved
+     */
     @Override
     public String printReceipt(String applicantId) {
         // most recent application

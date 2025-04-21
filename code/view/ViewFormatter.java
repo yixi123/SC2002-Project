@@ -7,20 +7,21 @@ package view;
 public class ViewFormatter {
 
     /**
-     * Generates a standard break line.
+     * Generates and returns a standard thin horizontal divider used to visually separate sections in the UI.
      *
-     * @return A string representing a standard break line.
+     * @return a string representing a thin break line
      */
-    public static String breakLine() {
+    public static String breakLine(){
         return "-------------------------------------------";
-    }
-
-    /**
-     * Generates a thick break line.
-     *
-     * @return A string representing a thick break line.
-     */
-    public static String thickBreakLine() {
+      }
+  
+      /**
+       * Generates and returns a thick horizontal divider for highlighting important sections or headings.
+       *
+       * @return a string representing a thick break line
+       */
+      public static String thickBreakLine(){
         return "===========================================";
-    }
-}
+      }
+  }
+  

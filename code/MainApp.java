@@ -20,6 +20,9 @@ import view.ViewFormatter;
  * It initializes the databases, handles user authentication, and navigates users to their respective menus.
  */
 public class MainApp {
+    /**
+     * Shared filter settings used across the application for project filtering.
+     */
     static FilterSettings filterSettings = new FilterSettings(); // Initialize filter settings
 
     /**
@@ -58,16 +61,17 @@ public class MainApp {
     }
 
     /**
-     * Displays the entry menu for the application and handles user choices.
+     * Displays the entry menu for login or registration.
+     * Delegates users to login, registration, or exits the application.
      *
-     * @param sc   The Scanner object for user input.
-     * @param auth The AuthController object for handling authentication.
+     * @param sc   Scanner for user input
+     * @param auth AuthController to handle authentication logic
      */
-    public static void entryMenu(Scanner sc, AuthController auth) {
+    public static void entryMenu(Scanner sc, AuthController auth){
         int choice = 0;
 
-        do {
-            try {
+        do{
+            try{
                 System.out.println("\n\n" + ViewFormatter.thickBreakLine());
                 System.out.println("     BTO Project Management System       ");
                 System.out.println(ViewFormatter.thickBreakLine());
@@ -76,13 +80,13 @@ public class MainApp {
                 System.out.println("3. Exit App");
                 System.out.println(ViewFormatter.breakLine());
                 System.out.print("Enter your choice (1-3): ");
-                choice = sc.nextInt();
-                sc.nextLine();
+                choice = sc.nextInt(); sc.nextLine();
                 System.out.println(ViewFormatter.breakLine());
                 
-                switch (choice) {
+                
+                switch(choice){
                     case 1:
-                        User user = auth.enterLoginPage(sc);
+                        User user = auth.enterLoginPage(sc); 
                         navigateMenu(user, sc);
                         break;
                     case 2:
@@ -94,45 +98,48 @@ public class MainApp {
                     default:
                         System.out.println("Invalid choice. Please try again.");
                 }
-            } 
-            catch (AuthException e) {
+            }
+            catch(AuthException e){
                 System.out.println(e.getMessage());
-            }catch (IllegalArgumentException e) {
+            }
+            catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
             }catch (InputMismatchException e){
                 sc.nextLine();
                 System.out.println("Invalid input! Please try again!");
             }
-        } while (choice != 3);
 
+        } while (choice != 3);
+        
         System.out.println(ViewFormatter.breakLine());
         System.out.println("               Thank you!                ");
         System.out.println(ViewFormatter.thickBreakLine());
     }
 
     /**
-     * Navigates the user to their respective menu based on their role.
+     * Routes the authenticated user to their corresponding interface based on user type.
      *
-     * @param user The authenticated user.
-     * @param sc   The Scanner object for user input.
+     * @param user The authenticated user
+     * @param sc   Scanner for user input
      */
-    public static void navigateMenu(User user, Scanner sc) {
-        if (user instanceof HDBOfficer) {
+    public static void navigateMenu(User user, Scanner sc){
+        if(user instanceof HDBOfficer){
             OfficerController app = new OfficerController();
             app.start(sc);
-        } 
-        else if (user instanceof Applicant) {
+        }
+        else if(user instanceof Applicant){
             ApplicantController app = new ApplicantController();
             app.start(sc);
-        } 
-        else if (user instanceof HDBManager) {
+        }
+
+        else if(user instanceof HDBManager){
             ManagerController app = new ManagerController();
             app.start(sc);
         }
     }
 
     /**
-     * Initializes the databases by loading data from files.
+     * Initializes all databases by loading data from their respective CSV files.
      */
     public static void initiateDB() {
         // Load data from files into respective databases
@@ -146,7 +153,8 @@ public class MainApp {
     }
 
     /**
-     * Saves the current state of the databases to files.
+     * Saves the database state to persistent storage.
+     * Placeholder method to be implemented with save logic.
      */
     public static void saveDB() {
         // Save database state

@@ -10,13 +10,18 @@ import models.projects.FilterSettings;
  * It allows users to adjust various filter criteria for project searches.
  */
 public class UserView {
+    /**
+     * Shared filter settings for displaying BTO projects.
+     */
   protected static FilterSettings filterSettings = new FilterSettings();
 
-  /**
-   * Allows the user to adjust filter settings through a menu-driven interface.
-   *
-   * @param sc The Scanner object for user input.
-   */
+    /**
+     * Allows the user to interactively adjust filtering options for BTO project listings.
+     * The method provides a looped menu to set or clear filter fields such as project name,
+     * neighborhood, flat type, maximum price for each flat type, and sorting preferences.
+     *
+     * @param sc Scanner object used for user input
+     */
   public void adjustFilterSettings(Scanner sc){
     int filterChoice;
     do {
