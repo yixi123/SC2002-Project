@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 import models.enums.FlatType;
 import models.projects.*;
-import models.users.Applicant;
 import models.users.HDBOfficer;
 
 import services.interfaces.IEnquiryService;
