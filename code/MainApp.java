@@ -1,6 +1,8 @@
 import database.dataclass.projects.*;
 import database.dataclass.users.*;
 import exception.AuthException;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import models.projects.FilterSettings;
 import models.users.Applicant;
@@ -40,12 +42,12 @@ public class MainApp {
             System.out.println("Null Pointer Error: " + e.getMessage());
             saveDB();
         } 
-        catch (Error e) {
+        catch (Exception e) {
             System.out.println("System crashed! Please restart!");
             System.out.println("Error: " + e.getMessage());
             saveDB();
         } 
-        catch (Exception e) {
+        catch (Error e) {
             System.out.println("System crashed! Please restart!");
             System.out.println("Error: " + e.getMessage());
             saveDB();
@@ -95,9 +97,11 @@ public class MainApp {
             } 
             catch (AuthException e) {
                 System.out.println(e.getMessage());
-            } 
-            catch (IllegalArgumentException e) {
+            }catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
+            }catch (InputMismatchException e){
+                sc.nextLine();
+                System.out.println("Invalid input! Please try again!");
             }
         } while (choice != 3);
 
@@ -146,5 +150,12 @@ public class MainApp {
      */
     public static void saveDB() {
         // Save database state
+        ApplicantDB.updateUser();
+        OfficerDB.updateUser();
+        ManagerDB.updateUser();
+        ProjectDB.updateProject();
+        EnquiryDB.updateEnquiry();
+        ProjectAppDB.updateApplication();
+        OfficerAppDB.updateApplication();
     }
 }
