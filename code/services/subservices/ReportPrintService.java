@@ -32,7 +32,7 @@ public class ReportPrintService implements IReportPrintService {
 
         applicantsAndApplication = filterReportContent(sc, applicantsAndApplication);
         if (applicantsAndApplication.isEmpty()) {
-            System.out.println("No applicants found for the selected filter criteria.");
+            System.out.println("No applicants found\n for the selected filter criteria.");
             return null;
         }
 
