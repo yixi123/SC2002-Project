@@ -22,20 +22,18 @@ import services.interfaces.IOfficerApplicationService;
 import services.interfaces.IReportPrintService;
 import services.interfaces.IProjectApplicationService;
 import services.interfaces.IProjectManagementService;
-import services.interfaces.IProjectViewService;
 
 import services.subservices.EnquiryService;
 import services.subservices.OfficerApplicationService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectManagementService;
-import services.subservices.ProjectViewService;
 import services.subservices.ReportPrintService;
+import utils.IFileSaver;
 
 public class ManagerController extends UserController{
   IProjectApplicationService projectAppService = new ProjectApplicationService();;
   IProjectManagementService projectManagementService = new ProjectManagementService();
   IOfficerApplicationService officerApplicationService = new OfficerApplicationService();
-  IProjectViewService projectViewService = new ProjectViewService();
   IEnquiryService enquiryService = new EnquiryService();
   IReportPrintService reportPrintService = new ReportPrintService();
   private static ManagerView managerView = new ManagerView();
@@ -45,11 +43,10 @@ public class ManagerController extends UserController{
   }
 
   public ManagerController( IProjectApplicationService projectAppService, IProjectManagementService projectManagementService, 
-    IOfficerApplicationService officerApplicationService, IProjectViewService projectViewService, IEnquiryService enquiryService, IReportPrintService printService){
+    IOfficerApplicationService officerApplicationService, IEnquiryService enquiryService, IReportPrintService printService){
       this.projectAppService = projectAppService;
       this.projectManagementService = projectManagementService;
       this.officerApplicationService = officerApplicationService;
-      this.projectViewService = projectViewService;
       this.enquiryService = enquiryService;
       this.reportPrintService = printService;
   }
@@ -273,7 +270,10 @@ public class ManagerController extends UserController{
   }
 
   public void generateReport(Scanner sc, BTOProject project) {
-    reportPrintService.printReport(sc, project);
+    String report = reportPrintService.printReport(sc, project);
+    if (report != null){
+			IFileSaver.writeStringToFile(report, retreiveManager().getNric() + "Report.txt");
+		} 
   }
 
   public void viewPublicEnquiry(String projectName){
@@ -288,7 +288,7 @@ public class ManagerController extends UserController{
 				Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
 				
 				if(selectedEnquiry != null && selectedEnquiry.getReplierUserID() == null){ 
-					replyMyProjectEnquiry(sc, selectedEnquiry.getId());
+					replyMyProjectEnquiry(sc, selectedEnquiry);
 				}
 				else if(selectedEnquiry != null && selectedEnquiry.getReplierUserID() != null){
 					System.out.println("This enquiry has been replied.");
@@ -300,22 +300,8 @@ public class ManagerController extends UserController{
     }while(true);
   }
 
-  public void replyMyProjectEnquiry(Scanner sc, int enquiryId) {
-    
-    do{
-      try{
-        System.out.print("Enter your reply content: ");
-        String replyContent = sc.nextLine();
-        System.out.println(ViewFormatter.breakLine());
-        enquiryService.replyEnquiry(enquiryId, auth.getCurrentUser().getNric(), replyContent);
-        System.out.println("Reply sent successfully.");
-        System.out.println(ViewFormatter.breakLine());
-        break;
-      }catch(Exception e){
-        System.out.println("Error: " + e.getMessage());
-        System.out.println("Unsuccessful Reply, Please try again.");
-      }
-    }while(true);
+  public void replyMyProjectEnquiry(Scanner sc, Enquiry selectedEnquiry) {
+    enquiryService.replyEnquiry(sc, selectedEnquiry, retreiveManager().getNric());
   }
 
 }

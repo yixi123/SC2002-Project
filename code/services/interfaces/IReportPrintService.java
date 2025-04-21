@@ -9,7 +9,7 @@ import models.projects.ProjectApplication;
 import models.users.Applicant;
 
 public interface IReportPrintService {
-    public void printReport(Scanner sc, BTOProject project);
+    public String printReport(Scanner sc, BTOProject project);
 
     public Map<Applicant, ProjectApplication> filterReportContent(Scanner sc, Map<Applicant, ProjectApplication> applicantsAndApplication);
 }

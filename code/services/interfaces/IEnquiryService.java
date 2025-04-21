@@ -13,9 +13,9 @@ public interface IEnquiryService {
 
     public void addEnquiry(String nric, String projectName, String content);
 
-    public void replyEnquiry(int id, String replierID, String reply); 
+    public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry, String replierID); 
     
-    public void deleteEnquiry(int id);
+    public void deleteEnquiry(Enquiry selectedEnquiry);
 
     public Enquiry findEnquiry(int id);
 

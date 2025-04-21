@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import models.enums.FlatType;
 import models.projects.*;
+import models.users.Applicant;
 import models.users.HDBOfficer;
 
 import services.interfaces.IEnquiryService;
@@ -19,7 +20,7 @@ import services.subservices.EnquiryService;
 import services.subservices.OfficerApplicationService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ReceiptPrintService;
-
+import utils.IFileSaver;
 import view.OfficerView;
 import view.ViewFormatter;
 
@@ -106,6 +107,7 @@ public class OfficerController extends ApplicantController {
 	public void generateReceipt(String applicantId) {
 		String receipt = printService.printReceipt(applicantId);
 		if (receipt != null){
+			IFileSaver.writeStringToFile(receipt, applicantId + "Recipt.txt");
 			System.out.println(receipt);
 		} else {
 			System.out.println("No booking found for applicant " + applicantId);
@@ -128,12 +130,7 @@ public class OfficerController extends ApplicantController {
       System.out.println("This enquiry has already been replied to.");
       return;
     }
-    System.out.print("Enter your reply content: ");
-    String replyContent = sc.nextLine();
-    System.out.println(ViewFormatter.breakLine());
-    enquiryService.replyEnquiry(selectedEnquiry.getId(), retrieveOfficer().getNric(), replyContent);
-    System.out.println("Reply sent successfully.");
-    System.out.println(ViewFormatter.breakLine());
+    enquiryService.replyEnquiry(sc, selectedEnquiry, retrieveOfficer().getNric());
   }
 
 

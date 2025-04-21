@@ -64,16 +64,8 @@ public class OfficerAppDB {
       saveToFile();
   }
 
-  public static void updateApplication(OfficerApplication application) {
-      for (int i = 0; i < db.size(); i++) {
-
-          if (db.get(i).getUser().equals(application.getUser()) &&
-              db.get(i).getProjectName().equals(application.getProjectName())) {
-                  db.set(i, application);
-                  break;
-          }
-      }
-      saveToFile();
+  public static void updateApplication(){
+    saveToFile();
   }
 
   public static List<OfficerApplication> getDB(){

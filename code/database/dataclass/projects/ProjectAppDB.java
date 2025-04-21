@@ -75,15 +75,8 @@ public class ProjectAppDB {
       saveToFile();
   }
 
-  public static void updateApplication(ProjectApplication application) {
-      for (int i = 0; i < db.size(); i++) {
-          if (db.get(i).getUser().equals(application.getUser()) &&
-              db.get(i).getProjectName().equals(application.getProjectName())) {
-              db.set(i, application);
-              break;
-          }
-      }
-      saveToFile();
+  public static void updateApplication(){
+    saveToFile();
   }
 
 

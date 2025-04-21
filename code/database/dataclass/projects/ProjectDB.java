@@ -48,12 +48,7 @@ public class ProjectDB {
   }
 
 
-  public static void updateProject(BTOProject project){
-    for(int i = 0; i < db.size(); i++){
-      if(db.get(i).getProjectName().equals(project.getProjectName())){
-        db.set(i, project);
-      }
-    }
+  public static void updateProject(){
     saveToFile();
   }
 

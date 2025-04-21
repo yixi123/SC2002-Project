@@ -121,7 +121,7 @@ public class ManagerView extends UserView {
 			System.out.println("4. View/Manage Project Applications");
 			System.out.println("5. View/Manage Officer Applications");
 			System.out.println("6. View/Reply Enquiry");
-			System.out.println("0. Back to Main Menu");
+			System.out.println("0. Back to Project List");
 			System.out.println(ViewFormatter.breakLine());
 			System.out.print("Please select an option: ");
 			option = sc.nextInt(); sc.nextLine();

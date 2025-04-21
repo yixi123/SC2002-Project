@@ -15,10 +15,23 @@ import models.users.HDBOfficer;
 import services.controller.OfficerController;
 import utils.FilterUtil;
 
+/**
+ * The OfficerView class provides the user interface for HDB officers.
+ * It extends the ApplicantView class and includes functionalities specific
+ * to officers, such as managing projects, viewing successful applicants,
+ * and handling enquiries.
+ */
+
 public class OfficerView extends ApplicantView {
 
     private static OfficerController app = new OfficerController();
 
+	/**
+     * Displays the main menu for the officer.
+     * 
+     * @param sc The Scanner object for user input.
+     * @throws Exception If an error occurs during menu navigation.
+     */
 	@Override
 	public void enterMainMenu(Scanner sc) throws Exception {
 		while (true) {
@@ -54,6 +67,12 @@ public class OfficerView extends ApplicantView {
 		}
 	}
 
+	/**
+     * Displays the officer-specific menu.
+     * 
+     * @param sc The Scanner object for user input.
+     * @throws Exception If an error occurs during menu navigation.
+     */
 	private void officerMenu(Scanner sc) throws Exception {
 		while (true) {
 			System.out.println();
@@ -98,6 +117,12 @@ public class OfficerView extends ApplicantView {
 		}
   	}
 
+	/**
+     * Displays the action menu for a selected enquiry.
+     * 
+     * @param sc The Scanner object for user input.
+     * @param selectedEnquiry The selected enquiry to view or reply to.
+     */
 	public void viewEnquiryActionMenuForOfficer(Scanner sc, Enquiry selectedEnquiry) {
 		if (selectedEnquiry == null) {
 			System.out.println("No enquiry selected.");
@@ -128,7 +153,13 @@ public class OfficerView extends ApplicantView {
             default : System.out.println("Invalid choice. Returning to menu.");
         }
     }
-
+	/**
+     * Displays the project portal for officers based on filter settings.
+     * 
+     * @param sc The Scanner object for user input.
+     * @param filterSettings The filter settings to apply to the project list.
+     * @throws Exception If an error occurs during project portal navigation.
+     */
 	public void displayOfficerProjectPortal(Scanner sc, FilterSettings filterSettings) throws Exception  {
     List<BTOProject> projects =  ProjectDB.getDB();
     List<BTOProject> filteredProjects = FilterUtil.filterBySettings(projects, filterSettings);
@@ -165,8 +196,15 @@ public class OfficerView extends ApplicantView {
 				}
 			}while(true);
 		}
-  }
+	}
 
+	/**
+     * Displays the action menu for a selected project.
+     * 
+     * @param sc The Scanner object for user input.
+     * @param selectedProject The selected project to perform actions on.
+     * @throws Exception If an error occurs during project action navigation.
+     */
   	public void displayOfficerProjectAction(Scanner sc, BTOProject selectedProject) throws Exception {
 		do{
 			System.out.println("You have selected: " + selectedProject.getProjectName());
@@ -193,6 +231,12 @@ public class OfficerView extends ApplicantView {
 		}while(true);
   	}
 
+	/**
+     * Displays the applicant menu for officers acting as applicants.
+     * 
+     * @param sc The Scanner object for user input.
+     * @throws Exception If an error occurs during menu navigation.
+     */
   	private void applicantMenu(Scanner sc) throws Exception {
 		int choice;
 			
@@ -231,6 +275,13 @@ public class OfficerView extends ApplicantView {
 		} while (choice != 0 && choice != 6);
   	}
 
+	/**
+     * Displays the action menu for a selected project as an applicant.
+     * 
+     * @param sc The Scanner object for user input.
+     * @param selectedProject The selected project to perform actions on.
+     * @throws Exception If an error occurs during project action navigation.
+     */
 	@Override
     public void displayProjectAction(Scanner sc, BTOProject selectedProject) throws Exception {
 		do{
@@ -261,6 +312,9 @@ public class OfficerView extends ApplicantView {
 		}while(true);
     }
 
+	/**
+     * Displays the project currently handled by the officer.
+     */
 	public void displayHandledProject(){
 		BTOProject project = app.retrieveOfficer().getActiveProject();
 
@@ -272,6 +326,9 @@ public class OfficerView extends ApplicantView {
 		}
 	}
 
+	/**
+     * Displays the successful applicants for the project handled by the officer.
+     */
 	public void displayHandledProjectSuccessfulApplicants(){
 		BTOProject project = app.retrieveOfficer().getActiveProject();
 		if (project == null) {
@@ -293,6 +350,9 @@ public class OfficerView extends ApplicantView {
 		System.out.println(ViewFormatter.breakLine());
 	}
 
+	/**
+     * Displays the officer's application status for projects.
+     */
 	public void displayOfficerApplicationStatus(){
 		HDBOfficer officer = app.retrieveOfficer();
         List<OfficerApplication> applicationList = officer.getOfficerApplications();

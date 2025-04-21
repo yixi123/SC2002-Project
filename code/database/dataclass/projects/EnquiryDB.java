@@ -67,13 +67,7 @@ public class EnquiryDB {
       saveToFile();
   }
 
-  public static void updateEnquiry(Enquiry enquiry) {
-      for (int i = 0; i < db.size(); i++) {
-          if (db.get(i).getId() == enquiry.getId()) {
-              db.set(i, enquiry);
-              break;
-          }
-      }
+  public static void updateEnquiry() {
       saveToFile();
   }
 }
