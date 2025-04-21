@@ -66,7 +66,7 @@ public class AuthService implements IAuthService {
             System.out.println(ViewFormatter.breakLine());
             attempt += 1;
             if(attempt <= MAX_ATTEMPTS){
-                System.out.printf("Attempt (%d / 3)", attempt);
+                System.out.printf("Attempt (%d / 3)\n", attempt);
                 System.out.println(ViewFormatter.breakLine());
                 return login(sc);
             }
