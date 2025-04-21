@@ -158,7 +158,7 @@ public class ApplicantView extends UserView {
         System.out.println(ViewFormatter.breakLine());
         switch (actionChoice) {
             case 1 -> app.editEnquiry(sc, selectedEnquiry);
-            case 2 -> app.deleteEnquiry(selectedEnquiry.getId());
+            case 2 -> app.deleteEnquiry(selectedEnquiry);
             default -> System.out.println("Invalid choice. Returning to menu.\n" + ViewFormatter.breakLine());
         }
     }
