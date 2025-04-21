@@ -13,5 +13,5 @@ Contributor:
 </br>
 
 Professor: 
-Prof. Shen Zi Qi & Dr. Li Fang
+Dr. Shen Zhiqi & Dr. Li Fang
 

@@ -118,8 +118,8 @@ public class ApplicantController extends UserController {
         enquiryService.editEnquiry(sc, selectedEnquiry);
     }
 
-    public void deleteEnquiry(int enquiryId) {
-        enquiryService.deleteEnquiry(enquiryId);
+    public void deleteEnquiry(Enquiry selectedEnquiry) {
+        enquiryService.deleteEnquiry(selectedEnquiry);
     }
 
     public void changeMyPassword(Scanner sc){

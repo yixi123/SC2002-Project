@@ -3,7 +3,6 @@ package services.controller;
 import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.projects.ProjectDB;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -130,12 +129,7 @@ public class OfficerController extends ApplicantController {
       System.out.println("This enquiry has already been replied to.");
       return;
     }
-    System.out.print("Enter your reply content: ");
-    String replyContent = sc.nextLine();
-    System.out.println(ViewFormatter.breakLine());
-    enquiryService.replyEnquiry(selectedEnquiry.getId(), retrieveOfficer().getNric(), replyContent);
-    System.out.println("Reply sent successfully.");
-    System.out.println(ViewFormatter.breakLine());
+    enquiryService.replyEnquiry(sc, selectedEnquiry, retrieveOfficer().getNric());
   }
 
 

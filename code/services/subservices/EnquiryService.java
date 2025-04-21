@@ -88,9 +88,10 @@ public class EnquiryService implements IEnquiryService{
         EnquiryDB.updateDB(enquiries);
     }
 
-    public void deleteEnquiry(int id) {
+    public void deleteEnquiry(Enquiry selectedEnquiry) {
         List<Enquiry> enquiries = EnquiryDB.getDB();
         enquiries = EnquiryDB.getDB();
+        int id = selectedEnquiry.getId();
         Enquiry enq = findEnquiry(id);
         if (enq == null) {
             System.out.println("Enquiry [ID: " + id + "]  is NOT found!");
@@ -114,18 +115,31 @@ public class EnquiryService implements IEnquiryService{
     }
 
 
-    public void replyEnquiry(int id, String replierID, String reply){
+    public void replyEnquiry(Scanner sc, Enquiry selectedEnquiry, String replierID){
         List<Enquiry> enquiries = EnquiryDB.getDB();
         
-        Enquiry enq = findEnquiry(id);
+        Enquiry enq = findEnquiry(selectedEnquiry.getId());
         int index = enquiries.indexOf(enq);
 
-        enq.setReplierUserID(replierID);
-        enq.setReplyContent(reply);
-        enq.setReplierTimestamp(LocalDateTime.now());
-
-        enquiries.set(index, enq);
-        EnquiryDB.updateDB(enquiries);
+        do{
+            try{
+                System.out.print("Enter your reply content: ");
+                String replyContent = sc.nextLine();
+                System.out.println(ViewFormatter.breakLine());
+                enq.setReplierUserID(replierID);
+                enq.setReplyContent(replyContent);
+                enq.setReplierTimestamp(LocalDateTime.now());
+                enquiries.set(index, enq);
+                EnquiryDB.updateDB(enquiries);
+                System.out.println("Reply sent successfully.");
+                System.out.println(ViewFormatter.breakLine());
+                break;
+            }catch(Exception e){
+              System.out.println("Error: " + e.getMessage());
+              System.out.println("Unsuccessful Reply, Please try again.");
+            }
+        }while(true);
     }
 
+        
 }

@@ -284,7 +284,7 @@ public class ManagerController extends UserController{
 				Enquiry selectedEnquiry = enquiryService.chooseFromEnquiryList(sc, enquiryList);
 				
 				if(selectedEnquiry != null && selectedEnquiry.getReplierUserID() == null){ 
-					replyMyProjectEnquiry(sc, selectedEnquiry.getId());
+					replyMyProjectEnquiry(sc, selectedEnquiry);
 				}
 				else if(selectedEnquiry != null && selectedEnquiry.getReplierUserID() != null){
 					System.out.println("This enquiry has been replied.");
@@ -296,22 +296,8 @@ public class ManagerController extends UserController{
     }while(true);
   }
 
-  public void replyMyProjectEnquiry(Scanner sc, int enquiryId) {
-    
-    do{
-      try{
-        System.out.print("Enter your reply content: ");
-        String replyContent = sc.nextLine();
-        System.out.println(ViewFormatter.breakLine());
-        enquiryService.replyEnquiry(enquiryId, auth.getCurrentUser().getNric(), replyContent);
-        System.out.println("Reply sent successfully.");
-        System.out.println(ViewFormatter.breakLine());
-        break;
-      }catch(Exception e){
-        System.out.println("Error: " + e.getMessage());
-        System.out.println("Unsuccessful Reply, Please try again.");
-      }
-    }while(true);
+  public void replyMyProjectEnquiry(Scanner sc, Enquiry selectedEnquiry) {
+    enquiryService.replyEnquiry(sc, selectedEnquiry, retreiveManager().getNric());
   }
 
 }
