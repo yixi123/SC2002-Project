@@ -2,6 +2,7 @@ package services.subservices;
 
 import database.dataclass.projects.ProjectAppDB;
 import database.dataclass.users.ApplicantDB;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -93,15 +94,28 @@ public class ReportPrintService implements IReportPrintService {
             System.out.println("0. Done and generate report");
             System.out.println(ViewFormatter.breakLine());
             System.out.print("Enter your choice: ");
-            filterChoice = sc.nextInt();
-            sc.nextLine(); // Consume newline
+            try {
+                filterChoice = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please try again!");
+                continue;
+            } finally {
+                sc.nextLine(); // Consume newline
+            }
             System.out.println(ViewFormatter.breakLine());
 
             switch (filterChoice) {
                 case 1 -> {
                     System.out.print("Enter flat type\n (1 for TWO_ROOM, 2 for THREE_ROOM): ");
-                    int flatTypeChoice = sc.nextInt();
-                    sc.nextLine(); // Consume newline
+                    int flatTypeChoice;
+                    try {
+                        flatTypeChoice = sc.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input! Please try again!");
+                        continue;
+                    } finally {
+                        sc.nextLine(); // Consume newline
+                    }
                     String flatType = (flatTypeChoice == 1) ? "TWO_ROOM" : "THREE_ROOM";
                     applicantsAndApplication = applicantsAndApplication.entrySet().stream()
                             .filter(entry -> entry.getValue().getFlatType().toString().equalsIgnoreCase(flatType))
@@ -109,8 +123,15 @@ public class ReportPrintService implements IReportPrintService {
                 }
                 case 2 -> {
                     System.out.print("Enter marital status\n (1 for SINGLE, 2 for MARRIED): ");
-                    int maritalStatusChoice = sc.nextInt();
-                    sc.nextLine(); // Consume newline
+                    int maritalStatusChoice;
+                    try {
+                        maritalStatusChoice = sc.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("Invalid input! Please try again!");
+                        continue;
+                    } finally {
+                        sc.nextLine(); // Consume newline
+                    }
                     String maritalStatus = (maritalStatusChoice == 1) ? "SINGLE" : "MARRIED";
                     applicantsAndApplication = applicantsAndApplication.entrySet().stream()
                             .filter(entry -> entry.getKey().getMaritalStatus().toString().equalsIgnoreCase(maritalStatus))
@@ -121,18 +142,40 @@ public class ReportPrintService implements IReportPrintService {
                     String filterByAgeRange = sc.nextLine();
                     if (filterByAgeRange.equalsIgnoreCase("yes")) {
                         System.out.print("Enter minimum age: ");
-                        int minAge = sc.nextInt();
+                        int minAge;
+                        try {
+                            minAge = sc.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input! Please try again!");
+                            continue;
+                        } finally {
+                            sc.nextLine(); // Consume newline
+                        }
                         System.out.print("Enter maximum age: ");
-                        int maxAge = sc.nextInt();
-                        sc.nextLine(); // Consume newline
+                        int maxAge;
+                        try {
+                            maxAge = sc.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input! Please try again!");
+                            continue;
+                        } finally {
+                            sc.nextLine(); // Consume newline
+                        }
                         applicantsAndApplication = applicantsAndApplication.entrySet().stream()
                                 .filter(entry -> entry.getKey().getAge() >= minAge && entry.getKey().getAge() <= maxAge)
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                     }
                     else {
                         System.out.print("Enter exact age: ");
-                        int exactAge = sc.nextInt();
-                        sc.nextLine(); // Consume newline
+                        int exactAge;
+                        try {
+                            exactAge = sc.nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input! Please try again!");
+                            continue;
+                        } finally {
+                            sc.nextLine(); // Consume newline
+                        }
                         applicantsAndApplication = applicantsAndApplication.entrySet().stream()
                                 .filter(entry -> entry.getKey().getAge() == exactAge)
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

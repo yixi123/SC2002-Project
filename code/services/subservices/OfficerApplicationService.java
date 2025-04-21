@@ -7,8 +7,7 @@ import database.dataclass.users.OfficerDB;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.text.View;
+import java.util.InputMismatchException;
 
 import models.enums.OfficerAppStat;
 import models.projects.BTOProject;
@@ -65,8 +64,15 @@ public class OfficerApplicationService implements IOfficerApplicationService {
         }
         System.out.println(ViewFormatter.breakLine());
         System.out.print("Enter your choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume newline
+        int choice;
+        try {
+            choice = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid choice. Returning to menu.");
+            return null;
+        } finally {
+            sc.nextLine(); // Consume newline
+        }
         System.out.println(ViewFormatter.breakLine());
 
         if (choice < 1 || choice > applications.size()) {
