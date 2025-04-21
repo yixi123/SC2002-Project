@@ -1,5 +1,6 @@
 package view;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,7 +32,7 @@ public class ApplicantView extends UserView {
      * @throws Exception If an error occurs during menu navigation.
      */
     public void enterMainMenu(Scanner sc) throws Exception{
-        int choice;
+        int choice = -1;
 		
 	 	do{
             System.out.println();
@@ -47,8 +48,14 @@ public class ApplicantView extends UserView {
             System.out.println("0. Logout");
             System.out.println(ViewFormatter.breakLine());
             System.out.print("Enter your choice: ");
-            choice = sc.nextInt();
-            sc.nextLine();
+            try {
+                choice = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please try again!");
+                continue;
+            } finally {
+                sc.nextLine();
+            }
             System.out.println(ViewFormatter.breakLine());
 
             switch (choice) {
@@ -96,8 +103,15 @@ public class ApplicantView extends UserView {
 				System.out.println("0. Return to menu");
 				System.out.println(ViewFormatter.breakLine());
 				System.out.println("Enter your choice: ");
-				int projectChoice = sc.nextInt() - 1;
-				sc.nextLine(); // Consume newline
+				int projectChoice;
+                try {
+                    projectChoice = sc.nextInt() - 1;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Please try again!");
+                    continue;
+                } finally {
+                    sc.nextLine();
+                }
                 System.out.println(ViewFormatter.breakLine());
 				if (projectChoice >= 0 && projectChoice < filteredProjects.size()) {
 					displayProjectAction(sc, filteredProjects.get(projectChoice));
@@ -131,7 +145,15 @@ public class ApplicantView extends UserView {
 			System.out.println("0. Back to project list");
             System.out.println(ViewFormatter.breakLine());
 			System.out.print("Enter your choice: ");
-			int actionChoice = sc.nextInt(); sc.nextLine();
+			int actionChoice;
+            try {
+                actionChoice = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please try again!");
+                continue;
+            } finally {
+                sc.nextLine();
+            }
             System.out.println(ViewFormatter.breakLine());
 			
 			switch (actionChoice) {
@@ -189,8 +211,15 @@ public class ApplicantView extends UserView {
         System.out.println("2. Delete this enquiry");
         System.out.println(ViewFormatter.breakLine());
         System.out.print("Enter your choice: ");
-        int actionChoice = sc.nextInt();
-        sc.nextLine();
+        int actionChoice;
+        try {
+            actionChoice = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please try again!");
+            return;
+        } finally {
+            sc.nextLine();
+        }
         System.out.println(ViewFormatter.breakLine());
         switch (actionChoice) {
             case 1 -> app.editEnquiry(sc, selectedEnquiry);

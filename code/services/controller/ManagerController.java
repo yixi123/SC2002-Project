@@ -1,5 +1,6 @@
 package services.controller;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -242,7 +243,16 @@ public class ManagerController extends UserController{
         System.out.println("2. Reject Project Application");
         System.out.print("Enter your choice: ");
 
-        int actionChoice = sc.nextInt();
+        int actionChoice;
+        try {
+            actionChoice = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please try again!");
+            return;
+        } finally {
+            sc.nextLine();
+        }
+
         switch(actionChoice){
             case 1 -> approveProjectApp(selectedProjectApp, selectedProject);
             case 2 -> rejectProjectApp(selectedProjectApp);
@@ -312,7 +322,16 @@ public class ManagerController extends UserController{
         System.out.println("2. Reject Officer Application");
         System.out.print("Enter your choice: ");
 
-        int actionChoice = sc.nextInt();
+        int actionChoice;
+        try {
+            actionChoice = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please try again!");
+            return;
+        } finally {
+            sc.nextLine();
+        }
+
         switch(actionChoice){
             case 1 -> approveOfficerApp(selectedOfficerApp, selectedProject);
             case 2 -> rejectOfficerApp(selectedOfficerApp);
