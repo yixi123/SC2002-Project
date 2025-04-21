@@ -16,7 +16,7 @@ import view.ViewFormatter;
 
 public class ReportPrintService implements IReportPrintService {
 
-    public void printReport(Scanner sc, BTOProject project) {
+    public String printReport(Scanner sc, BTOProject project) {
         
         List<ProjectApplication> projectApplications = ProjectAppDB.getApplicationsByProject(project.getProjectName());
         projectApplications = projectApplications.stream()
@@ -24,7 +24,7 @@ public class ReportPrintService implements IReportPrintService {
                 .collect(Collectors.toList());
         if (projectApplications.isEmpty()) {
             System.out.println("No applicants found\n for the selected project.");
-            return;
+            return null;
         }
 
         Map<Applicant, ProjectApplication> applicantsAndApplication = projectApplications.stream()
@@ -33,36 +33,38 @@ public class ReportPrintService implements IReportPrintService {
         applicantsAndApplication = filterReportContent(sc, applicantsAndApplication);
         if (applicantsAndApplication.isEmpty()) {
             System.out.println("No applicants found for the selected filter criteria.");
-            return;
+            return null;
         }
 
-
-        System.out.println("\nA report of the list of applicants\n based on the filter category is as follows:");
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nA report of the list of applicant based on the filter category is as follows:\n");
         System.out.println(ViewFormatter.breakLine());
         for (Applicant applicant : applicantsAndApplication.keySet()) {
             ProjectApplication application = applicantsAndApplication.get(applicant);
-            System.out.println("Applicant Name: " + applicant.getName());
-            System.out.println("Age: " + applicant.getAge());
-            System.out.println("Marital Status: " + applicant.getMaritalStatus());
-            System.out.println("Project Name: " + application.getProjectName());
-            System.out.println("Flat Type: " + application.getFlatType());
-            System.out.println(ViewFormatter.breakLine());
-
+            sb.append("Applicant Name: " + applicant.getName()).append("\n")
+                .append("Age: " + applicant.getAge()).append("\n")
+                .append("Marital Status: " + applicant.getMaritalStatus()).append("\n")
+                .append("Project Name: " + application.getProjectName()).append("\n")
+                .append("Flat Type: " + application.getFlatType()).append("\n")
+                .append(ViewFormatter.breakLine());
         }
+        System.out.println(sb.toString());
 
         System.out.println("Report generated successfully.");
+
+
+        return sb.toString();
     }
 
     public Map<Applicant, ProjectApplication> filterReportContent(Scanner sc, Map<Applicant, ProjectApplication> applicantsAndApplication) {
         int filterChoice = 0;
         do{
-            System.out.println("\nChoose a filter category: ");
+            System.out.println("\nEdit filter category: ");
             System.out.println(ViewFormatter.breakLine());
-            System.out.println("1. Project Name");
-            System.out.println("2. Flat Type");
-            System.out.println("3. Marital Status");
-            System.out.println("4. Age");
-            System.out.println("0. Done");
+            System.out.println("1. Flat Type");
+            System.out.println("2. Marital Status");
+            System.out.println("3. Age");
+            System.out.println("0. Done and generate report");
             System.out.println(ViewFormatter.breakLine());
             System.out.print("Enter your choice: ");
             filterChoice = sc.nextInt();
@@ -71,13 +73,6 @@ public class ReportPrintService implements IReportPrintService {
 
             switch (filterChoice) {
                 case 1 -> {
-                    System.out.print("Enter project name: ");
-                    String projectName = sc.nextLine();
-                    applicantsAndApplication = applicantsAndApplication.entrySet().stream()
-                            .filter(entry -> entry.getValue().getProjectName().equalsIgnoreCase(projectName))
-                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-                }
-                case 2 -> {
                     System.out.print("Enter flat type\n (1 for TWO_ROOM, 2 for THREE_ROOM): ");
                     int flatTypeChoice = sc.nextInt();
                     sc.nextLine(); // Consume newline
@@ -86,7 +81,7 @@ public class ReportPrintService implements IReportPrintService {
                             .filter(entry -> entry.getValue().getFlatType().toString().equalsIgnoreCase(flatType))
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 }
-                case 3 -> {
+                case 2 -> {
                     System.out.print("Enter marital status\n (1 for SINGLE, 2 for MARRIED): ");
                     int maritalStatusChoice = sc.nextInt();
                     sc.nextLine(); // Consume newline
@@ -95,7 +90,7 @@ public class ReportPrintService implements IReportPrintService {
                             .filter(entry -> entry.getKey().getMaritalStatus().toString().equalsIgnoreCase(maritalStatus))
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 }
-                case 4 -> {
+                case 3 -> {
                     System.out.print("Do you like to filter by age range?\n (yes/no): ");
                     String filterByAgeRange = sc.nextLine();
                     if (filterByAgeRange.equalsIgnoreCase("yes")) {

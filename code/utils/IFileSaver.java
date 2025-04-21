@@ -1,5 +1,8 @@
 package utils;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import models.projects.BTOProject;
@@ -24,4 +27,13 @@ public interface IFileSaver {
     public void saveProjectApplications(List<ProjectApplication> applications);
 
     public void saveOfficerApplications(List<OfficerApplication> applications);
+
+    public static void writeStringToFile(String content, String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(content);
+            System.out.println("File written successfully to: " + filePath);
+        } catch (IOException e) {
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+        }
+    }
 }

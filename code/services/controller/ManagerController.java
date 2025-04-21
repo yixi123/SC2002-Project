@@ -28,6 +28,7 @@ import services.subservices.OfficerApplicationService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectManagementService;
 import services.subservices.ReportPrintService;
+import utils.IFileSaver;
 
 public class ManagerController extends UserController{
   IProjectApplicationService projectAppService = new ProjectApplicationService();;
@@ -269,7 +270,10 @@ public class ManagerController extends UserController{
   }
 
   public void generateReport(Scanner sc, BTOProject project) {
-    reportPrintService.printReport(sc, project);
+    String report = reportPrintService.printReport(sc, project);
+    if (report != null){
+			IFileSaver.writeStringToFile(report, retreiveManager().getNric() + "Report.txt");
+		} 
   }
 
   public void viewPublicEnquiry(String projectName){
