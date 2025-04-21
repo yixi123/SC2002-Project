@@ -1,8 +1,6 @@
-## SC2002 - BTO Project Management System
-### NTU 2025 Semester 2 OODP Group Project
-</br>
 
 # BTO Project Management System
+## NTU 2025 Semester 2 SC2002 OODP Group Project
 
 ## Overview
 The **BTO Project Management System** is a Java-based application designed to manage Build-To-Order (BTO) housing projects. It provides functionalities for different user roles, including **Applicants**, **HDB Officers**, and **HDB Managers**, to interact with the system. The system supports project applications, officer management, enquiry handling, and report generation.
