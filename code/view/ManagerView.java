@@ -9,10 +9,21 @@ import models.projects.FilterSettings;
 import services.controller.ManagerController;
 import utils.FilterUtil;
 
+/**
+ * The ManagerView class provides the user interface for HDB managers.
+ * It includes functionalities for managing projects, viewing project lists,
+ * and handling enquiries.
+ */
 public class ManagerView extends UserView {
 
 	private static ManagerController app = new ManagerController();
 
+	/**
+	 * Displays the main menu for the manager.
+	 *
+	 * @param sc The Scanner object for user input.
+	 * @throws Exception If an error occurs during menu navigation.
+	 */
 	public void enterMainMenu(Scanner sc) 
 	throws Exception, IllegalArgumentException{
 		int option = -1;
@@ -49,6 +60,13 @@ public class ManagerView extends UserView {
         }while(option != 0 && option != 5);
 	}
 
+	/**
+	 * Displays a read-only list of all projects based on filter settings.
+	 *
+	 * @param sc The Scanner object for user input.
+	 * @param filterSettings The filter settings to apply to the project list.
+	 * @throws Exception If an error occurs during project list navigation.
+	 */
 	public void displayReadOnlyAllProject(Scanner sc, FilterSettings filterSettings) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{
 		List<BTOProject> projects =  ProjectDB.getDB();
@@ -86,6 +104,13 @@ public class ManagerView extends UserView {
 		}while(choice != 0);
 	}
 
+	/**
+	 * Displays the project portal for a selected project in read-only mode.
+	 *
+	 * @param sc The Scanner object for user input.
+	 * @param projectName The name of the selected project.
+	 * @throws Exception If an error occurs during project portal navigation.
+	 */
 	public void displayReadOnlyProjectPortal(Scanner sc, String projectName) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{
 		int actionChoice = -1;
@@ -106,6 +131,13 @@ public class ManagerView extends UserView {
     }while(actionChoice != 0);
 	}
 
+	/**
+	 * Displays the management portal for a selected project.
+	 *
+	 * @param sc The Scanner object for user input.
+	 * @param chosenProject The selected project to manage.
+	 * @throws Exception If an error occurs during project management.
+	 */
 	public void enterManagementPortal(Scanner sc, BTOProject chosenProject) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{
 		int option = -1;
@@ -140,6 +172,13 @@ public class ManagerView extends UserView {
 		while(true);
 	}
 
+	/**
+	 * Displays the manager's projects based on filter settings.
+	 *
+	 * @param sc The Scanner object for user input.
+	 * @param filterSettings The filter settings to apply to the project list.
+	 * @throws Exception If an error occurs during project list navigation.
+	 */
 	public void displayMyProjects(Scanner sc, FilterSettings filterSettings) 
 	throws Exception, IllegalArgumentException, IndexOutOfBoundsException{
 		List<BTOProject> projects = ProjectDB.getDB();
