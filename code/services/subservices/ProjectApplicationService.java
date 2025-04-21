@@ -25,7 +25,7 @@ public class ProjectApplicationService implements IProjectApplicationService{
 
         do{
             try{
-                System.out.printf("Selected Project: %s\n", selectedProjectName);
+                System.out.printf("\nSelected Project: %s\n", selectedProjectName);
                 System.out.println(ViewFormatter.breakLine());
                 System.out.println("Choose room type:");
                 System.out.printf("1. 2-Room %s\n", twoRoomEligibility? "": "[UNELIGIBLE]");
@@ -52,6 +52,7 @@ public class ProjectApplicationService implements IProjectApplicationService{
         
         addApplication(selectedProjectName, user.getNric(), roomType);
         System.out.println("You have successfully applied for " + selectedProjectName + ".");
+        System.out.println(ViewFormatter.breakLine());
     }
 
     public void addApplication(String projectName, String userID, FlatType flatType) {

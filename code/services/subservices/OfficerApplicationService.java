@@ -7,6 +7,9 @@ import database.dataclass.users.OfficerDB;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+
+import javax.swing.text.View;
+
 import models.enums.OfficerAppStat;
 import models.projects.BTOProject;
 import models.projects.OfficerApplication;
@@ -24,8 +27,9 @@ public class OfficerApplicationService implements IOfficerApplicationService {
     }
 
     public OfficerApplication chooseFromApplicationList(Scanner sc, List<OfficerApplication> applications) {
-        System.out.println("Display only 'pending' applications? (yes/no): ");
+        System.out.print("Display only 'pending' applications?\n (yes/no): ");
         String filterChoice = sc.nextLine().trim().toLowerCase();
+        System.out.println(ViewFormatter.breakLine());
         if (filterChoice.equals("yes")) {
             applications.removeIf(app -> !app.getStatus().equals(OfficerAppStat.PENDING));
         }
@@ -38,9 +42,12 @@ public class OfficerApplicationService implements IOfficerApplicationService {
             String applicantName = OfficerDB.getUsernameByID(applications.get(i).getUser());
             System.out.println((i + 1) + ". " + applicantName + " - " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
         }
+        System.out.println(ViewFormatter.breakLine());
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
         sc.nextLine(); // Consume newline
+        System.out.println(ViewFormatter.breakLine());
+
         if (choice < 1 || choice > applications.size()) {
             System.out.println("Invalid choice. Returning to menu.");
             return null;
@@ -69,7 +76,7 @@ public class OfficerApplicationService implements IOfficerApplicationService {
             return;
         }
         application.setStatus(newStatus);
-        OfficerAppDB.updateApplication(application);
+        OfficerAppDB.updateApplication();
         System.out.println("Application status updated to: " + newStatus);
     }
 

@@ -30,13 +30,7 @@ public class ApplicantDB {
     return db;
   }
 
-  public static void updateUser(Applicant applicant) {
-    for (int i = 0; i < db.size(); i++) {
-      if (db.get(i).getNric().equals(applicant.getNric())) {
-        db.set(i, applicant);
-        break;
-      }
-    }
+  public static void updateUser() {
     saveToFile();
   }
 

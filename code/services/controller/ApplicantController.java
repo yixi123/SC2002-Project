@@ -10,10 +10,10 @@ import models.users.Applicant;
 
 import services.interfaces.IEnquiryService;
 import services.interfaces.IProjectApplicationService;
-import services.interfaces.IProjectViewService;
+
 import services.subservices.EnquiryService;
 import services.subservices.ProjectApplicationService;
-import services.subservices.ProjectViewService;
+
 
 import view.ApplicantView;
 
@@ -21,7 +21,6 @@ public class ApplicantController extends UserController {
     
     private static ApplicantView applicantView = new ApplicantView();
 
-    IProjectViewService projectViewService = new ProjectViewService();
     IProjectApplicationService projectApplicationService = new ProjectApplicationService();
     IEnquiryService enquiryService = new EnquiryService();
 

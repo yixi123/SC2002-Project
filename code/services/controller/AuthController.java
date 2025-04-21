@@ -12,7 +12,9 @@ import models.users.Applicant;
 import models.users.HDBManager;
 import models.users.HDBOfficer;
 import models.users.User;
+import services.interfaces.IAccountService;
 import services.interfaces.IAuthService;
+import services.subservices.AccountService;
 import services.subservices.AuthService;
 import view.ViewFormatter;
 
@@ -22,6 +24,11 @@ public class AuthController {
     private static User currentUser = null;
 
     IAuthService authService = new AuthService();
+    IAccountService accService = new AccountService();
+
+    public User getCurrentUser(){
+        return currentUser;
+    }
 
     public User enterLoginPage(Scanner sc) throws AuthException{
         currentUser = authService.login(sc);
@@ -34,14 +41,11 @@ public class AuthController {
     }
 
     public void enterChangePasswordPage(Scanner sc){
-        authService.changePasswordPage(sc, currentUser);
+        accService.changePasswordPage(sc, currentUser);
     }
 
-    public User getCurrentUser(){
-        return currentUser;
-    }
 
     public void enterAddApplicantPage(Scanner sc) {
-        authService.addApplicantPage(sc);
+        accService.addApplicantPage(sc);
     }
 }

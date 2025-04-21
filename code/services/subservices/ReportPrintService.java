@@ -23,7 +23,7 @@ public class ReportPrintService implements IReportPrintService {
                 .filter(app -> app.getStatus() == ProjectAppStat.BOOKED)
                 .collect(Collectors.toList());
         if (projectApplications.isEmpty()) {
-            System.out.println("No applicants found for the selected project.");
+            System.out.println("No applicants found\n for the selected project.");
             return;
         }
 
@@ -37,7 +37,7 @@ public class ReportPrintService implements IReportPrintService {
         }
 
 
-        System.out.println("A report of the list of applicants based on the filter category is as follows:");
+        System.out.println("\nA report of the list of applicants\n based on the filter category is as follows:");
         System.out.println(ViewFormatter.breakLine());
         for (Applicant applicant : applicantsAndApplication.keySet()) {
             ProjectApplication application = applicantsAndApplication.get(applicant);
@@ -56,15 +56,18 @@ public class ReportPrintService implements IReportPrintService {
     public Map<Applicant, ProjectApplication> filterReportContent(Scanner sc, Map<Applicant, ProjectApplication> applicantsAndApplication) {
         int filterChoice = 0;
         do{
-            System.out.println("Choose a filter category: ");
+            System.out.println("\nChoose a filter category: ");
+            System.out.println(ViewFormatter.breakLine());
             System.out.println("1. Project Name");
             System.out.println("2. Flat Type");
             System.out.println("3. Marital Status");
             System.out.println("4. Age");
             System.out.println("0. Done");
+            System.out.println(ViewFormatter.breakLine());
             System.out.print("Enter your choice: ");
             filterChoice = sc.nextInt();
             sc.nextLine(); // Consume newline
+            System.out.println(ViewFormatter.breakLine());
 
             switch (filterChoice) {
                 case 1 -> {
@@ -75,7 +78,7 @@ public class ReportPrintService implements IReportPrintService {
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 }
                 case 2 -> {
-                    System.out.print("Enter flat type (1 for TWO_ROOM, 2 for THREE_ROOM): ");
+                    System.out.print("Enter flat type\n (1 for TWO_ROOM, 2 for THREE_ROOM): ");
                     int flatTypeChoice = sc.nextInt();
                     sc.nextLine(); // Consume newline
                     String flatType = (flatTypeChoice == 1) ? "TWO_ROOM" : "THREE_ROOM";
@@ -84,7 +87,7 @@ public class ReportPrintService implements IReportPrintService {
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 }
                 case 3 -> {
-                    System.out.print("Enter marital status (1 for SINGLE, 2 for MARRIED): ");
+                    System.out.print("Enter marital status\n (1 for SINGLE, 2 for MARRIED): ");
                     int maritalStatusChoice = sc.nextInt();
                     sc.nextLine(); // Consume newline
                     String maritalStatus = (maritalStatusChoice == 1) ? "SINGLE" : "MARRIED";
@@ -93,7 +96,7 @@ public class ReportPrintService implements IReportPrintService {
                             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 }
                 case 4 -> {
-                    System.out.print("Do you like to filter by age range? (yes/no): ");
+                    System.out.print("Do you like to filter by age range?\n (yes/no): ");
                     String filterByAgeRange = sc.nextLine();
                     if (filterByAgeRange.equalsIgnoreCase("yes")) {
                         System.out.print("Enter minimum age: ");
