@@ -45,6 +45,7 @@ public class EnquiryService implements IEnquiryService{
                 } finally {
                     sc.nextLine(); // Consume newline
                 }
+
                 System.out.println(ViewFormatter.breakLine());
                 if (enquiryChoice >= 0 && enquiryChoice < enquiryList.size()) {
 
