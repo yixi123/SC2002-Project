@@ -21,7 +21,7 @@ public class ProjectManagementService implements IProjectManagementService {
 
       try{
         do{
-          System.out.println("Project Editor");
+          System.out.println("\nProject Editor");
           System.out.println(ViewFormatter.breakLine());
           System.out.println("Project: " + project.getProjectName());
           System.out.println(ViewFormatter.breakLine());
@@ -96,7 +96,7 @@ public class ProjectManagementService implements IProjectManagementService {
         System.out.println("Invalid date format. Please enter the date in the format dd-MM-yyyy.");
       }
       finally{
-        ProjectDB.updateProject(project);
+        ProjectDB.updateProject();
         System.out.println(ViewFormatter.breakLine());
         System.out.println("Project details updated successfully.");
         System.out.println("Exiting edit project menu.");
@@ -260,7 +260,7 @@ public class ProjectManagementService implements IProjectManagementService {
             continue;
         }
         else if(officerSlots > 10) {
-            System.out.println("Officer slots cannot exceed 10. Please try again!");
+            System.out.println("Officer slots cannot exceed 10.\n Please try again!");
             continue;
         }
         break;
@@ -272,6 +272,7 @@ public class ProjectManagementService implements IProjectManagementService {
       ProjectDB.addProject(newProject);
 
       System.out.printf("Project '%s' created successfully.\n", projectName);
+      System.out.println(ViewFormatter.breakLine());
       return;
 
   }

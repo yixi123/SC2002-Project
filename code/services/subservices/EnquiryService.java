@@ -15,7 +15,7 @@ public class EnquiryService implements IEnquiryService{
             if (enquiryList.isEmpty()) {
                 System.out.println("You have no enquiries to view.");
             } else {
-                System.out.println("Enquiries:");
+                System.out.println("\nEnquiries:");
                 System.out.println(ViewFormatter.breakLine());
                 for (int i = 0; i < enquiryList.size(); i++) {
                     System.out.println((i + 1) + ". " + enquiryList.get(i).toString());
@@ -72,7 +72,7 @@ public class EnquiryService implements IEnquiryService{
             return;
         }
 
-        System.out.println("Enquiries for project: " + projectName);
+        System.out.println("\nEnquiries for project: " + projectName);
         System.out.println(ViewFormatter.breakLine());
         enqList.stream()
             .forEach(enq -> {

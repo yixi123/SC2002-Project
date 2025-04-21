@@ -43,12 +43,8 @@ public class OfficerDB {
 
   //SINGLE USER DATABASE OPERATIONS
 
-  public static void updateUser(HDBOfficer user) {
-    for(int i = 0; i < db.size(); i++){
-      if(db.get(i).getNric().equals(user.getNric())){
-        db.set(i, user);
-      }
-    }
+  public static void updateUser() {
+    saveToFile();
   }
 
   public static void addUser(HDBOfficer user) {

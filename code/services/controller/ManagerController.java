@@ -22,20 +22,17 @@ import services.interfaces.IOfficerApplicationService;
 import services.interfaces.IReportPrintService;
 import services.interfaces.IProjectApplicationService;
 import services.interfaces.IProjectManagementService;
-import services.interfaces.IProjectViewService;
 
 import services.subservices.EnquiryService;
 import services.subservices.OfficerApplicationService;
 import services.subservices.ProjectApplicationService;
 import services.subservices.ProjectManagementService;
-import services.subservices.ProjectViewService;
 import services.subservices.ReportPrintService;
 
 public class ManagerController extends UserController{
   IProjectApplicationService projectAppService = new ProjectApplicationService();;
   IProjectManagementService projectManagementService = new ProjectManagementService();
   IOfficerApplicationService officerApplicationService = new OfficerApplicationService();
-  IProjectViewService projectViewService = new ProjectViewService();
   IEnquiryService enquiryService = new EnquiryService();
   IReportPrintService reportPrintService = new ReportPrintService();
   private static ManagerView managerView = new ManagerView();
@@ -45,11 +42,10 @@ public class ManagerController extends UserController{
   }
 
   public ManagerController( IProjectApplicationService projectAppService, IProjectManagementService projectManagementService, 
-    IOfficerApplicationService officerApplicationService, IProjectViewService projectViewService, IEnquiryService enquiryService, IReportPrintService printService){
+    IOfficerApplicationService officerApplicationService, IEnquiryService enquiryService, IReportPrintService printService){
       this.projectAppService = projectAppService;
       this.projectManagementService = projectManagementService;
       this.officerApplicationService = officerApplicationService;
-      this.projectViewService = projectViewService;
       this.enquiryService = enquiryService;
       this.reportPrintService = printService;
   }
