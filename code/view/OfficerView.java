@@ -1,5 +1,6 @@
 package view;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -45,7 +46,15 @@ public class OfficerView extends ApplicantView {
 			System.out.println("4) Logout");
 			System.out.println(ViewFormatter.breakLine());
 			System.out.print("Select an option: ");
-			int choice = sc.nextInt(); sc.nextLine();
+			int choice; 
+			try{
+				choice = sc.nextInt();
+			}catch (InputMismatchException e){
+				System.out.println("Invalid input! Please try again!");
+				continue;
+			} finally {
+				sc.nextLine();
+			}
 
 			switch (choice) {
 				case 1 : officerMenu(sc); break;
@@ -89,7 +98,15 @@ public class OfficerView extends ApplicantView {
 			System.out.println("0. Back");
 			System.out.println(ViewFormatter.breakLine());
 			System.out.print("Enter your Choice: ");
-			int opt = sc.nextInt(); sc.nextLine();
+			int opt; 
+			try{
+				opt = sc.nextInt();
+			}catch (InputMismatchException e){
+				System.out.println("Invalid input! Please try again!");
+				continue;
+			} finally {
+				sc.nextLine();
+			}
 
 			switch (opt) {
 				case 1 : app.enterOfficerProjectPortal(sc);break;
@@ -143,11 +160,17 @@ public class OfficerView extends ApplicantView {
         System.out.println("1. Reply to this enquiry");
         System.out.println("2. Back to menu");
         System.out.print("Enter your choice: ");
-
-        int actionChoice = sc.nextInt();
-        sc.nextLine(); // Consume newline
+		int actionChoice;
+        try{
+			actionChoice = sc.nextInt();
+		}catch (InputMismatchException e){
+			System.out.println("Invalid input! Please try again!");
+			return;
+		} finally {
+			sc.nextLine();
+		}
 		System.out.println(ViewFormatter.breakLine());
-        switch (actionChoice) {
+		switch (actionChoice) {
             case 1 : app.replyEnquiry(sc, selectedEnquiry);break;
             case 2 : System.out.println("Returning to menu.");break;
             default : System.out.println("Invalid choice. Returning to menu.");
@@ -179,8 +202,15 @@ public class OfficerView extends ApplicantView {
 				System.out.println("0. Return to menu");
 				System.out.println(ViewFormatter.breakLine());
 				System.out.println("Enter your choice: ");
-				int projectChoice = sc.nextInt() - 1;
-				sc.nextLine(); // Consume newline
+				int projectChoice;
+				try{
+					projectChoice = sc.nextInt() - 1;
+				}catch (InputMismatchException e){
+					System.out.println("Invalid input! Please try again!");
+					continue;
+				} finally {
+					sc.nextLine();
+				}
 				System.out.println(ViewFormatter.breakLine());
 				if (projectChoice >= 0 && projectChoice < filteredProjects.size()) {
 					displayOfficerProjectAction(sc, filteredProjects.get(projectChoice));
@@ -213,8 +243,15 @@ public class OfficerView extends ApplicantView {
 			System.out.println("2. Back to project list");
 			System.out.println(ViewFormatter.breakLine());
 			System.out.print("Enter your choice: ");
-			int actionChoice = sc.nextInt();
-			sc.nextLine(); // Consume newline
+			int actionChoice;
+			try{
+				actionChoice = sc.nextInt();
+			}catch (InputMismatchException e){
+				System.out.println("Invalid input! Please try again!");
+				continue;
+			} finally {
+				sc.nextLine();
+			}
 			System.out.println(ViewFormatter.breakLine());
 			switch (actionChoice) {
 				case 1 : app.registerAsOfficer(selectedProject);break;
@@ -238,7 +275,7 @@ public class OfficerView extends ApplicantView {
      * @throws Exception If an error occurs during menu navigation.
      */
   	private void applicantMenu(Scanner sc) throws Exception {
-		int choice;
+		int choice = -1;
 			
 		do{
 			System.out.println();
@@ -253,8 +290,14 @@ public class OfficerView extends ApplicantView {
 			System.out.println("0. Back");
 			System.out.println(ViewFormatter.breakLine());
 			System.out.print("Enter your choice: ");
-			choice = sc.nextInt();
-			sc.nextLine();
+			try{
+				choice = sc.nextInt();
+			}catch (InputMismatchException e){
+				System.out.println("Invalid input! Please try again!");
+				continue;
+			} finally {
+				sc.nextLine();
+			}
 
 			switch (choice) {
 				case 0 : {
@@ -293,8 +336,15 @@ public class OfficerView extends ApplicantView {
 			System.out.println(ViewFormatter.breakLine());
 			System.out.print("Enter your choice: ");
 
-			int actionChoice = sc.nextInt();
-			sc.nextLine(); // Consume newline
+			int actionChoice;
+			try{
+				actionChoice = sc.nextInt();
+			}catch (InputMismatchException e){
+				System.out.println("Invalid input! Please try again!");
+				continue;
+			} finally {
+				sc.nextLine();
+			}
 			System.out.println(ViewFormatter.breakLine());
 			switch (actionChoice) {
 				case 1 : app.applyForProject(sc, selectedProject);break;

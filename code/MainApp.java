@@ -98,11 +98,10 @@ public class MainApp {
                     default:
                         System.out.println("Invalid choice. Please try again.");
                 }
-            }
-            catch(AuthException e){
+            } 
+            catch (AuthException e) {
                 System.out.println(e.getMessage());
-            }
-            catch(IllegalArgumentException e){
+            }catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }catch (InputMismatchException e){
                 sc.nextLine();

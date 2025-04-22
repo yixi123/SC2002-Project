@@ -1,5 +1,6 @@
 package view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import models.enums.FlatType;
@@ -23,7 +24,7 @@ public class UserView {
      * @param sc Scanner object used for user input
      */
   public void adjustFilterSettings(Scanner sc){
-    int filterChoice;
+    int filterChoice = 0;
     do {
         System.out.println("Current Filter Settings:");
         System.out.println(ViewFormatter.breakLine());
@@ -37,8 +38,14 @@ public class UserView {
         System.out.println("8. Back to Menu");
         System.out.println(ViewFormatter.breakLine());
         System.out.print("Choose a filter to edit (1-8): ");
-        filterChoice = sc.nextInt();
-        sc.nextLine(); // Consume newline
+        try{
+            filterChoice = sc.nextInt();
+        }catch (InputMismatchException e){
+            System.out.println("Invalid input! Please try again!");
+            continue;
+        } finally {
+            sc.nextLine();
+        }
 
         switch (filterChoice) {
             case 1 -> {

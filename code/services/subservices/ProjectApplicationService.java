@@ -6,6 +6,7 @@ import database.dataclass.users.ApplicantDB;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 import models.enums.FlatType;
 import models.enums.MaritalStatus;
 import models.enums.ProjectAppStat;
@@ -58,7 +59,11 @@ public class ProjectApplicationService implements IProjectApplicationService{
             }
             catch(IllegalArgumentException e){
                 System.out.println(e.getMessage());
-            }
+            } 
+            catch(InputMismatchException e){
+                System.out.println("Invalid input! Please try again!");
+                sc.nextLine(); // Clear the invalid input
+            } 
         }while(true);
 
         FlatType roomType = (roomTypeChoice == 1) ? FlatType.TWO_ROOM : FlatType.THREE_ROOM;
@@ -237,8 +242,15 @@ public class ProjectApplicationService implements IProjectApplicationService{
             System.out.println((i + 1) + ". " + applicantName + " - " + applications.get(i).getProjectName() + " - " + applications.get(i).getStatus());
         }
         System.out.print("Enter your choice: ");
-        int choice = sc.nextInt();
-        sc.nextLine(); // Consume newline
+        int choice;
+        try {
+            choice = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid choice. Returning to menu.");
+            return null;
+        } finally {
+            sc.nextLine(); // Consume newline
+        }
         if (choice < 1 || choice > applications.size()) {
             System.out.println("Invalid choice. Returning to menu.");
             return null;

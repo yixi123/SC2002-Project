@@ -2,6 +2,7 @@ package services.subservices;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 import database.dataclass.users.ApplicantDB;
 import database.dataclass.users.ManagerDB;
@@ -103,7 +104,15 @@ public class AccountService implements IAccountService {
         System.out.println("Enter Password: ");
         String password = sc.nextLine();
         System.out.println("Enter Age: ");
-        int age = sc.nextInt(); sc.nextLine();
+        int age;
+        try {
+            age = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please try again!");
+            return;
+        } finally {
+            sc.nextLine();
+        }
         MaritalStatus maritalStatus;
         while (true) {
             System.out.println("Enter Marital Status (single/married): ");

@@ -2,6 +2,7 @@ package services.subservices;
 
 import database.dataclass.projects.EnquiryDB;
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import models.projects.Enquiry;
@@ -34,9 +35,17 @@ public class EnquiryService implements IEnquiryService{
                 }
                 System.out.println(ViewFormatter.breakLine());
                 System.out.println("0. Back to menu");
-                System.out.printf("Please select an enquiry [0 - %d]: ", enquiryList.size());
-                int enquiryChoice = sc.nextInt() - 1;
-                sc.nextLine(); // Consume newline
+                System.out.printf("Please select an enquiry [1 - %d]: ", enquiryList.size());
+                int enquiryChoice;
+                try {
+                    enquiryChoice = sc.nextInt() - 1;
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Please try again!");
+                    continue;
+                } finally {
+                    sc.nextLine(); // Consume newline
+                }
+
                 System.out.println(ViewFormatter.breakLine());
                 if (enquiryChoice >= 0 && enquiryChoice < enquiryList.size()) {
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 import database.dataclass.projects.ProjectDB;
 import models.projects.BTOProject;
@@ -45,8 +46,14 @@ public class ProjectManagementService implements IProjectManagementService {
           System.out.println("0. Save edit and back to Main Menu");
           System.out.println(ViewFormatter.breakLine());
           System.out.print("Enter your selection:");
-          
-          choice = sc.nextInt(); sc.nextLine();
+          try {
+              choice = sc.nextInt();
+          } catch (InputMismatchException e) {
+              System.out.println("Invalid input! Please try again!");
+              continue;
+          } finally {
+              sc.nextLine();
+          }
           switch(choice){
             case(1):
               if (project.isActive()){
@@ -66,20 +73,39 @@ public class ProjectManagementService implements IProjectManagementService {
               break;
             case(3):
               System.out.print("New Two-Room Slots: ");
-              project.setTwoRoomUnits(sc.nextInt());
+              try {
+                  project.setTwoRoomUnits(sc.nextInt());
+              } catch (InputMismatchException e) {
+                  System.out.println("Invalid input! Please try again!");
+                  continue;
+              } finally {
+                  sc.nextLine();
+              }
               System.out.println("\nTwo-Room Slots updated successfully.");
-              sc.nextLine();
               break;
             case(4): 
               System.out.print("New Three-Room Slots: ");
-              project.setThreeRoomUnits(sc.nextInt());
+              try {
+                  project.setThreeRoomUnits(sc.nextInt());
+              } catch (InputMismatchException e) {
+                  System.out.println("Invalid input! Please try again!");
+                  continue;
+              } finally {
+                  sc.nextLine();
+              }
               System.out.println("\nThree-Room Slots updated successfully.");
-              sc.nextLine();
               break;
 
             case(5): 
               System.out.print("New Officer Slots: ");
-              project.setOfficerSlot(sc.nextInt()); sc.nextLine();
+              try {
+                  project.setOfficerSlot(sc.nextInt());
+              } catch (InputMismatchException e) {
+                  System.out.println("Invalid input! Please try again!");
+                  continue;
+              } finally {
+                  sc.nextLine();
+              }
               System.out.println("\nOfficer Slots updated successfully.");
               break;
 
@@ -264,7 +290,14 @@ public class ProjectManagementService implements IProjectManagementService {
 
       while(true){
         System.out.print("Enter Two-Room Slots: ");
-        twoRoomUnits = sc.nextInt(); sc.nextLine();
+        try {
+            twoRoomUnits = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please try again!");
+            continue;
+        } finally {
+            sc.nextLine();
+        }
         if (twoRoomUnits <= 0) {
             System.out.println("Invalid number of slots.\nPlease enter a positive value.");
             continue;
@@ -274,7 +307,14 @@ public class ProjectManagementService implements IProjectManagementService {
 
       while(true){
         System.out.print("Enter Three-Room Slots: ");
-        threeRoomUnits = sc.nextInt(); sc.nextLine();
+        try {
+            threeRoomUnits = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please try again!");
+            continue;
+        } finally {
+            sc.nextLine();
+        }
         if (threeRoomUnits <= 0) {
             System.out.println("Invalid number of slots.\nPlease enter a positive value!");
             continue;
@@ -284,7 +324,14 @@ public class ProjectManagementService implements IProjectManagementService {
 
       while(true){
         System.out.print("Enter Officer Slots: ");
-        officerSlots = sc.nextInt(); sc.nextLine();
+        try {
+            officerSlots = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please try again!");
+            continue;
+        } finally {
+            sc.nextLine();
+        }
         if (officerSlots <= 0) {
             System.out.println("Invalid number of slots.\n Please enter a positive value!");
             continue;
