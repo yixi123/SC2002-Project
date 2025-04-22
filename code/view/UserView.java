@@ -14,7 +14,6 @@ public class UserView {
     /**
      * Shared filter settings for displaying BTO projects.
      */
-  protected static FilterSettings filterSettings = new FilterSettings();
 
     /**
      * Allows the user to interactively adjust filtering options for BTO project listings.
@@ -23,7 +22,7 @@ public class UserView {
      *
      * @param sc Scanner object used for user input
      */
-  public void adjustFilterSettings(Scanner sc){
+  public FilterSettings adjustFilterSettings(Scanner sc, FilterSettings filterSettings) {
     int filterChoice = 0;
     do {
         System.out.println("Current Filter Settings:");
@@ -111,9 +110,10 @@ public class UserView {
                 sc.nextLine(); // Consume newline
                 filterSettings.setSortAscending(sortAscending);
             }
-            case 8 -> {System.out.println("Returning to menu..."); return;}
+            case 8 -> {System.out.println("Returning to menu..."); return filterSettings;}
             default -> System.out.println("Invalid choice. Please try again.");
         }
     } while (filterChoice != 9);
+    return filterSettings;
   }
 }

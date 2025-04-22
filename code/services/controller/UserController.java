@@ -45,7 +45,7 @@ public abstract class UserController {
      */
     public void adjustFilterSettings(Scanner sc) {
         try{
-            userView.adjustFilterSettings(sc);
+            filterSettings = userView.adjustFilterSettings(sc, filterSettings);
         } catch(IllegalArgumentException e){
             System.out.println("Illegal input!");
         } catch(Exception e){
